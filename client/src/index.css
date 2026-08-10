@@ -1,0 +1,281 @@
+/**
+ * BTB Gym Exercise Library — global theme
+ *
+ * STYLE CONTRACT (ideas.md — "Blueprint Wall")
+ *  - Near-black matte background, NO blue tint.
+ *  - Signature accent: BTB Acid Lime #a6ff00. Used for wayfinding, hairlines, state.
+ *  - Depth via 1px hairlines + grain, NOT soft drop shadows.
+ *  - Display type: Oswald (condensed caps). Body: Barlow. Meta/numerals: JetBrains Mono.
+ *  - Never lime text on a lime fill — lime fills always carry near-black text.
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* BTB brand tokens */
+  --color-lime: var(--btb-lime);
+  --color-lime-dim: var(--btb-lime-dim);
+  --color-ink: var(--btb-ink);
+  --color-plate: var(--btb-plate);
+
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out-snap: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-snap: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+:root,
+.dark {
+  --radius: 0.375rem;
+
+  /* BTB acid lime — the ownable brand color */
+  --btb-lime: oklch(0.9 0.26 128);
+  --btb-lime-dim: oklch(0.68 0.19 128);
+  --btb-ink: oklch(0.14 0 0);
+  --btb-plate: oklch(0.18 0 0);
+
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.94 0 0);
+  --card: oklch(0.175 0 0);
+  --card-foreground: oklch(0.94 0 0);
+  --popover: oklch(0.175 0 0);
+  --popover-foreground: oklch(0.94 0 0);
+
+  --primary: oklch(0.9 0.26 128);
+  --primary-foreground: oklch(0.14 0 0);
+
+  --secondary: oklch(0.22 0 0);
+  --secondary-foreground: oklch(0.88 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.63 0 0);
+  --accent: oklch(0.24 0 0);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.62 0.21 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.9 0.26 128);
+
+  --sidebar: oklch(0.155 0 0);
+  --sidebar-foreground: oklch(0.9 0 0);
+  --sidebar-primary: oklch(0.9 0.26 128);
+  --sidebar-primary-foreground: oklch(0.14 0 0);
+  --sidebar-accent: oklch(0.22 0 0);
+  --sidebar-accent-foreground: oklch(0.96 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.9 0.26 128);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    /* Matte grain — kept at low opacity so poster text stays crisp (<=4%). */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    background: var(--btb-lime);
+    color: var(--btb-ink);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+
+  /* Snappy press feedback — the UI confirms it heard you. */
+  button:not(:disabled):active,
+  [role="button"]:not([aria-disabled="true"]):active {
+    transform: scale(0.97);
+    transition: transform 160ms var(--ease-out-snap);
+  }
+
+  /* Lime scrollbar thumb on the dark rail */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: oklch(0.14 0 0);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.3 0 0);
+    border: 2px solid oklch(0.14 0 0);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--btb-lime-dim);
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1600px;
+    }
+  }
+
+  /* ── Signature: condensed display type ───────────────────────────── */
+  .display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+  }
+
+  .meta {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* ── Signature: diagonal hazard rule (gym floor tape) ────────────── */
+  .hazard-rule {
+    height: 6px;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--btb-lime) 0px,
+      var(--btb-lime) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+    opacity: 0.55;
+  }
+
+  /* ── Signature: registration / crop ticks on plate corners ───────── */
+  .tick {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: var(--btb-lime);
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out-snap);
+  }
+  .group:hover .tick {
+    opacity: 1;
+  }
+
+  /* Outlined display type used in category headers */
+  .outline-type {
+    color: transparent;
+    -webkit-text-stroke: 1px oklch(1 0 0 / 22%);
+  }
+}
+
+@layer utilities {
+  /* Entrance: 20px rise + fade, staggered by the component. */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise-in {
+      animation: rise-in 220ms var(--ease-out-snap) both;
+    }
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-in-quick {
+      animation: fade-in-quick 180ms var(--ease-out-snap) both;
+    }
+    .pop-in {
+      animation: pop-in 200ms var(--ease-out-snap) both;
+    }
+  }
+
+  @keyframes fade-in-quick {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
