@@ -19,8 +19,12 @@ import { BookSpotlight } from "@/components/BookSpotlight";
 import { FreeChapterModal } from "@/components/FreeChapterModal";
 import {
   Apple,
+  ArrowRight,
+  Clock,
   Dumbbell,
   Flame,
+  Gauge,
+  PackageOpen,
   QrCode,
   Search,
   SlidersHorizontal,
@@ -36,6 +40,7 @@ import {
   type Difficulty,
   type IndexedExercise,
 } from "@/lib/exercises";
+import { getWodForDate } from "@/lib/wod";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<CategoryId | "all">(
@@ -194,6 +199,8 @@ export default function Home() {
         <div className="hazard-rule absolute inset-x-0 bottom-0" />
       </section>
 
+      <HomepageWodCard />
+
       <BookSpotlight onDownloadChapter={() => setChapterModalOpen(true)} />
 
       {/* ══ RAIL + WALL ═════════════════════════════════════════════ */}
@@ -291,21 +298,6 @@ export default function Home() {
                 </span>
                 <span className="meta mt-1 block text-[0.4rem] text-muted-foreground">
                   Push · Pull · Legs · More
-                </span>
-              </span>
-            </Link>
-
-            <Link
-              href="/wod"
-              className="mt-2 flex items-center gap-2.5 border border-lime/35 p-3.5 transition-colors duration-200 hover:bg-lime/8"
-            >
-              <Flame className="h-4 w-4 shrink-0 text-lime" />
-              <span className="min-w-0">
-                <span className="meta block text-[0.45rem] font-bold text-lime">
-                  Workout of the day
-                </span>
-                <span className="meta mt-1 block text-[0.4rem] text-muted-foreground">
-                  Daily training · Fuel · Hydration
                 </span>
               </span>
             </Link>
@@ -451,6 +443,91 @@ export default function Home() {
         open={chapterModalOpen}
         onOpenChange={setChapterModalOpen}
       />
+    </div>
+  );
+}
+
+function HomepageWodCard() {
+  const workout = getWodForDate();
+
+  return (
+    <section
+      className="btb-wod-section border-b border-white/10 bg-black py-6 sm:py-8"
+      aria-labelledby="btb-wod-heading"
+    >
+      <div className="btb-wod-wrap container">
+        <article className="btb-wod-card relative mx-auto w-full max-w-5xl border border-lime bg-plate p-5 sm:p-7 lg:p-8">
+          <span className="btb-wod-tick absolute -left-px -top-px h-4 w-4 border-l-4 border-t-4 border-lime" />
+          <span className="btb-wod-tick absolute -bottom-px -right-px h-4 w-4 border-b-4 border-r-4 border-lime" />
+
+          <div className="btb-wod-layout grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:items-center lg:gap-10">
+            <div className="btb-wod-primary min-w-0">
+              <div className="btb-wod-kicker flex items-center gap-3">
+                <Flame className="h-5 w-5 text-lime" aria-hidden="true" />
+                <span className="meta text-[0.5rem] font-bold text-lime">
+                  Daily Training Sheet
+                </span>
+              </div>
+
+              <h2
+                id="btb-wod-heading"
+                className="btb-wod-heading display mt-4 text-[2.25rem] font-bold leading-none text-white sm:text-[3rem]"
+              >
+                Workout of the day
+              </h2>
+              <p className="btb-wod-name display mt-2 text-2xl font-bold text-lime sm:text-3xl">
+                {workout.title}
+              </p>
+
+              <div className="btb-wod-facts mt-5 grid grid-cols-1 border border-white/12 sm:grid-cols-3 sm:divide-x sm:divide-white/12">
+                <WodFact icon={Gauge} label="Difficulty" value={workout.difficulty} />
+                <WodFact icon={Clock} label="Duration" value={workout.duration} />
+                <WodFact icon={PackageOpen} label="Equipment" value={workout.equipment.join(" · ")} />
+              </div>
+            </div>
+
+            <div className="btb-wod-summary border-t border-white/12 pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <p className="meta text-[0.45rem] font-bold text-lime">Main workout</p>
+              <ul className="btb-wod-exercises mt-3 space-y-2.5">
+                {workout.exercises.slice(0, 4).map((exercise) => (
+                  <li key={exercise.name} className="btb-wod-exercise flex items-baseline justify-between gap-4 border-b border-white/8 pb-2 text-sm">
+                    <span className="font-medium text-white/80">{exercise.name}</span>
+                    <span className="meta shrink-0 text-right text-[0.42rem] text-white/50">{exercise.prescription}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/wod"
+                className="btb-wod-cta mt-5 flex w-full items-center justify-center gap-3 border border-lime px-5 py-3.5 text-lime transition-colors duration-200 hover:bg-lime hover:text-black sm:w-auto"
+              >
+                <span className="meta text-[0.52rem] font-bold">View today&apos;s workout</span>
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function WodFact({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Clock;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="btb-wod-fact border-b border-white/12 p-3 last:border-b-0 sm:border-b-0">
+      <div className="flex items-center gap-2 text-lime">
+        <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+        <span className="meta text-[0.4rem]">{label}</span>
+      </div>
+      <p className="display mt-2 text-sm font-semibold leading-tight text-white">{value}</p>
     </div>
   );
 }
