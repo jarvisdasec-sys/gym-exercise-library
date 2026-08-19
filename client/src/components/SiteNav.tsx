@@ -19,20 +19,26 @@ import {
   Calculator,
   Dumbbell,
   HeartPulse,
+  Accessibility,
+  Bookmark,
   LayoutGrid,
   Menu,
   X,
 } from "lucide-react";
 import { useState } from "react";
 import { BtbLogo } from "@/components/BtbLogo";
+import { AuthControl } from "@/components/AuthControl";
+import { useAuth } from "@/contexts/AuthContext";
 
 export type NavKey =
   | "plates"
   | "workouts"
   | "cardio"
+  | "mobility"
   | "nutrition"
   | "calculators"
-  | "education";
+  | "education"
+  | "saved";
 
 const TABS: {
   key: NavKey;
@@ -62,6 +68,13 @@ const TABS: {
     href: "/cardio",
     icon: HeartPulse,
     hint: "Conditioning & intervals",
+  },
+  {
+    key: "mobility",
+    label: "Mobility & Flow",
+    href: "/mobility",
+    icon: Accessibility,
+    hint: "Yoga, Pilates & rhythm cardio",
   },
   {
     key: "nutrition",
@@ -96,9 +109,25 @@ export function SiteNav({
   children?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
+  const tabs = user
+    ? [
+        ...TABS,
+        {
+          key: "saved" as const,
+          label: "Saved",
+          href: "/saved",
+          icon: Bookmark,
+          hint: "Your exercises & routines",
+        },
+      ]
+    : TABS;
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-white/10 bg-background/94 backdrop-blur-xl">
+    <header
+      className="no-print sticky z-40 border-b border-white/10 bg-background/94 backdrop-blur-xl"
+      style={{ top: "var(--book-banner-height, 0px)" }}
+    >
       <div className="container flex h-16 items-center gap-4 sm:h-[4.5rem]">
         <Link href="/" className="shrink-0">
           <BtbLogo compact />
@@ -106,7 +135,7 @@ export function SiteNav({
 
         {/* ── labelled tabs (desktop) ─────────────────────────────── */}
         <nav className="ml-2 hidden items-stretch self-stretch lg:flex">
-          {TABS.map((t) => {
+          {tabs.map((t) => {
             const isActive = t.key === active;
             const Icon = t.icon;
             return (
@@ -136,6 +165,7 @@ export function SiteNav({
 
         <div className="ml-auto flex min-w-0 items-center gap-2.5">
           {children}
+          <AuthControl />
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Open sections"
@@ -150,7 +180,7 @@ export function SiteNav({
       {/* ── labelled tabs (mobile sheet) ──────────────────────────── */}
       {open && (
         <nav className="border-t border-white/10 lg:hidden">
-          {TABS.map((t) => {
+          {tabs.map((t) => {
             const isActive = t.key === active;
             const Icon = t.icon;
             return (

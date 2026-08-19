@@ -1,5 +1,9 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { BookBanner } from "@/components/BookBanner";
+import { SocialFooter } from "@/components/SocialFooter";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { SavedProvider } from "@/contexts/SavedContext";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -10,6 +14,7 @@ import StickerSheet from "./pages/StickerSheet";
 import Workouts from "./pages/Workouts";
 import Cardio from "./pages/Cardio";
 import CardioSession from "./pages/CardioSession";
+import Mobility from "./pages/Mobility";
 import Calculators from "./pages/Calculators";
 import WorkoutSession from "./pages/WorkoutSession";
 import Nutrition from "./pages/Nutrition";
@@ -18,6 +23,7 @@ import MealPrep from "./pages/MealPrep";
 import Tracker from "./pages/Tracker";
 import Education from "./pages/Education";
 import EduArticle from "./pages/EduArticle";
+import SavedWorkouts from "./pages/SavedWorkouts";
 
 function Router() {
   return (
@@ -28,6 +34,7 @@ function Router() {
       <Route path={"/workouts/:slug"} component={WorkoutSession} />
       <Route path={"/cardio"} component={Cardio} />
       <Route path={"/cardio/:slug"} component={CardioSession} />
+      <Route path={"/mobility"} component={Mobility} />
       <Route path={"/nutrition"} component={Nutrition} />
       <Route path={"/nutrition/builder"} component={MealBuilder} />
       <Route path={"/nutrition/meal-prep"} component={MealPrep} />
@@ -36,6 +43,7 @@ function Router() {
       <Route path={"/learn"} component={Education} />
       <Route path={"/learn/:slug"} component={EduArticle} />
       <Route path={"/stickers"} component={StickerSheet} />
+      <Route path={"/saved"} component={SavedWorkouts} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -55,10 +63,16 @@ function App() {
         defaultTheme="dark"
         // switchable
       >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+        <AuthProvider>
+          <SavedProvider>
+            <TooltipProvider>
+              <BookBanner />
+              <Toaster />
+              <Router />
+              <SocialFooter />
+            </TooltipProvider>
+          </SavedProvider>
+        </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

@@ -15,6 +15,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
 import { BtbLogo } from "@/components/BtbLogo";
+import { BookSpotlight } from "@/components/BookSpotlight";
+import { FreeChapterModal } from "@/components/FreeChapterModal";
 import {
   Apple,
   Dumbbell,
@@ -44,6 +46,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [railOpen, setRailOpen] = useState(false);
+  const [chapterModalOpen, setChapterModalOpen] = useState(false);
   const wallRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
@@ -189,6 +192,8 @@ export default function Home() {
 
         <div className="hazard-rule absolute inset-x-0 bottom-0" />
       </section>
+
+      <BookSpotlight onDownloadChapter={() => setChapterModalOpen(true)} />
 
       {/* ══ RAIL + WALL ═════════════════════════════════════════════ */}
       <div className="container" ref={wallRef}>
@@ -425,6 +430,10 @@ export default function Home() {
         onClose={() => setOpenSlug(null)}
         onPrev={() => step(-1)}
         onNext={() => step(1)}
+      />
+      <FreeChapterModal
+        open={chapterModalOpen}
+        onOpenChange={setChapterModalOpen}
       />
     </div>
   );

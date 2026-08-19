@@ -28,6 +28,8 @@ export interface Exercise {
   primary: string;
   /** Public path for the full-resolution infographic */
   image: string;
+  /** Optional local or hosted motion demonstration (MP4, WebM, or GIF). */
+  video?: string;
 }
 
 export interface Category {

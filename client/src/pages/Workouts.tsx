@@ -232,6 +232,38 @@ export default function Workouts() {
         </div>
       </div>
 
+      <section className="border-t border-white/10 bg-white/[0.015]">
+        <div className="container py-10 sm:py-12">
+          <div className="mb-3.5 flex items-center gap-3">
+            <span className="h-px w-8 bg-lime" />
+            <span className="meta text-[0.45rem] text-lime">
+              Recovery Protocol
+            </span>
+          </div>
+          <h2 className="display text-2xl font-bold leading-none text-white sm:text-3xl">
+            Off-Day <span className="text-lime">Optimization.</span>
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60">
+            Rest days are training support days. Lower fatigue, keep the basic
+            habits intact, and show up ready for the next hard session.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {[
+              ["Move Light", "Walk 20–40 minutes at a conversational pace. Add easy mobility for the joints and positions that felt restricted in training."],
+              ["Keep Protein In", "Recovery still needs building material. Keep protein consistent with training days and build meals around whole-food staples."],
+              ["Hydrate on Purpose", "Carry water, salt meals appropriately for your needs, and use urine color plus thirst as practical signals—not a punishment target."],
+              ["Protect Sleep + CNS", "Reduce late stimulants, keep a repeatable wind-down, and prioritize a full night after demanding work. Recovery is where adaptation lands."],
+            ].map(([title, copy], index) => (
+              <article key={title} className="relative border border-white/12 bg-background p-4">
+                <span className="meta text-[0.45rem] text-lime/60">0{index + 1}</span>
+                <h3 className="display mt-3 text-lg font-semibold text-white">{title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-white/60">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t border-white/10">
         <div className="hazard-rule" />
         <div className="container flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">

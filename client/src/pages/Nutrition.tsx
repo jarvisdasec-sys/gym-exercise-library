@@ -14,7 +14,16 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
-import { ArrowRight, ScanLine, Search } from "lucide-react";
+import {
+  ArrowRight,
+  Brain,
+  ChevronDown,
+  Droplets,
+  ScanLine,
+  Search,
+  TimerReset,
+  Utensils,
+} from "lucide-react";
 import { MacroBar } from "@/components/MacroBar";
 import {
   CATEGORY_META,
@@ -29,11 +38,26 @@ const CATEGORIES = Object.keys(CATEGORY_META) as FoodCategory[];
 
 type SortKey = "protein" | "kcal" | "name";
 
+const COMPARISON_ROWS = [
+  ["Target Goal", "Restore training fuel and support the next high-output session.", "Create flexibility for a social meal without abandoning the weekly plan."],
+  ["Macro Allocation", "Carbohydrate-forward; keep protein fixed and fat controlled.", "Choose the meal you want, then anchor it with protein and a defined portion."],
+  ["Timing Window", "Schedule post-leg day or after your highest-volume training block.", "Use a single planned meal - not an untracked all-day event."],
+  ["Frequency", "Use strategically when training demand and adherence warrant it.", "Use occasionally; the weekly calorie average remains the guardrail."],
+];
+
+const RULES = [
+  ["Earn the Surplus", "Time the extra carbohydrate around high-volume work. A refeed supports a session you have earned; it is not a replacement for consistent training.", "Schedule Post-Leg Day"],
+  ["Keep Protein Fixed", "Keep your usual protein target in place so the higher-calorie meal does not crowd out the building material your recovery needs.", "Protein Stays Constant"],
+  ["Set the Perimeter", "Choose the restaurant, meal, and portion before sitting down. A clear boundary turns flexibility into a decision instead of a drift.", "One Defined Meal"],
+  ["Hydration & Sodium Balance", "Drink normally and expect temporary scale movement after higher sodium or carbohydrate intake. Return to routine rather than reacting with restriction.", "Cap Fat Under 30g"],
+] as const;
+
 export default function Nutrition() {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<FoodCategory | "all">("all");
   const [sort, setSort] = useState<SortKey>("protein");
   const [basis, setBasis] = useState<"serving" | "100g">("serving");
+  const [openRule, setOpenRule] = useState<number | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -155,6 +179,100 @@ export default function Nutrition() {
               </Link>{" "}
               to pull its macros straight off the label.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#1a1a1a] bg-[#0b0b0b]">
+        <div className="container py-9 sm:py-12">
+          <div className="mb-3.5 flex items-center gap-3">
+            <span className="h-px w-8 bg-[#8CFF00]" />
+            <span className="meta text-[0.45rem] text-[#8CFF00]">
+              Calorie-Deficit Guardrails
+            </span>
+          </div>
+          <h2 className="display text-2xl font-bold leading-none text-white sm:text-3xl">
+            Cheat Meals &amp; <span className="text-[#8CFF00]">Refeed Science.</span>
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60">
+            A planned refeed is a carbohydrate-focused tool inside your weekly
+            calorie plan. A cheat meal is a flexible social choice. Neither is
+            a license to erase the deficit you built all week.
+          </p>
+
+          <div className="mt-7 overflow-hidden border border-[#1a1a1a]">
+            <div className="grid grid-cols-[7rem_1fr_1fr] border-b border-[#1a1a1a] bg-white/[0.02] sm:grid-cols-[10rem_1fr_1fr]">
+              <div className="p-3" />
+              <div className="border-l border-[#1a1a1a] p-3">
+                <span className="meta text-[0.5rem] font-bold text-[#8CFF00]">CONTROLLED REFEED</span>
+              </div>
+              <div className="border-l border-[#1a1a1a] p-3">
+                <span className="meta text-[0.5rem] font-bold text-white/70">FLEXIBLE CHEAT MEAL</span>
+              </div>
+            </div>
+            {COMPARISON_ROWS.map(([metric, refeed, meal]) => (
+              <div key={metric} className="grid grid-cols-[7rem_1fr_1fr] border-b border-[#1a1a1a] last:border-b-0 sm:grid-cols-[10rem_1fr_1fr]">
+                <div className="meta bg-white/[0.015] p-3 text-[0.45rem] font-bold text-white/50">{metric}</div>
+                <p className="border-l border-[#1a1a1a] p-3 text-xs leading-relaxed text-white/70">{refeed}</p>
+                <p className="border-l border-[#1a1a1a] p-3 text-xs leading-relaxed text-white/60">{meal}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              [TimerReset, "HORMONAL RESET", "Planned flexibility", "Use a structured higher-carb day to support adherence - not to chase a metabolic shortcut."],
+              [Utensils, "GLYCOGEN STORE", "Schedule Post-Leg Day", "Refill fuel after the work that created the demand. Keep the meal carbohydrate-forward."],
+              [Brain, "PSYCHOLOGICAL SUSTAINABILITY", "Cap Fat Under 30g", "Keep the meal enjoyable but bounded so calorie density does not quietly undo the weekly deficit."],
+            ].map(([Icon, badge, metric, copy]) => {
+              const CalloutIcon = Icon as typeof TimerReset;
+              return (
+                <article key={badge as string} className="border border-[#1a1a1a] bg-[#101010] p-4">
+                  <CalloutIcon className="h-5 w-5 text-[#8CFF00]" />
+                  <span className="meta mt-4 inline-block border border-[#8CFF00]/35 px-1.5 py-1 text-[0.4rem] font-bold text-[#8CFF00]">{badge as string}</span>
+                  <p className="display mt-3 text-lg font-bold text-white">{metric as string}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-white/60">{copy as string}</p>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="mt-7 grid gap-5 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+            <div>
+              <div className="flex items-center gap-2 text-[#8CFF00]">
+                <Droplets className="h-4 w-4" />
+                <span className="meta text-[0.48rem] font-bold">PROTOCOL CHECKLIST</span>
+              </div>
+              <h3 className="display mt-3 text-2xl font-bold text-white">Rules of Engagement.</h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/60">
+                Open each rule before the meal. Your plan should be clear enough to follow when appetite and social pressure are both high.
+              </p>
+            </div>
+            <div className="border border-[#1a1a1a]">
+              {RULES.map(([title, copy, metric], index) => {
+                const expanded = openRule === index;
+                return (
+                  <div key={title} className="border-b border-[#1a1a1a] last:border-b-0">
+                    <button
+                      type="button"
+                      onClick={() => setOpenRule(expanded ? null : index)}
+                      aria-expanded={expanded}
+                      className="flex w-full items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-[#8CFF00]/[0.05]"
+                    >
+                      <span className="meta text-[0.48rem] text-[#8CFF00]">0{index + 1}</span>
+                      <span className="flex-1 text-sm font-semibold text-white">{title}</span>
+                      <ChevronDown className={`h-4 w-4 text-[#8CFF00] transition-transform ${expanded ? "rotate-180" : ""}`} />
+                    </button>
+                    {expanded && (
+                      <div className="border-t border-[#1a1a1a] bg-black/25 px-4 py-4 pl-12">
+                        <span className="meta border border-[#8CFF00]/35 px-1.5 py-1 text-[0.4rem] font-bold text-[#8CFF00]">{metric}</span>
+                        <p className="mt-3 text-sm leading-relaxed text-white/65">{copy}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

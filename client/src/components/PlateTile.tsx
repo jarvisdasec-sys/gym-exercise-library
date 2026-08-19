@@ -10,6 +10,9 @@
  */
 
 import type { IndexedExercise } from "@/lib/exercises";
+import { Bookmark } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSaved } from "@/contexts/SavedContext";
 
 interface Props {
   exercise: IndexedExercise;
@@ -25,10 +28,18 @@ const DIFF_TICKS: Record<string, number> = {
 
 export function PlateTile({ exercise, index, onOpen }: Props) {
   const ticks = DIFF_TICKS[exercise.difficulty] ?? 1;
+  const { user } = useAuth();
+  const { isFavorite, toggleFavorite } = useSaved();
+  const saved = isFavorite(exercise.slug);
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => onOpen(exercise.slug)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") onOpen(exercise.slug);
+      }}
       className="group relative block w-full text-left rise-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime"
       style={{ animationDelay: `${Math.min(index, 12) * 40}ms` }}
       aria-label={`Open ${exercise.name} blueprint`}
@@ -71,6 +82,18 @@ export function PlateTile({ exercise, index, onOpen }: Props) {
               />
             ))}
           </div>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              if (user) void toggleFavorite(exercise.slug);
+            }}
+            aria-label={saved ? `Remove ${exercise.name} from saved exercises` : `Save ${exercise.name}`}
+            title={user ? undefined : "Sign in to save exercises"}
+            className={`absolute right-2 top-10 flex h-8 w-8 items-center justify-center border backdrop-blur transition-colors ${saved ? "border-lime bg-lime text-black" : "border-white/20 bg-black/75 text-white hover:border-lime hover:text-lime"}`}
+          >
+            <Bookmark className="h-3.5 w-3.5" fill={saved ? "currentColor" : "none"} />
+          </button>
 
           <div
             className="absolute bottom-2 right-2 border border-lime bg-lime px-2 py-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
@@ -108,6 +131,6 @@ export function PlateTile({ exercise, index, onOpen }: Props) {
           </div>
         </div>
       </div>
-    </button>
+    </div>
   );
 }

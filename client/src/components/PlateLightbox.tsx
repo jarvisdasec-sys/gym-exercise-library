@@ -16,7 +16,10 @@ import {
   ChevronRight,
   Download,
   Link2,
+  PlayCircle,
   QrCode,
+  ShieldCheck,
+  TriangleAlert,
   X,
 } from "lucide-react";
 import type { IndexedExercise } from "@/lib/exercises";
@@ -42,6 +45,9 @@ export function PlateLightbox({
 }: Props) {
   const [showQr, setShowQr] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [view, setView] = useState<"blueprint" | "motion" | "form">(
+    "blueprint",
+  );
 
   useEffect(() => {
     if (!exercise) return;
@@ -61,6 +67,7 @@ export function PlateLightbox({
   // Reset the transient copy confirmation whenever the plate changes.
   useEffect(() => {
     setCopied(false);
+    setView("blueprint");
   }, [exercise?.slug]);
 
   if (!exercise) return null;
@@ -145,6 +152,33 @@ export function PlateLightbox({
         </div>
       </div>
 
+      <div className="flex shrink-0 justify-center gap-1 border-b border-white/10 px-3 py-2">
+        {[
+          { id: "blueprint", label: "Blueprint", icon: QrCode },
+          { id: "motion", label: "Motion", icon: PlayCircle },
+          { id: "form", label: "Form Execution", icon: ShieldCheck },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const active = view === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setView(tab.id as typeof view)}
+              aria-pressed={active}
+              className={`flex items-center gap-1.5 border px-2.5 py-1.5 transition-colors sm:px-3.5 ${
+                active
+                  ? "border-lime bg-lime/10 text-lime"
+                  : "border-transparent text-white/50 hover:text-white"
+              }`}
+            >
+              <Icon className="h-3.5 w-3.5" />
+              <span className="meta text-[0.48rem] font-bold">{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* poster stage */}
       <div className="relative flex flex-1 items-center justify-center overflow-auto p-3 sm:p-6">
         <button
@@ -155,13 +189,79 @@ export function PlateLightbox({
           <ChevronLeft className="h-5 w-5" />
         </button>
 
-        <img
-          key={exercise.slug}
-          src={exercise.image}
-          alt={`${exercise.name} full exercise guide`}
-          className="pop-in max-h-full w-auto border border-white/12"
-          style={{ maxWidth: "min(100%, 960px)" }}
-        />
+        {view === "blueprint" && (
+          <img
+            key={exercise.slug}
+            src={exercise.image}
+            alt={`${exercise.name} full exercise guide`}
+            className="pop-in max-h-full w-auto border border-white/12"
+            style={{ maxWidth: "min(100%, 960px)" }}
+          />
+        )}
+
+        {view === "motion" &&
+          (exercise.video ? (
+            <video
+              key={exercise.video}
+              controls
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster={exercise.image}
+              className="pop-in max-h-full w-auto border border-lime/45 bg-black"
+              style={{ maxWidth: "min(100%, 960px)" }}
+            >
+              <source src={exercise.video} />
+              Your browser does not support embedded exercise video.
+            </video>
+          ) : (
+            <div className="pop-in max-w-md border border-white/15 bg-[#0b0b0b] p-6 text-center sm:p-8">
+              <PlayCircle className="mx-auto h-9 w-9 text-lime" />
+              <h3 className="display mt-4 text-xl font-bold text-white">
+                Motion demo ready when added.
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/60">
+                This guide supports MP4, WebM, and GIF demonstrations. Add a
+                video URL to this exercise to play it here alongside the plate.
+              </p>
+            </div>
+          ))}
+
+        {view === "form" && (
+          <div className="pop-in grid w-full max-w-3xl gap-4 md:grid-cols-2">
+            <div className="border border-lime/45 bg-lime/[0.06] p-5 sm:p-6">
+              <div className="flex items-center gap-2 text-lime">
+                <ShieldCheck className="h-5 w-5" />
+                <span className="meta text-[0.55rem] font-bold">DO</span>
+              </div>
+              <h3 className="display mt-4 text-2xl font-bold text-white">
+                Build the rep.
+              </h3>
+              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/75">
+                <li>• Set up stable before the first working rep.</li>
+                <li>• Control the range and own the position that loads {exercise.primary}.</li>
+                <li>• Keep breathing deliberate; brace before the hard part.</li>
+                <li>• Stop the set when position changes, not only when the weight stalls.</li>
+              </ul>
+            </div>
+            <div className="border border-red-400/35 bg-red-400/[0.04] p-5 sm:p-6">
+              <div className="flex items-center gap-2 text-red-300">
+                <TriangleAlert className="h-5 w-5" />
+                <span className="meta text-[0.55rem] font-bold">DON'T</span>
+              </div>
+              <h3 className="display mt-4 text-2xl font-bold text-white">
+                Feed the flaw.
+              </h3>
+              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/75">
+                <li>• Rush the eccentric or bounce through the weak point.</li>
+                <li>• Trade range of motion for heavier loading.</li>
+                <li>• Let momentum, joint shift, or posture replace the target muscle.</li>
+                <li>• Repeat painful reps. Regress, reset, and earn the pattern.</li>
+              </ul>
+            </div>
+          </div>
+        )}
 
         <button
           onClick={onNext}
