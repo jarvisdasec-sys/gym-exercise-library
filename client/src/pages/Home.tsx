@@ -20,6 +20,7 @@ import { FreeChapterModal } from "@/components/FreeChapterModal";
 import {
   Apple,
   Dumbbell,
+  Flame,
   QrCode,
   Search,
   SlidersHorizontal,
@@ -290,6 +291,21 @@ export default function Home() {
                 </span>
                 <span className="meta mt-1 block text-[0.4rem] text-muted-foreground">
                   Push · Pull · Legs · More
+                </span>
+              </span>
+            </Link>
+
+            <Link
+              href="/wod"
+              className="mt-2 flex items-center gap-2.5 border border-lime/35 p-3.5 transition-colors duration-200 hover:bg-lime/8"
+            >
+              <Flame className="h-4 w-4 shrink-0 text-lime" />
+              <span className="min-w-0">
+                <span className="meta block text-[0.45rem] font-bold text-lime">
+                  Workout of the day
+                </span>
+                <span className="meta mt-1 block text-[0.4rem] text-muted-foreground">
+                  Daily training · Fuel · Hydration
                 </span>
               </span>
             </Link>
