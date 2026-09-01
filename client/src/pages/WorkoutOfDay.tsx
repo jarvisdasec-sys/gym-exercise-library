@@ -36,7 +36,7 @@ export default function WorkoutOfDay() {
       difficulty: workout.difficulty,
       sets: Number.parseInt(x.prescription) || 1,
       reps: x.prescription,
-      rest: Number.parseInt(x.rest || "") || 60,
+      rest: x.rest || "60 sec",
     })),
   };
 

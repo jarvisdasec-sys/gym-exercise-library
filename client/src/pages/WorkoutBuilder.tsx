@@ -3,13 +3,29 @@ import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
 import { EXERCISES, type Exercise } from "@/lib/exercises";
 import { createCustomWorkout, saveWorkout } from "@/lib/workoutTools";
+
+type BuilderExercise = Exercise & {
+  sets: number;
+  reps: string;
+  time: string;
+  rest: string;
+};
+
+const defaultPrescription = {
+  sets: 3,
+  reps: "8-12",
+  time: "",
+  rest: "60 sec",
+};
+
 export default function WorkoutBuilder() {
   const [title, setTitle] = useState("My BTB Workout"),
     [format, setFormat] = useState("Standard"),
     [duration, setDuration] = useState(45),
     [query, setQuery] = useState(""),
-    [selected, setSelected] = useState<Exercise[]>([]),
-    [notice, setNotice] = useState("");
+    [selected, setSelected] = useState<BuilderExercise[]>([]),
+    [notice, setNotice] = useState(""),
+    [noticeIsError, setNoticeIsError] = useState(false);
   const choices = useMemo(
     () =>
       EXERCISES.filter(x =>
@@ -26,10 +42,29 @@ export default function WorkoutBuilder() {
     [copy[i], copy[n]] = [copy[n], copy[i]];
     setSelected(copy);
   };
+  const updatePrescription = (
+    slug: string,
+    patch: Partial<Pick<BuilderExercise, "sets" | "reps" | "time" | "rest">>
+  ) =>
+    setSelected(v =>
+      v.map(x => (x.slug === slug ? { ...x, ...patch } : x))
+    );
   const save = () => {
-    if (!selected.length) return setNotice("Add at least one movement.");
-    saveWorkout(createCustomWorkout(title, format, duration, selected));
-    setNotice("Custom workout saved on this device.");
+    if (!selected.length) {
+      setNoticeIsError(true);
+      setNotice("Add at least one movement.");
+      return;
+    }
+    try {
+      saveWorkout(createCustomWorkout(title, format, duration, selected));
+      setNoticeIsError(false);
+      setNotice("Custom workout saved on this device.");
+    } catch {
+      setNoticeIsError(true);
+      setNotice(
+        "Could not save this workout. Check that your browser allows local storage and try again."
+      );
+    }
   };
   return (
     <div className="min-h-screen">
@@ -105,7 +140,9 @@ export default function WorkoutBuilder() {
                 <button
                   disabled={selected.some(y => y.slug === x.slug)}
                   className="meta border border-lime px-3 py-2 text-[0.45rem] text-lime disabled:opacity-30"
-                  onClick={() => setSelected(v => [...v, x])}
+                  onClick={() =>
+                    setSelected(v => [...v, { ...x, ...defaultPrescription }])
+                  }
                 >
                   Add
                 </button>
@@ -119,7 +156,10 @@ export default function WorkoutBuilder() {
             {format} · {duration} min
           </p>
           {notice && (
-            <p role="status" className="mt-3 text-xs text-lime">
+            <p
+              role={noticeIsError ? "alert" : "status"}
+              className={`mt-3 text-xs ${noticeIsError ? "text-red-400" : "text-lime"}`}
+            >
               {notice}
             </p>
           )}
@@ -129,6 +169,63 @@ export default function WorkoutBuilder() {
                 <span className="display font-semibold text-white">
                   {x.name}
                 </span>
+                <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  <label className="grid gap-0.5">
+                    <span className="meta text-[0.38rem] text-white/50">Sets</span>
+                    <input
+                      aria-label={`${x.name} sets`}
+                      type="number"
+                      min={1}
+                      className="w-full min-w-0 border border-white/20 bg-black p-1.5 text-xs text-white"
+                      value={x.sets || ""}
+                      onChange={e =>
+                        updatePrescription(x.slug, {
+                          sets: e.target.value === "" ? 0 : Math.max(0, Number(e.target.value)),
+                        })
+                      }
+                      onBlur={() => {
+                        if (!x.sets || x.sets < 1)
+                          updatePrescription(x.slug, { sets: 1 });
+                      }}
+                    />
+                  </label>
+                  <label className="grid gap-0.5">
+                    <span className="meta text-[0.38rem] text-white/50">Reps</span>
+                    <input
+                      aria-label={`${x.name} reps`}
+                      className="w-full min-w-0 border border-white/20 bg-black p-1.5 text-xs text-white"
+                      placeholder="8-12"
+                      value={x.reps}
+                      onChange={e =>
+                        updatePrescription(x.slug, { reps: e.target.value })
+                      }
+                    />
+                  </label>
+                  <label className="grid gap-0.5">
+                    <span className="meta text-[0.38rem] text-white/50">Time</span>
+                    <input
+                      aria-label={`${x.name} time`}
+                      className="w-full min-w-0 border border-white/20 bg-black p-1.5 text-xs text-white"
+                      placeholder="30 sec"
+                      value={x.time}
+                      onChange={e =>
+                        updatePrescription(x.slug, { time: e.target.value })
+                      }
+                    />
+                  </label>
+                  <label className="grid gap-0.5">
+                    <span className="meta text-[0.38rem] text-white/50">Rest</span>
+                    <input
+                      aria-label={`${x.name} rest`}
+                      className="w-full min-w-0 border border-white/20 bg-black p-1.5 text-xs text-white"
+                      placeholder="60 sec"
+                      value={x.rest}
+                      onChange={e =>
+                        updatePrescription(x.slug, { rest: e.target.value })
+                      }
+                    />
+                  </label>
+                </div>
                 <div className="mt-2 flex gap-2">
                   <button disabled={!i} onClick={() => move(i, -1)}>
                     ↑

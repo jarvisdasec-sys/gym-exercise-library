@@ -19,7 +19,8 @@ export type ToolExercise = {
   difficulty: string;
   sets: number;
   reps: string;
-  rest: number;
+  time?: string;
+  rest: string;
 };
 export type ToolWorkout = {
   id: string;
@@ -126,7 +127,7 @@ export function generateWorkout(
     difficulty: x.difficulty,
     sets,
     reps,
-    rest: input.goal === "Strength" ? 120 : 60,
+    rest: input.goal === "Strength" ? "120 sec" : "60 sec",
   }));
   const muscles = Array.from(new Set(exercises.map(x => x.primary)));
   return {
@@ -178,7 +179,16 @@ export function readState(): WorkoutState {
   }
 }
 const write = (state: WorkoutState) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  if (typeof localStorage === "undefined") {
+    throw new Error("Local storage is unavailable in this browser.");
+  }
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    throw new Error(
+      "Could not save to this device. Local storage may be full or disabled."
+    );
+  }
   return state;
 };
 export const saveWorkout = (workout: ToolWorkout) => {
@@ -212,11 +222,21 @@ export const updateChallenge = (id: string, value: number) => {
     challenges: { ...s.challenges, [id]: Math.max(0, value || 0) },
   });
 };
+export type CustomExerciseInput = Pick<
+  Exercise,
+  "slug" | "name" | "primary" | "equipment" | "difficulty"
+> & {
+  sets: number;
+  reps: string;
+  time?: string;
+  rest: string;
+};
+
 export const createCustomWorkout = (
   title: string,
   format: string,
   duration: number,
-  selected: Exercise[]
+  selected: CustomExerciseInput[]
 ): ToolWorkout => {
   const exercises = selected.map((x, i) => ({
     id: `${x.slug}-${i}`,
@@ -225,9 +245,10 @@ export const createCustomWorkout = (
     primary: x.primary,
     equipment: x.equipment,
     difficulty: x.difficulty,
-    sets: 3,
-    reps: "8–12",
-    rest: 60,
+    sets: x.sets,
+    reps: x.reps,
+    time: x.time,
+    rest: x.rest,
   }));
   const muscles = Array.from(new Set(exercises.map(x => x.primary)));
   return {

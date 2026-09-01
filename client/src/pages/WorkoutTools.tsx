@@ -347,7 +347,7 @@ function Generated({
                 {x.name}
               </Link>
               <p className="meta mt-1 text-[0.42rem] text-lime">
-                {x.sets} sets · {x.reps} · {x.rest}s rest
+                {x.sets} sets · {x.reps}{x.time ? ` · ${x.time}` : ""} · {x.rest} rest
               </p>
               <p className="mt-1 text-xs text-white/45">
                 {x.primary} · {x.equipment}
@@ -430,11 +430,19 @@ function List({
                     {x.title}
                   </h3>
                   <p className="mt-1 text-xs text-white/45">
-                    {x.exercises.length} movements · {x.duration} min
+                    {x.exercises.length} movements · {x.duration} min · {x.format}
                   </p>
                 </div>
                 {action?.(x)}
               </div>
+              <ul className="mt-2 space-y-1 text-[0.65rem] text-white/40">
+                {x.exercises.map(ex => (
+                  <li key={ex.id}>
+                    {ex.name} — {ex.sets} sets · {ex.reps}
+                    {ex.time ? ` · ${ex.time}` : ""} · {ex.rest} rest
+                  </li>
+                ))}
+              </ul>
             </article>
           ))}
         </div>
