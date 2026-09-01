@@ -25,6 +25,8 @@ import Education from "./pages/Education";
 import EduArticle from "./pages/EduArticle";
 import SavedWorkouts from "./pages/SavedWorkouts";
 import WorkoutOfDay from "./pages/WorkoutOfDay";
+import WorkoutTools from "./pages/WorkoutTools";
+import WorkoutBuilder from "./pages/WorkoutBuilder";
 
 function Router() {
   return (
@@ -33,6 +35,8 @@ function Router() {
       <Route path={"/e/:slug"} component={ExercisePlate} />
       <Route path={"/workouts"} component={Workouts} />
       <Route path={"/wod"} component={WorkoutOfDay} />
+      <Route path={"/workouts/tools"} component={WorkoutTools} />
+      <Route path={"/workouts/builder"} component={WorkoutBuilder} />
       <Route path={"/workouts/:slug"} component={WorkoutSession} />
       <Route path={"/cardio"} component={Cardio} />
       <Route path={"/cardio/:slug"} component={CardioSession} />

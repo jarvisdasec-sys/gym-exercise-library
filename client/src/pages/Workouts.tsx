@@ -69,8 +69,8 @@ export default function Workouts() {
   const [tag, setTag] = useState<SplitTag | "All">("All");
 
   const list = useMemo(
-    () => (tag === "All" ? WORKOUTS : WORKOUTS.filter((w) => w.tag === tag)),
-    [tag],
+    () => (tag === "All" ? WORKOUTS : WORKOUTS.filter(w => w.tag === tag)),
+    [tag]
   );
 
   return (
@@ -97,16 +97,22 @@ export default function Workouts() {
 
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/65">
             Each session lists the movements in order, with sets, reps, rest and
-            the cue that matters. Every exercise links to its blueprint. Work top
-            to bottom.
+            the cue that matters. Every exercise links to its blueprint. Work
+            top to bottom.
           </p>
+          <Link
+            href="/workouts/tools"
+            className="meta mt-5 inline-flex border border-lime bg-lime px-4 py-3 text-[0.5rem] font-bold text-black"
+          >
+            Open Workout Tools
+          </Link>
 
           <div className="mt-7 grid max-w-lg grid-cols-3 border border-white/12 divide-x divide-white/12">
             {[
               { n: String(WORKOUTS.length), l: "Sessions" },
               { n: String(INDEXED_EXERCISES.length), l: "Plates Used" },
               { n: String(SPLITS.length), l: "Weekly Splits" },
-            ].map((s) => (
+            ].map(s => (
               <div key={s.l} className="px-4 py-3.5">
                 <div className="meta text-xl font-bold text-lime">{s.n}</div>
                 <div className="meta mt-1.5 text-[0.42rem] text-white/50">
@@ -121,7 +127,7 @@ export default function Workouts() {
       {/* ══ SESSION BOARD ════════════════════════════════════════════ */}
       <div className="container py-9">
         <div className="mb-6 flex flex-wrap items-center gap-1.5">
-          {TAGS.map((t) => (
+          {TAGS.map(t => (
             <button
               key={t}
               onClick={() => setTag(t)}
@@ -198,7 +204,7 @@ export default function Workouts() {
         </p>
 
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {SPLITS.map((s) => (
+          {SPLITS.map(s => (
             <div key={s.name} className="border border-white/12 p-4">
               <div className="flex items-baseline justify-between gap-2">
                 <h3 className="display text-base font-semibold text-white">
@@ -212,8 +218,8 @@ export default function Workouts() {
                 {s.note}
               </p>
               <div className="mt-3.5 flex flex-col gap-1.5 border-t border-white/10 pt-3">
-                {s.sequence.map((slug) => {
-                  const w = WORKOUTS.find((x) => x.slug === slug);
+                {s.sequence.map(slug => {
+                  const w = WORKOUTS.find(x => x.slug === slug);
                   if (!w) return null;
                   return (
                     <Link
@@ -249,15 +255,36 @@ export default function Workouts() {
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {[
-              ["Move Light", "Walk 20–40 minutes at a conversational pace. Add easy mobility for the joints and positions that felt restricted in training."],
-              ["Keep Protein In", "Recovery still needs building material. Keep protein consistent with training days and build meals around whole-food staples."],
-              ["Hydrate on Purpose", "Carry water, salt meals appropriately for your needs, and use urine color plus thirst as practical signals—not a punishment target."],
-              ["Protect Sleep + CNS", "Reduce late stimulants, keep a repeatable wind-down, and prioritize a full night after demanding work. Recovery is where adaptation lands."],
+              [
+                "Move Light",
+                "Walk 20–40 minutes at a conversational pace. Add easy mobility for the joints and positions that felt restricted in training.",
+              ],
+              [
+                "Keep Protein In",
+                "Recovery still needs building material. Keep protein consistent with training days and build meals around whole-food staples.",
+              ],
+              [
+                "Hydrate on Purpose",
+                "Carry water, salt meals appropriately for your needs, and use urine color plus thirst as practical signals—not a punishment target.",
+              ],
+              [
+                "Protect Sleep + CNS",
+                "Reduce late stimulants, keep a repeatable wind-down, and prioritize a full night after demanding work. Recovery is where adaptation lands.",
+              ],
             ].map(([title, copy], index) => (
-              <article key={title} className="relative border border-white/12 bg-background p-4">
-                <span className="meta text-[0.45rem] text-lime/60">0{index + 1}</span>
-                <h3 className="display mt-3 text-lg font-semibold text-white">{title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-white/60">{copy}</p>
+              <article
+                key={title}
+                className="relative border border-white/12 bg-background p-4"
+              >
+                <span className="meta text-[0.45rem] text-lime/60">
+                  0{index + 1}
+                </span>
+                <h3 className="display mt-3 text-lg font-semibold text-white">
+                  {title}
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-white/60">
+                  {copy}
+                </p>
               </article>
             ))}
           </div>
