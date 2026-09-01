@@ -329,9 +329,8 @@ function Generated({
           <Action onClick={onShare}>Share</Action>
         </div>
       </div>
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div className="mt-5">
         <Block title="Warm-up" items={workout.warmup} />
-        <Block title="Cool-down" items={workout.cooldown} />
       </div>
       <ol className="mt-5 grid gap-3">
         {workout.exercises.map((x, i) => (
@@ -340,12 +339,18 @@ function Generated({
             className="grid gap-3 border border-white/12 p-4 sm:grid-cols-[1fr_auto]"
           >
             <div>
-              <Link
-                href={`/e/${x.slug}`}
-                className="display text-lg font-semibold text-white hover:text-lime"
-              >
-                {x.name}
-              </Link>
+              {x.libraryEntry === false ? (
+                <span className="display text-lg font-semibold text-white">
+                  {x.name}
+                </span>
+              ) : (
+                <Link
+                  href={`/e/${x.slug}`}
+                  className="display text-lg font-semibold text-white hover:text-lime"
+                >
+                  {x.name}
+                </Link>
+              )}
               <p className="meta mt-1 text-[0.42rem] text-lime">
                 {x.sets} sets · {x.reps}{x.time ? ` · ${x.time}` : ""} · {x.rest} rest
               </p>
@@ -368,6 +373,9 @@ function Generated({
           </li>
         ))}
       </ol>
+      <div className="mt-5">
+        <Block title="Cool-down" items={workout.cooldown} />
+      </div>
       <p className="mt-4 border-l-2 border-lime bg-lime/[0.04] p-4 text-xs text-white/60">
         Progressive overload: when every prescribed rep is controlled for two
         sessions, add 1–2 reps or increase load 2–5%. Change one variable at a
