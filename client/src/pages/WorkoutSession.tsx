@@ -17,10 +17,30 @@ import { Link, useParams } from "wouter";
 import { Check, Clock, Layers, Printer, RotateCcw, TriangleAlert } from "lucide-react";
 import { INDEXED_EXERCISES } from "@/lib/exercises";
 import { WORKOUTS, getWorkout, totalExercises, totalSets } from "@/lib/workouts";
+import { getProgramWorkout } from "@/lib/programs";
 
 export default function WorkoutSession() {
-  const params = useParams<{ slug: string }>();
-  const workout = useMemo(() => getWorkout(params.slug), [params.slug]);
+  const params = useParams<{
+    slug?: string;
+    programId?: string;
+    week?: string;
+    day?: string;
+  }>();
+  const programWorkout = useMemo(
+    () =>
+      params.programId
+        ? getProgramWorkout(
+            params.programId,
+            Number(params.week),
+            Number(params.day),
+          )
+        : null,
+    [params.day, params.programId, params.week],
+  );
+  const workout = useMemo(
+    () => programWorkout?.workout ?? (params.slug ? getWorkout(params.slug) : null),
+    [params.slug, programWorkout],
+  );
 
   /** Completed movement keys, e.g. "0-2". Session-local, resets on reload. */
   const [done, setDone] = useState<Set<string>>(new Set());
@@ -173,6 +193,9 @@ export default function WorkoutSession() {
       <div className="container py-8">
         <div className="p-sheet flex flex-col gap-9 lg:flex-row lg:items-start">
           <div className="min-w-0 flex-1">
+            {programWorkout && (
+              <RoutineSteps title="Warm-up" items={programWorkout.warmup} />
+            )}
             {workout.blocks.map((block, bi) => (
               <section key={bi} className="mb-9 last:mb-0">
                 <div className="hazard-rule mb-3" />
@@ -278,6 +301,9 @@ export default function WorkoutSession() {
                 </div>
               </section>
             ))}
+            {programWorkout && (
+              <RoutineSteps title="Cooldown" items={programWorkout.cooldown} />
+            )}
           </div>
 
           {/* ── side column: session rules ───────────────────────────── */}
@@ -399,5 +425,26 @@ function Spec({
         {value}
       </span>
     </span>
+  );
+}
+
+function RoutineSteps({ title, items }: { title: string; items: string[] }) {
+  return (
+    <section className="mb-9 last:mb-0">
+      <div className="hazard-rule mb-3" />
+      <h2 className="display text-xl font-bold leading-none text-white sm:text-2xl">
+        {title}
+      </h2>
+      <ol className="mt-4 grid gap-2 border-y border-white/10 py-4">
+        {items.map((item, index) => (
+          <li key={item} className="flex gap-3 text-xs leading-relaxed text-white/60">
+            <span className="meta shrink-0 text-[0.42rem] text-lime/60">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            {item}
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }

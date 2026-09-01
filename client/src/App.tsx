@@ -37,6 +37,10 @@ function Router() {
       <Route path={"/wod"} component={WorkoutOfDay} />
       <Route path={"/workouts/tools"} component={WorkoutTools} />
       <Route path={"/workouts/builder"} component={WorkoutBuilder} />
+      <Route
+        path={"/workouts/programs/:programId/:week/:day"}
+        component={WorkoutSession}
+      />
       <Route path={"/workouts/:slug"} component={WorkoutSession} />
       <Route path={"/cardio"} component={Cardio} />
       <Route path={"/cardio/:slug"} component={CardioSession} />

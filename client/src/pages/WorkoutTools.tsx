@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
 import WorkoutTimer from "@/components/WorkoutTimer";
+import ProgramsPanel from "@/components/ProgramsPanel";
 import { EXERCISES } from "@/lib/exercises";
 import {
   completeWorkout,
@@ -24,13 +25,6 @@ const tabs = [
   "Programs",
 ] as const;
 type Tab = (typeof tabs)[number];
-const programs = [
-  ["Beginner Fitness", "4 weeks · 3 days"],
-  ["Fat Loss", "6 weeks · 4 days"],
-  ["Muscle Gain", "8 weeks · 4 days"],
-  ["Strength", "12 weeks · 3 days"],
-  ["Conditioning", "6 weeks · 4 days"],
-];
 const challenges = [
   ["daily", "Daily movement", 10, "minutes"],
   ["weekly", "Weekly controlled squats", 100, "reps"],
@@ -248,22 +242,7 @@ export default function WorkoutTools() {
             })}
           </section>
         )}
-        {tab === "Programs" && (
-          <section className="grid gap-3 sm:grid-cols-2">
-            {programs.map(([name, summary]) => (
-              <details key={name} className="border border-white/12 p-5">
-                <summary className="display cursor-pointer text-xl font-bold text-white">
-                  {name}
-                </summary>
-                <p className="mt-3 text-sm text-lime">{summary}</p>
-                <p className="mt-2 text-xs text-white/55">
-                  Alternate full-body foundations and focused sessions. Progress
-                  one variable at a time.
-                </p>
-              </details>
-            ))}
-          </section>
-        )}
+        {tab === "Programs" && <ProgramsPanel />}
       </main>
     </div>
   );
