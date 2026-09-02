@@ -27,6 +27,7 @@ import SavedWorkouts from "./pages/SavedWorkouts";
 import WorkoutOfDay from "./pages/WorkoutOfDay";
 import WorkoutTools from "./pages/WorkoutTools";
 import WorkoutBuilder from "./pages/WorkoutBuilder";
+import ResetPassword from "./pages/ResetPassword";
 
 function Router() {
   return (
@@ -54,6 +55,7 @@ function Router() {
       <Route path={"/learn/:slug"} component={EduArticle} />
       <Route path={"/stickers"} component={StickerSheet} />
       <Route path={"/saved"} component={SavedWorkouts} />
+      <Route path={"/reset-password"} component={ResetPassword} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
+import { useAuth } from "@/contexts/AuthContext";
 import { formatWodDate, getWodForDate } from "@/lib/wod";
 import {
   completeWorkout,
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 
 export default function WorkoutOfDay() {
+  const { user } = useAuth();
   const today = new Date();
   const workout = getWodForDate(today);
   const [notice, setNotice] = useState("");
@@ -72,7 +74,7 @@ export default function WorkoutOfDay() {
             <button
               className="meta border border-white/20 px-4 py-3 text-[0.48rem] text-white"
               onClick={() => {
-                saveWorkout(toolWorkout);
+                saveWorkout(toolWorkout, user?.id);
                 setNotice("WOD saved on this device.");
               }}
             >
@@ -81,7 +83,7 @@ export default function WorkoutOfDay() {
             <button
               className="meta border border-white/20 px-4 py-3 text-[0.48rem] text-white"
               onClick={() => {
-                completeWorkout(toolWorkout);
+                completeWorkout(toolWorkout, {}, user?.id);
                 setNotice("WOD marked complete.");
               }}
             >

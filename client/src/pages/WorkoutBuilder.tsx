@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
+import { useAuth } from "@/contexts/AuthContext";
 import { EXERCISES, type Exercise } from "@/lib/exercises";
 import { createCustomWorkout, saveWorkout } from "@/lib/workoutTools";
 
@@ -19,6 +20,7 @@ const defaultPrescription = {
 };
 
 export default function WorkoutBuilder() {
+  const { user } = useAuth();
   const [title, setTitle] = useState("My BTB Workout"),
     [format, setFormat] = useState("Standard"),
     [duration, setDuration] = useState(45),
@@ -56,7 +58,7 @@ export default function WorkoutBuilder() {
       return;
     }
     try {
-      saveWorkout(createCustomWorkout(title, format, duration, selected));
+      saveWorkout(createCustomWorkout(title, format, duration, selected), user?.id);
       setNoticeIsError(false);
       setNotice("Custom workout saved on this device.");
     } catch {

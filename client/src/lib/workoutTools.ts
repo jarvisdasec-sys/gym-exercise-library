@@ -40,8 +40,11 @@ export type WorkoutState = {
   >;
   challenges: Record<string, number>;
 };
-const STORAGE_KEY = "btb-workout-tools-v1";
+const STORAGE_KEY = "btb-workout-tools-v2";
 const empty: WorkoutState = { saved: [], history: [], challenges: {} };
+
+export const workoutStorageKey = (userId?: string | null) =>
+  `${STORAGE_KEY}:${userId ?? "guest"}`;
 
 export const options = {
   goals: [
@@ -307,23 +310,23 @@ export function swapExercise(
   };
   return { ...workout, exercises };
 }
-export function readState(): WorkoutState {
+export function readState(userId?: string | null): WorkoutState {
   if (typeof localStorage === "undefined") return structuredClone(empty);
   try {
     return {
       ...structuredClone(empty),
-      ...JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"),
+      ...JSON.parse(localStorage.getItem(workoutStorageKey(userId)) || "{}"),
     };
   } catch {
     return structuredClone(empty);
   }
 }
-const write = (state: WorkoutState) => {
+const write = (state: WorkoutState, userId?: string | null) => {
   if (typeof localStorage === "undefined") {
     throw new Error("Local storage is unavailable in this browser.");
   }
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorage.setItem(workoutStorageKey(userId), JSON.stringify(state));
   } catch {
     throw new Error(
       "Could not save to this device. Local storage may be full or disabled."
@@ -331,36 +334,37 @@ const write = (state: WorkoutState) => {
   }
   return state;
 };
-export const saveWorkout = (workout: ToolWorkout) => {
-  const s = readState();
+export const saveWorkout = (workout: ToolWorkout, userId?: string | null) => {
+  const s = readState(userId);
   return write({
     ...s,
     saved: [workout, ...s.saved.filter(x => x.id !== workout.id)],
-  });
+  }, userId);
 };
 export const completeWorkout = (
   workout: ToolWorkout,
-  performance: Record<string, string> = {}
+  performance: Record<string, string> = {},
+  userId?: string | null
 ) => {
-  const s = readState();
+  const s = readState(userId);
   return write({
     ...s,
     history: [
       { ...workout, completedAt: new Date().toISOString(), performance },
       ...s.history,
     ],
-  });
+  }, userId);
 };
-export const removeSaved = (id: string) => {
-  const s = readState();
-  return write({ ...s, saved: s.saved.filter(x => x.id !== id) });
+export const removeSaved = (id: string, userId?: string | null) => {
+  const s = readState(userId);
+  return write({ ...s, saved: s.saved.filter(x => x.id !== id) }, userId);
 };
-export const updateChallenge = (id: string, value: number) => {
-  const s = readState();
+export const updateChallenge = (id: string, value: number, userId?: string | null) => {
+  const s = readState(userId);
   return write({
     ...s,
     challenges: { ...s.challenges, [id]: Math.max(0, value || 0) },
-  });
+  }, userId);
 };
 export type CustomExerciseInput = Pick<
   Exercise,

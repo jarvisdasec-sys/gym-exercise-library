@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
+import { useAuth } from "@/contexts/AuthContext";
 import WorkoutTimer from "@/components/WorkoutTimer";
 import ProgramsPanel from "@/components/ProgramsPanel";
 import { EXERCISES } from "@/lib/exercises";
@@ -31,10 +32,11 @@ const challenges = [
   ["monthly", "Monthly training", 600, "minutes"],
 ] as const;
 export default function WorkoutTools() {
+  const { user } = useAuth();
   const [tab, setTab] = useState<Tab>("Generator"),
     [input, setInput] = useState<Readiness>(initialReadiness),
     [workout, setWorkout] = useState<ToolWorkout | null>(null),
-    [state, setState] = useState(readState),
+    [state, setState] = useState(() => readState(user?.id)),
     [notice, setNotice] = useState(""),
     [performance, setPerformance] = useState<Record<string, string>>({});
   const equipment = useMemo(
@@ -43,6 +45,12 @@ export default function WorkoutTools() {
   );
   const update = (key: keyof Readiness, value: string | number) =>
     setInput(v => ({ ...v, [key]: value }));
+  const storageUserId = user?.id;
+
+  useEffect(() => {
+    setState(readState(storageUserId));
+  }, [storageUserId]);
+
   const generate = () => {
     const next = generateWorkout(EXERCISES, input);
     setWorkout(next);
@@ -174,11 +182,11 @@ export default function WorkoutTools() {
                 setPerformance={setPerformance}
                 onSwap={i => setWorkout(swapExercise(workout, i, EXERCISES))}
                 onSave={() => {
-                  setState(saveWorkout(workout));
+                  setState(saveWorkout(workout, storageUserId));
                   setNotice("Workout saved on this device.");
                 }}
                 onComplete={() => {
-                  setState(completeWorkout(workout, performance));
+                  setState(completeWorkout(workout, performance, storageUserId));
                   setNotice("Workout marked complete and added to history.");
                 }}
                 onShare={share}
@@ -196,7 +204,7 @@ export default function WorkoutTools() {
               action={x => (
                 <button
                   className="text-lime"
-                  onClick={() => setState(removeSaved(x.id))}
+                  onClick={() => setState(removeSaved(x.id, storageUserId))}
                 >
                   Remove
                 </button>
@@ -234,7 +242,7 @@ export default function WorkoutTools() {
                     min="0"
                     value={value}
                     onChange={e =>
-                      setState(updateChallenge(id, Number(e.target.value)))
+                      setState(updateChallenge(id, Number(e.target.value), storageUserId))
                     }
                   />
                 </article>

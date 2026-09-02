@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/contexts/AuthContext";
+import { createSavedAccountGuard } from "@/lib/savedAccount";
 
 export type SavedRoutine = { id: string; name: string; routineData: unknown; createdAt: string };
 
@@ -19,18 +20,25 @@ export function SavedProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [routines, setRoutines] = useState<SavedRoutine[]>([]);
   const [loading, setLoading] = useState(false);
+  const accountGuard = useRef(createSavedAccountGuard());
 
   useEffect(() => {
+    accountGuard.current.select(user?.id ?? null);
+    setFavorites([]);
+    setRoutines([]);
+
     if (!supabase || !user) {
-      setFavorites([]);
-      setRoutines([]);
+      setLoading(false);
       return;
     }
+
+    const userId = user.id;
     setLoading(true);
     Promise.all([
-      supabase.from("user_favorites").select("exercise_slug").eq("user_id", user.id),
-      supabase.from("user_routines").select("id, name, routine_data, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
+      supabase.from("user_favorites").select("exercise_slug").eq("user_id", userId),
+      supabase.from("user_routines").select("id, name, routine_data, created_at").eq("user_id", userId).order("created_at", { ascending: false }),
     ]).then(([favoriteResult, routineResult]) => {
+      if (!accountGuard.current.allows(userId)) return;
       setFavorites((favoriteResult.data ?? []).map((row) => row.exercise_slug));
       setRoutines(
         (routineResult.data ?? []).map((row) => ({
@@ -40,6 +48,11 @@ export function SavedProvider({ children }: { children: React.ReactNode }) {
           createdAt: row.created_at,
         })),
       );
+      setLoading(false);
+    }).catch(() => {
+      if (!accountGuard.current.allows(userId)) return;
+      setFavorites([]);
+      setRoutines([]);
       setLoading(false);
     });
   }, [user]);
