@@ -17,6 +17,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { BtbLogo } from "@/components/BtbLogo";
 import { BookSpotlight } from "@/components/BookSpotlight";
 import { FreeChapterModal } from "@/components/FreeChapterModal";
+import { SuggestionBox } from "@/components/SuggestionBox";
 import {
   Apple,
   ArrowRight,
@@ -200,6 +201,8 @@ export default function Home() {
       </section>
 
       <HomepageWodCard />
+
+      <SuggestionBox />
 
       <BookSpotlight onDownloadChapter={() => setChapterModalOpen(true)} />
 
