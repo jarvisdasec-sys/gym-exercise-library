@@ -1,4 +1,4 @@
-import { ArrowUpRight, BookOpen, Download } from "lucide-react";
+import { ArrowUpRight, Download } from "lucide-react";
 
 const AMAZON_URL =
   "https://www.amazon.com/BTB-Foundations-Health-Nutrition-Blueprint-ebook/dp/B0HCMVK5ZN/ref=sr_1_2?crid=SVHQ55SOF96R&dib=eyJ2IjoiMSJ9.swLWrVydJ_CVFZEFuGBtVTWgmStNC-0DGNeigV5WymV4d-M1g6cxNFthZaz1mZ8GOqnFdSn3byRXny8X8HDibg.zCaLNQq809q1am1qQStb1NwALB448Bg_LfvGUmM6hrk&dib_tag=se&keywords=jarvis+dixon&qid=1786340487&sprefix=jarvis+dixon%2Caps%2C317&sr=8-2";
@@ -71,25 +71,29 @@ export function BookSpotlight({
           </div>
         </div>
 
-        <div className="mx-auto w-full max-w-[250px] [perspective:1000px] lg:max-w-none">
-          <div className="relative aspect-[3/4] -rotate-y-6 border border-[#8CFF00]/50 bg-gradient-to-br from-[#1c1c1c] via-[#0b0b0b] to-black p-5 shadow-[-16px_18px_0_#8CFF00] transition-transform duration-300 hover:-translate-y-1 hover:rotate-y-0">
-            <div className="flex h-full flex-col border border-white/15 p-4">
-              <BookOpen className="h-7 w-7 text-[#8CFF00]" />
-              <span className="meta mt-8 text-[0.5rem] font-bold tracking-[0.18em] text-[#8CFF00]">
-                BUILD THE BODY
-              </span>
-              <h3 className="display mt-3 text-3xl font-bold leading-[0.9] text-white">
-                THE FOUNDATION
-                <br />
-                <span className="text-[#8CFF00]">OF FITNESS</span>
-                <br />
-                &amp; HEALTH
-              </h3>
-              <span className="meta mt-auto text-[0.5rem] tracking-[0.14em] text-white/50">
-                BTB / VOL. 01
-              </span>
-            </div>
-          </div>
+        <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-6 sm:max-w-none sm:flex-row sm:justify-center lg:flex-col lg:items-stretch">
+          <figure className="flex flex-col items-center gap-2">
+            <img
+              src="/images/books/btb-volume-1.jpg"
+              alt="BTB Foundations of Health and Nutrition book cover"
+              className="h-auto w-[190px] max-w-full border border-[#8CFF00]/50 shadow-[-12px_14px_0_#8CFF00] transition-transform duration-300 hover:-translate-y-1 sm:w-[200px]"
+              loading="lazy"
+            />
+            <figcaption className="meta text-[0.5rem] tracking-[0.14em] text-white/50">
+              BTB / VOL. 01
+            </figcaption>
+          </figure>
+          <figure className="flex flex-col items-center gap-2">
+            <img
+              src="/images/books/btb-volume-2.jpg"
+              alt="BTB Strength, Muscle, and Recovery book cover"
+              className="h-auto w-[190px] max-w-full border border-[#8CFF00]/50 shadow-[-12px_14px_0_#8CFF00] transition-transform duration-300 hover:-translate-y-1 sm:w-[200px]"
+              loading="lazy"
+            />
+            <figcaption className="meta text-[0.5rem] tracking-[0.14em] text-white/50">
+              BTB / VOL. 02
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
