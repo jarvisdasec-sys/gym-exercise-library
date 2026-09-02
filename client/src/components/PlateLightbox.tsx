@@ -48,6 +48,7 @@ export function PlateLightbox({
   const [view, setView] = useState<"blueprint" | "motion" | "form">(
     "blueprint",
   );
+  const [videoState, setVideoState] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     if (!exercise) return;
@@ -68,6 +69,7 @@ export function PlateLightbox({
   useEffect(() => {
     setCopied(false);
     setView("blueprint");
+    setVideoState("loading");
   }, [exercise?.slug]);
 
   if (!exercise) return null;
@@ -199,68 +201,29 @@ export function PlateLightbox({
           />
         )}
 
-        {view === "motion" &&
-          (exercise.video ? (
-            <video
-              key={exercise.video}
-              controls
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster={exercise.image}
-              className="pop-in max-h-full w-auto border border-lime/45 bg-black"
-              style={{ maxWidth: "min(100%, 960px)" }}
-            >
-              <source src={exercise.video} />
-              Your browser does not support embedded exercise video.
-            </video>
-          ) : (
-            <div className="pop-in max-w-md border border-white/15 bg-[#0b0b0b] p-6 text-center sm:p-8">
-              <PlayCircle className="mx-auto h-9 w-9 text-lime" />
-              <h3 className="display mt-4 text-xl font-bold text-white">
-                Motion demo ready when added.
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/60">
-                This guide supports MP4, WebM, and GIF demonstrations. Add a
-                video URL to this exercise to play it here alongside the plate.
-              </p>
-            </div>
-          ))}
+        {view === "motion" && (
+          <div className="pop-in w-full max-w-4xl space-y-4 py-3">
+            {exercise.video && videoState !== "error" ? (
+              <div className="relative overflow-hidden border border-lime/45 bg-black" style={{ aspectRatio: "16 / 9" }}>
+                {videoState === "loading" && <div className="absolute inset-0 z-10 flex items-center justify-center bg-black text-sm text-white/60">Loading demonstration...</div>}
+                <video key={exercise.video} controls playsInline poster={exercise.image} onCanPlay={() => setVideoState("ready")} onError={() => setVideoState("error")} className="h-full w-full bg-black object-contain">
+                  <source src={exercise.video} />
+                  Your browser does not support embedded exercise video.
+                </video>
+              </div>
+            ) : (
+              <div className="border border-white/15 bg-[#0b0b0b] p-6 text-center sm:p-8">
+                <PlayCircle className="mx-auto h-9 w-9 text-lime" />
+                <h3 className="display mt-4 text-xl font-bold text-white">Video demonstration coming soon.</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">Use the complete form guide below with this exercise blueprint.</p>
+              </div>
+            )}
+            <FormExecution exercise={exercise} compact />
+          </div>
+        )}
 
         {view === "form" && (
-          <div className="pop-in grid w-full max-w-3xl gap-4 md:grid-cols-2">
-            <div className="border border-lime/45 bg-lime/[0.06] p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-lime">
-                <ShieldCheck className="h-5 w-5" />
-                <span className="meta text-[0.55rem] font-bold">DO</span>
-              </div>
-              <h3 className="display mt-4 text-2xl font-bold text-white">
-                Build the rep.
-              </h3>
-              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/75">
-                <li>• Set up stable before the first working rep.</li>
-                <li>• Control the range and own the position that loads {exercise.primary}.</li>
-                <li>• Keep breathing deliberate; brace before the hard part.</li>
-                <li>• Stop the set when position changes, not only when the weight stalls.</li>
-              </ul>
-            </div>
-            <div className="border border-red-400/35 bg-red-400/[0.04] p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-red-300">
-                <TriangleAlert className="h-5 w-5" />
-                <span className="meta text-[0.55rem] font-bold">DON'T</span>
-              </div>
-              <h3 className="display mt-4 text-2xl font-bold text-white">
-                Feed the flaw.
-              </h3>
-              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/75">
-                <li>• Rush the eccentric or bounce through the weak point.</li>
-                <li>• Trade range of motion for heavier loading.</li>
-                <li>• Let momentum, joint shift, or posture replace the target muscle.</li>
-                <li>• Repeat painful reps. Regress, reset, and earn the pattern.</li>
-              </ul>
-            </div>
-          </div>
+          <FormExecution exercise={exercise} />
         )}
 
         <button
@@ -309,4 +272,22 @@ export function PlateLightbox({
       </div>
     </div>
   );
+}
+
+function FormExecution({ exercise, compact = false }: { exercise: IndexedExercise; compact?: boolean }) {
+  const categoryGuidance = {
+    chest: { setup: "Set the bench, handles, or bars so the shoulders stay packed and feet are planted.", movement: "Control the weight through a comfortable stretch, then press or bring the hands together without losing shoulder position.", breathing: "Inhale during the controlled return; brace and exhale through the press.", secondary: "Triceps and front delts" },
+    back: { setup: "Brace the torso and set the shoulders away from the ears before the first pull.", movement: "Drive the elbows toward the intended path, pause at the contracted position, then control the return to a full reach.", breathing: "Inhale on the reach; exhale as the elbows pull.", secondary: "Biceps, rear delts, and forearms" },
+    legs: { setup: "Set the feet and brace the trunk before lowering into the working range.", movement: "Keep pressure balanced through the foot, control the descent, then drive the floor away while knees track with the toes.", breathing: "Inhale and brace before lowering; exhale through the hardest part of the rise.", secondary: "Core and stabilizers around the hips" },
+    shoulders: { setup: "Stand or sit tall with ribs stacked over the pelvis and shoulders set down.", movement: "Move the load smoothly through the intended arc without swinging the torso or shrugging into the ears.", breathing: "Inhale on the lower; exhale as you raise or press.", secondary: "Upper back, triceps, and core" },
+    arms: { setup: "Set the upper arm position first and keep the torso quiet.", movement: "Bend or extend at the elbow with control, pause at the squeeze, then return without momentum.", breathing: "Exhale through the contraction; inhale on the controlled return.", secondary: "Forearms and shoulder stabilizers" },
+    core: { setup: "Find a stacked ribcage and pelvis, then gently brace before moving.", movement: "Keep the trunk controlled while the limbs or torso move through the planned range without holding your breath.", breathing: "Use a long exhale during the challenging phase while keeping the abdomen braced.", secondary: "Hip and shoulder stabilizers" },
+  }[exercise.category];
+  const cues = ["Set up stable before the first working rep.", `Control the range that loads ${exercise.primary}.`, "Keep the neck long and shoulders away from the ears.", "Stop the set when position changes, not only when the weight stalls."];
+  const mistakes = ["Rushing the eccentric or bouncing through the weak point.", "Trading usable range of motion for heavier loading.", "Letting momentum, joint shift, or posture replace the target muscle."];
+  return <section className={`w-full ${compact ? "border border-white/15 bg-[#0b0b0b] p-5" : "pop-in max-w-4xl"}`}>
+    <div className="flex items-center gap-2 text-lime"><ShieldCheck className="h-5 w-5" /><span className="meta text-[0.55rem] font-bold">FORM EXECUTION</span></div>
+    <div className="mt-4 grid gap-4 md:grid-cols-2"><div className="border border-lime/35 bg-lime/[0.05] p-4"><h3 className="display text-lg font-bold text-white">How to perform</h3><div className="mt-3 space-y-3 text-sm leading-relaxed text-white/75"><p><span className="font-semibold text-lime">Setup:</span> {categoryGuidance.setup}</p><p><span className="font-semibold text-lime">Movement:</span> {categoryGuidance.movement}</p><p><span className="font-semibold text-lime">Breathing:</span> {categoryGuidance.breathing}</p></div></div><div className="border border-white/15 p-4"><h3 className="display text-lg font-bold text-white">Muscles</h3><p className="mt-3 text-sm text-white/75"><span className="font-semibold text-lime">Primary:</span> {exercise.primary}</p><p className="mt-2 text-sm text-white/75"><span className="font-semibold text-lime">Secondary:</span> {categoryGuidance.secondary}</p><h3 className="display mt-5 text-lg font-bold text-white">Key cues</h3><ul className="mt-3 space-y-2 text-sm text-white/75">{cues.map((cue) => <li key={cue}>• {cue}</li>)}</ul></div></div>
+    <div className="mt-4 border border-red-400/35 bg-red-400/[0.04] p-4"><div className="flex items-center gap-2 text-red-300"><TriangleAlert className="h-4 w-4" /><span className="meta text-[0.5rem] font-bold">COMMON MISTAKES</span></div><ul className="mt-3 space-y-2 text-sm text-white/75">{mistakes.map((mistake) => <li key={mistake}>• {mistake}</li>)}</ul></div>
+  </section>;
 }
