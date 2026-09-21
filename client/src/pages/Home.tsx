@@ -41,7 +41,7 @@ import {
   type Difficulty,
   type IndexedExercise,
 } from "@/lib/exercises";
-import { getWodForDate } from "@/lib/wod";
+import { useDailyWod } from "@/hooks/useDailyWod";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<CategoryId | "all">(
@@ -451,7 +451,7 @@ export default function Home() {
 }
 
 function HomepageWodCard() {
-  const workout = getWodForDate();
+  const { workout } = useDailyWod();
 
   return (
     <section
@@ -468,7 +468,7 @@ function HomepageWodCard() {
               <div className="btb-wod-kicker flex items-center gap-3">
                 <Flame className="h-5 w-5 text-lime" aria-hidden="true" />
                 <span className="meta text-[0.5rem] font-bold text-lime">
-                  Daily Training Sheet
+                  Today's Workout
                 </span>
               </div>
 

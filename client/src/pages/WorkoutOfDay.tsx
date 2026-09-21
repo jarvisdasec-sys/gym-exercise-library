@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/contexts/AuthContext";
-import { formatWodDate, getWodForDate } from "@/lib/wod";
+import { formatWodDate } from "@/lib/wod";
+import { useDailyWod } from "@/hooks/useDailyWod";
 import {
   completeWorkout,
   saveWorkout,
@@ -18,12 +19,16 @@ import {
 } from "lucide-react";
 
 export default function WorkoutOfDay() {
+  const { dateKey } = useDailyWod();
+  return <DailyWorkout key={dateKey} />;
+}
+
+function DailyWorkout() {
   const { user } = useAuth();
-  const today = new Date();
-  const workout = getWodForDate(today);
+  const { today, dateKey, workout } = useDailyWod();
   const [notice, setNotice] = useState("");
   const toolWorkout: ToolWorkout = {
-    id: `wod-${today.toISOString().slice(0, 10)}`,
+    id: `wod-${dateKey}`,
     title: workout.title,
     duration: Number.parseInt(workout.duration) || 45,
     format: "Standard",
@@ -52,7 +57,7 @@ export default function WorkoutOfDay() {
           <div className="mb-3.5 flex items-center gap-3">
             <span className="h-px w-8 bg-lime" />
             <span className="meta text-[0.45rem] text-lime">
-              Daily Training Sheet · {formatWodDate(today)}
+              Today's Workout · {formatWodDate(today)}
             </span>
           </div>
           <h1 className="display text-[2.5rem] font-bold leading-[0.88] text-white sm:text-[3.5rem]">
@@ -135,6 +140,11 @@ export default function WorkoutOfDay() {
                 </h2>
                 <span className="meta text-[0.5rem] text-lime">02</span>
               </div>
+              {workout.instructions && (
+                <p className="mt-4 text-sm leading-relaxed text-white/65">
+                  {workout.instructions}
+                </p>
+              )}
               <ol className="divide-y divide-white/10">
                 {workout.exercises.map((exercise, index) => (
                   <li
