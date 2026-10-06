@@ -15,7 +15,7 @@
 import { useEffect, useMemo } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { Link, useParams } from "wouter";
-import { ArrowRight, Bookmark, Download, Dumbbell, ExternalLink, QrCode, Video } from "lucide-react";
+import { ArrowRight, Bookmark, Download, Dumbbell, QrCode } from "lucide-react";
 import { PlateQr } from "@/components/PlateQr";
 import { plateUrl, plateUrlLabel } from "@/lib/plateUrl";
 import { CATEGORIES, INDEXED_EXERCISES } from "@/lib/exercises";
@@ -23,7 +23,6 @@ import { WORKOUTS } from "@/lib/workouts";
 import { getExerciseGuide } from "@/lib/exerciseGuides";
 import { useSaved } from "@/contexts/SavedContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { getExerciseVideo } from "@/lib/exerciseVideos";
 
 export default function ExercisePlate() {
   const params = useParams<{ slug: string }>();
@@ -91,7 +90,6 @@ export default function ExercisePlate() {
     exercise.category;
   const url = plateUrl(exercise.slug);
   const guide = getExerciseGuide(exercise);
-  const video = getExerciseVideo(exercise.slug);
   const saved = isFavorite(exercise.slug);
 
   return (
@@ -213,33 +211,6 @@ export default function ExercisePlate() {
           </aside>
         </div>
       </div>
-
-      {video && (
-        <section className="border-y border-white/10 bg-black/30">
-          <div className="container py-8 sm:py-10">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <div className="mb-2 flex items-center gap-2 text-lime"><Video className="h-4 w-4" /><span className="meta text-[0.45rem] font-bold">Watch the movement</span></div>
-                <h2 className="display text-2xl font-bold text-white">See the standard. Then own your reps.</h2>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/55">A third-party demonstration paired with BTB coaching cues. Turn captions on when training without sound.</p>
-              </div>
-              <a href={`https://www.youtube.com/watch?v=${video.id}&cc_load_policy=1`} target="_blank" rel="noreferrer" className="meta inline-flex items-center gap-2 border border-lime/35 px-3 py-2 text-[0.42rem] text-lime hover:bg-lime/10"><ExternalLink className="h-3 w-3" />Open video / transcript</a>
-            </div>
-            <div className="mt-6 grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-              <div className="overflow-hidden border border-white/15 bg-black" style={{ aspectRatio: "16 / 9" }}>
-                <iframe className="h-full w-full" src={`https://www.youtube-nocookie.com/embed/${video.id}?cc_load_policy=1&rel=0`} title={`${exercise.name} form demonstration`} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
-              </div>
-              <div className="border border-white/12 p-4">
-                <div className="meta text-[0.42rem] text-lime">{video.sourceLabel}</div>
-                <h3 className="display mt-2 text-lg font-semibold text-white">{video.title}</h3>
-                <div className="mt-4 border-t border-white/10 pt-3"><div className="meta text-[0.4rem] text-white/35">BTB FOCUS</div><p className="mt-1.5 text-sm leading-relaxed text-white/65">{video.focus}</p></div>
-                <div className="mt-4 border-t border-white/10 pt-3"><div className="meta text-[0.4rem] text-lime">SAFETY CHECK</div><p className="mt-1.5 text-sm leading-relaxed text-white/65">{video.safety}</p></div>
-                <p className="meta mt-4 text-[0.38rem] leading-relaxed text-white/35">External video links open YouTube. BTB does not control the third-party video or its captions.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ── premium coaching guide ─────────────────────────────────── */}
       <section className="border-y border-white/10 bg-white/[0.02]">

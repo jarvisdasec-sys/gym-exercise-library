@@ -19,7 +19,6 @@
     { "path": "/learn", "title": "BTB Education" },
     { "path": "/learn/:slug", "title": "Education Article" },
     { "path": "/stickers", "title": "Machine Stickers" },
-    { "path": "/account", "title": "Member Dashboard" },
     { "path": "/saved", "title": "Saved Movements" },
     { "path": "/reset-password", "title": "Reset Password" }
   ]
