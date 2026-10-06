@@ -11,10 +11,10 @@
  * section, corner registration ticks, coach-direct imperative copy.
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { Link, useParams } from "wouter";
-import { Check, Clock, Layers, Printer, RotateCcw, TriangleAlert } from "lucide-react";
+import { Check, Clock, Layers, Pause, Play, Printer, RotateCcw, TriangleAlert } from "lucide-react";
 import { INDEXED_EXERCISES } from "@/lib/exercises";
 import { WORKOUTS, getWorkout, totalExercises, totalSets } from "@/lib/workouts";
 import { getProgramWorkout } from "@/lib/programs";
@@ -42,8 +42,42 @@ export default function WorkoutSession() {
     [params.slug, programWorkout],
   );
 
-  /** Completed movement keys, e.g. "0-2". Session-local, resets on reload. */
+  /** Completed movement keys, e.g. "0-2". Persisted on this device per session. */
   const [done, setDone] = useState<Set<string>>(new Set());
+  const [restSeconds, setRestSeconds] = useState(0);
+  const [restRunning, setRestRunning] = useState(false);
+
+  useEffect(() => {
+    if (!workout) return;
+    try {
+      const saved = window.localStorage.getItem(`btb-session-progress:${workout.slug}`);
+      setDone(saved ? new Set(JSON.parse(saved) as string[]) : new Set());
+    } catch {
+      setDone(new Set());
+    }
+  }, [workout?.slug]);
+
+  useEffect(() => {
+    if (!workout) return;
+    window.localStorage.setItem(
+      `btb-session-progress:${workout.slug}`,
+      JSON.stringify(Array.from(done)),
+    );
+  }, [done, workout?.slug]);
+
+  useEffect(() => {
+    if (!restRunning) return;
+    const timer = window.setInterval(() => {
+      setRestSeconds((current) => {
+        if (current <= 1) {
+          setRestRunning(false);
+          return 0;
+        }
+        return current - 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [restRunning]);
 
   const toggle = (key: string) => {
     setDone((prev) => {
@@ -142,6 +176,33 @@ export default function WorkoutSession() {
                 </button>
               )}
             </div>
+          </div>
+
+          <div className="no-print mt-5 flex flex-wrap items-center gap-3 border border-lime/25 bg-lime/[0.04] p-3 sm:max-w-lg">
+            <Clock className="h-4 w-4 text-lime" />
+            <div className="min-w-0 flex-1">
+              <p className="meta text-[0.43rem] font-bold text-lime">Rest clock</p>
+              <p className="mt-1 text-xs text-white/55">Keep the timer here while you move through the sheet.</p>
+            </div>
+            <output className="display text-2xl font-bold text-white" aria-live="polite">
+              {String(Math.floor(restSeconds / 60)).padStart(2, "0")}:{String(restSeconds % 60).padStart(2, "0")}
+            </output>
+            <button
+              type="button"
+              onClick={() => setRestRunning((running) => !running)}
+              disabled={restSeconds === 0}
+              className="flex items-center gap-2 border border-white/20 px-3 py-2 text-white transition-colors hover:border-lime hover:text-lime disabled:cursor-not-allowed disabled:opacity-35"
+            >
+              {restRunning ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
+              <span className="meta text-[0.45rem]">{restRunning ? "Pause" : "Start"}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setRestRunning(false); setRestSeconds(90); }}
+              className="border border-lime bg-lime px-3 py-2 text-black transition-colors hover:bg-lime-dim"
+            >
+              <span className="meta text-[0.45rem] font-bold">90s reset</span>
+            </button>
           </div>
 
           {/* readout */}
@@ -294,6 +355,13 @@ export default function WorkoutSession() {
                             </span>
                             {item.cue}
                           </p>
+                          <button
+                            type="button"
+                            onClick={() => { setRestSeconds(90); setRestRunning(true); }}
+                            className="no-print mt-2 border border-white/15 px-2 py-1 transition-colors hover:border-lime hover:text-lime"
+                          >
+                            <span className="meta text-[0.38rem]">Start 90s rest</span>
+                          </button>
                         </div>
                       </div>
                     );
