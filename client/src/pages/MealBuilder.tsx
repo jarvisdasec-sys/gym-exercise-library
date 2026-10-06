@@ -14,11 +14,11 @@
  * carries either a `slug` (USDA) or an embedded `product` (packaged), and all
  * totals are derived from whichever is present — macros are never duplicated.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
 import { toast } from "sonner";
-import { Check, Minus, Package, Plus, RotateCcw, Search, Trash2, X } from "lucide-react";
+import { Bookmark, Check, Minus, Package, Plus, RotateCcw, Search, Trash2, X } from "lucide-react";
 import { MacroBar, MacroReadout } from "@/components/MacroBar";
 import {
   PackagedFoodPicker,
@@ -44,6 +44,12 @@ import {
   saveLog,
   todayKey,
 } from "@/lib/tracker";
+import {
+  loadSavedMeals,
+  makeSavedMeal,
+  persistSavedMeals,
+  type SavedMeal,
+} from "@/lib/savedMeals";
 
 const CATEGORIES = Object.keys(CATEGORY_META) as FoodCategory[];
 
@@ -83,6 +89,12 @@ export default function MealBuilder() {
   const [cat, setCat] = useState<FoodCategory | "all">("all");
   const [slot, setSlot] = useState<string>("Lunch");
   const [packagedOpen, setPackagedOpen] = useState(false);
+  const [savedMeals, setSavedMeals] = useState<SavedMeal[]>([]);
+  const [saveName, setSaveName] = useState("");
+
+  useEffect(() => {
+    setSavedMeals(loadSavedMeals());
+  }, []);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -198,6 +210,27 @@ export default function MealBuilder() {
       description: `${Math.round(totals.kcal)} kcal added to today.`,
     });
     setPlate([]);
+  }
+
+  function saveCurrentMeal() {
+    if (plate.length === 0) return;
+    const next = [makeSavedMeal(saveName, slot, plate), ...savedMeals].slice(0, 20);
+    setSavedMeals(next);
+    persistSavedMeals(next);
+    setSaveName("");
+    toast.success("Meal saved on this device", { description: "Load it again from the saved meals list." });
+  }
+
+  function loadSavedMeal(meal: SavedMeal) {
+    setPlate(meal.items);
+    setSlot(meal.slot);
+    toast.success(`${meal.name} loaded`, { description: "Adjust the grams before logging it." });
+  }
+
+  function removeSavedMeal(id: string) {
+    const next = savedMeals.filter((meal) => meal.id !== id);
+    setSavedMeals(next);
+    persistSavedMeals(next);
   }
 
   return (
@@ -600,6 +633,40 @@ export default function MealBuilder() {
                     Saved on this device only. Nothing is uploaded anywhere.
                   </p>
                 </div>
+
+                <div className="mt-3 border border-white/12 p-3.5">
+                  <div className="mb-2 flex items-center gap-2">
+                    <Bookmark className="h-3.5 w-3.5 text-lime" />
+                    <span className="meta text-[0.4rem] font-bold text-lime">Save this plate</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      value={saveName}
+                      onChange={(e) => setSaveName(e.target.value)}
+                      placeholder={`${slot} plate`}
+                      aria-label="Saved meal name"
+                      className="min-w-0 flex-1 border border-white/15 bg-white/[0.03] px-2.5 py-2 text-sm text-white placeholder:text-white/30 focus:border-lime focus:outline-none"
+                    />
+                    <button type="button" onClick={saveCurrentMeal} className="border border-lime px-3 py-2 text-lime transition-colors hover:bg-lime/10">
+                      <span className="meta text-[0.4rem] font-bold">Save</span>
+                    </button>
+                  </div>
+                </div>
+
+                {savedMeals.length > 0 && (
+                  <div className="mt-3 border border-white/12 p-3.5">
+                    <div className="meta mb-2 text-[0.4rem] text-white/45">Saved meals · {savedMeals.length}/20</div>
+                    <div className="space-y-1.5">
+                      {savedMeals.slice(0, 5).map((meal) => (
+                        <div key={meal.id} className="flex items-center gap-2 border-b border-white/10 py-2 last:border-0">
+                          <button type="button" onClick={() => loadSavedMeal(meal)} className="min-w-0 flex-1 truncate text-left text-sm text-white hover:text-lime">{meal.name}</button>
+                          <span className="meta text-[0.36rem] text-white/35">{meal.slot}</span>
+                          <button type="button" onClick={() => removeSavedMeal(meal.id)} aria-label={`Delete ${meal.name}`} className="text-white/30 hover:text-lime"><Trash2 className="h-3 w-3" /></button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>

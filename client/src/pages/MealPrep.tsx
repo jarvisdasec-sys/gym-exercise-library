@@ -10,7 +10,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
-import { ArrowRight, ChefHat, Clock, Package } from "lucide-react";
+import { ArrowRight, Check, ChefHat, Clock, Copy, Package } from "lucide-react";
 import { MacroBar, MacroReadout } from "@/components/MacroBar";
 import { getFood } from "@/lib/foods";
 import {
@@ -33,6 +33,8 @@ const SLOT_ORDER: MealSlot[] = [
 export default function MealPrep() {
   const [planSlug, setPlanSlug] = useState(PREP_PLANS[0].slug);
   const [openMeal, setOpenMeal] = useState<string | null>(null);
+  const [dietFilter, setDietFilter] = useState("All meals");
+  const [copied, setCopied] = useState(false);
 
   const plan = PREP_PLANS.find((p) => p.slug === planSlug) ?? PREP_PLANS[0];
 
@@ -58,10 +60,37 @@ export default function MealPrep() {
     () =>
       SLOT_ORDER.map((slot) => ({
         slot,
-        items: MEALS.filter((m) => m.slot === slot),
+        items: MEALS.filter((m) => {
+          if (m.slot !== slot) return false;
+          if (dietFilter === "All meals") return true;
+          return m.tags.some((tag) => tag.toLowerCase() === dietFilter.toLowerCase());
+        }),
       })).filter((g) => g.items.length > 0),
-    [],
+    [dietFilter],
   );
+
+  const groceryItems = useMemo(() => {
+    const totals = new Map<string, number>();
+    for (const mealSlug of plan.meals) {
+      const meal = getMeal(mealSlug);
+      meal?.items.forEach((item) => totals.set(item.slug, (totals.get(item.slug) ?? 0) + item.grams));
+    }
+    return Array.from(totals.entries())
+      .map(([slug, grams]) => ({ name: getFood(slug)?.name ?? slug, grams }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [plan]);
+
+  const groceryText = `${plan.name} grocery list\n${groceryItems.map((item) => `- ${item.name}: ${item.grams} g`).join("\n")}`;
+
+  async function copyGroceryList() {
+    try {
+      await navigator.clipboard.writeText(groceryText);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
+  }
 
   return (
     <div className="min-h-screen">
@@ -150,6 +179,20 @@ export default function MealPrep() {
               </button>
             );
           })}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-2 border border-white/12 p-3.5">
+          <span className="meta mr-1 text-[0.42rem] text-lime">Filter meals</span>
+          {["All meals", "High protein", "Plant based", "Quick", "Meal prep"].map((filter) => (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => setDietFilter(filter)}
+              className={`meta border px-2.5 py-1.5 text-[0.4rem] transition-colors ${dietFilter === filter ? "border-lime bg-lime/10 text-lime" : "border-white/15 text-white/50 hover:border-lime hover:text-lime"}`}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
 
         {/* ══ ACTIVE PLAN ════════════════════════════════════════════ */}
@@ -247,6 +290,27 @@ export default function MealPrep() {
                   This is the combined total of one portion of each meal below —
                   a reference figure, not a daily target.
                 </p>
+              </div>
+
+              <div className="mt-4 border border-white/12 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <div className="meta text-[0.42rem] text-lime">Shopping run</div>
+                    <h3 className="display mt-2 text-lg font-bold text-white">Grocery list</h3>
+                  </div>
+                  <button type="button" onClick={copyGroceryList} className="flex items-center gap-1.5 border border-lime/35 px-2.5 py-2 text-lime hover:bg-lime/10">
+                    {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                    <span className="meta text-[0.38rem]">{copied ? "Copied" : "Copy"}</span>
+                  </button>
+                </div>
+                <ul className="mt-3 space-y-1.5 border-t border-white/10 pt-3">
+                  {groceryItems.map((item) => (
+                    <li key={item.name} className="flex justify-between gap-3 text-xs text-white/65">
+                      <span>{item.name}</span>
+                      <span className="meta text-[0.4rem] text-white/40">{item.grams} g</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="meta mb-2.5 mt-5 text-[0.45rem] text-white/40">
@@ -478,4 +542,3 @@ function MealCard({
     </div>
   );
 }
-
