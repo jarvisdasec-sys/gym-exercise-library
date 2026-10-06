@@ -36,76 +36,78 @@ function Router() {
   return (
     <Suspense fallback={<RouteLoading />}>
       <Switch>
-      {/* Legacy public URLs: keep existing bookmarks and production tabs useful. */}
-      <Route path="/exercises">
-        <Redirect to="/" />
-      </Route>
-      <Route path="/physical-fitness/running">
-        <Redirect to="/cardio" />
-      </Route>
-      <Route path="/fitness/warm-up-and-cooldown">
-        <Redirect to="/mobility" />
-      </Route>
-      <Route path="/fitness-calculators/bmi">
-        <Redirect to="/calculators#bmi" />
-      </Route>
-      <Route path="/fitness-calculators">
-        <Redirect to="/calculators" />
-      </Route>
-      <Route path="/fitness">
-        <Redirect to="/learn" />
-      </Route>
-      <Route path="/workouts/today">
-        <Redirect to="/wod" />
-      </Route>
-      <Route path="/resources">
-        <Redirect to="/learn" />
-      </Route>
-      <Route path="/app">
-        <Redirect to="/" />
-      </Route>
-      <Route path="/downloads">
-        <Redirect to="/stickers" />
-      </Route>
-      <Route path="/account" component={Account} />
-      <Route path="/nutrition/foods">
-        <Redirect to="/nutrition" />
-      </Route>
-      <Route path="/nutrition/education">
-        <Redirect to="/learn" />
-      </Route>
-      <Route path="/nutrition/grocery-planner">
-        <Redirect to="/nutrition/meal-prep" />
-      </Route>
-      <Route path="/nutrition/search">
-        <Redirect to="/nutrition" />
-      </Route>
-      <Route path={"/"} component={Home} />
-      <Route path={"/e/:slug"} component={ExercisePlate} />
-      <Route path={"/workouts"} component={Workouts} />
-      <Route path={"/wod"} component={WorkoutOfDay} />
-      <Route path={"/workouts/tools"} component={WorkoutTools} />
-      <Route path={"/workouts/builder"} component={WorkoutBuilder} />
-      <Route
-        path={"/workouts/programs/:programId/:week/:day"}
-        component={WorkoutSession}
-      />
-      <Route path={"/workouts/:slug"} component={WorkoutSession} />
-      <Route path={"/cardio"} component={Cardio} />
-      <Route path={"/cardio/:slug"} component={CardioSession} />
-      <Route path={"/mobility"} component={Mobility} />
-      <Route path={"/nutrition"} component={Nutrition} />
-      <Route path={"/nutrition/builder"} component={MealBuilder} />
-      <Route path={"/nutrition/meal-prep"} component={MealPrep} />
-      <Route path={"/nutrition/tracker"} component={Tracker} />
-      <Route path={"/calculators"} component={Calculators} />
-      <Route path={"/learn"} component={Education} />
-      <Route path={"/learn/:slug"} component={EduArticle} />
-      <Route path={"/stickers"} component={StickerSheet} />
-      <Route path={"/saved"} component={SavedWorkouts} />
-      <Route path={"/reset-password"} component={ResetPassword} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
+        {/* Legacy public URLs: keep existing bookmarks and production tabs useful. */}
+        <Route path="/exercises">
+          <Redirect to="/" />
+        </Route>
+        <Route path="/physical-fitness/running">
+          <Redirect to="/cardio" />
+        </Route>
+        <Route path="/fitness/warm-up-and-cooldown">
+          <Redirect to="/mobility" />
+        </Route>
+        <Route path="/fitness-calculators/bmi">
+          <Redirect to="/calculators#bmi" />
+        </Route>
+        <Route path="/fitness-calculators">
+          <Redirect to="/calculators" />
+        </Route>
+        <Route path="/fitness">
+          <Redirect to="/learn" />
+        </Route>
+        <Route path="/workouts/today">
+          <Redirect to="/wod" />
+        </Route>
+        <Route path="/resources">
+          <Redirect to="/learn" />
+        </Route>
+        <Route path="/app">
+          <Redirect to="/" />
+        </Route>
+        <Route path="/downloads">
+          <Redirect to="/stickers" />
+        </Route>
+        <Route path="/account" component={Account} />
+        <Route path="/nutrition/foods">
+          <Redirect to="/nutrition" />
+        </Route>
+        <Route path="/nutrition/education">
+          <Redirect to="/learn" />
+        </Route>
+        <Route path="/nutrition/grocery-planner">
+          <Redirect to="/nutrition/meal-prep" />
+        </Route>
+        <Route path="/nutrition/search">
+          <Redirect to="/nutrition" />
+        </Route>
+
+        <Route path="/" component={Home} />
+        <Route path="/e/:slug" component={ExercisePlate} />
+        <Route path="/workouts" component={Workouts} />
+        <Route path="/wod" component={WorkoutOfDay} />
+        <Route path="/workouts/tools" component={WorkoutTools} />
+        <Route path="/workouts/builder" component={WorkoutBuilder} />
+        <Route
+          path="/workouts/programs/:programId/:week/:day"
+          component={WorkoutSession}
+        />
+        <Route path="/workouts/:slug" component={WorkoutSession} />
+        <Route path="/cardio" component={Cardio} />
+        <Route path="/cardio/:slug" component={CardioSession} />
+        <Route path="/mobility" component={Mobility} />
+        <Route path="/nutrition" component={Nutrition} />
+        <Route path="/nutrition/builder" component={MealBuilder} />
+        <Route path="/nutrition/meal-prep" component={MealPrep} />
+        <Route path="/nutrition/tracker" component={Tracker} />
+        <Route path="/calculators" component={Calculators} />
+        <Route path="/learn" component={Education} />
+        <Route path="/learn/:slug" component={EduArticle} />
+        <Route path="/stickers" component={StickerSheet} />
+        <Route path="/saved" component={SavedWorkouts} />
+        <Route path="/reset-password" component={ResetPassword} />
+        <Route path="/404" component={NotFound} />
+
+        {/* Final fallback route */}
         <Route component={NotFound} />
       </Switch>
     </Suspense>
@@ -124,17 +126,14 @@ function RouteLoading() {
 }
 
 // NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
+// - First choose a default theme according to your design style (dark or light bg), then change color palette in index.css
+//   to keep consistent foreground/background across components.
+// - If you want to make theme switchable, pass switchable ThemeProvider and use the useTheme hook.
 
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="dark">
         <AuthProvider>
           <SavedProvider>
             <TooltipProvider>
