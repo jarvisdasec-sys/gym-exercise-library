@@ -10,12 +10,14 @@
  * cited claim stays traceable. Warn callouts are visually distinct from notes
  * because several of them carry genuine safety information.
  */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useRoute } from "wouter";
 import {
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
+  Bookmark,
+  Check,
   Clock,
   ExternalLink,
   Info,
@@ -27,6 +29,7 @@ import { findArticle, articleNeighbours, sectionMeta } from "@/lib/eduIndex";
 import type { EduBlock } from "@/lib/education";
 import { EXERCISES } from "@/lib/exercises";
 import { WORKOUTS } from "@/lib/workouts";
+import { loadEduBookmarks, loadEduCompleted, toggleEduBookmark, toggleEduCompleted } from "@/lib/eduProgress";
 
 export default function EduArticle() {
   const [, params] = useRoute("/learn/:slug");
@@ -37,10 +40,16 @@ export default function EduArticle() {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  const [bookmarks, setBookmarks] = useState<string[]>(() => loadEduBookmarks());
+  const [completed, setCompleted] = useState<string[]>(() => loadEduCompleted());
+
   if (!article) return <NotFound />;
 
   const section = sectionMeta(article.section);
   const { prev, next } = articleNeighbours(slug);
+
+  const bookmarked = bookmarks.includes(article.slug);
+  const isCompleted = completed.includes(article.slug);
 
   return (
     <div className="min-h-screen">
@@ -73,6 +82,16 @@ export default function EduArticle() {
             {article.summary}
           </p>
           <div className="hazard-rule mt-5" />
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button type="button" onClick={() => setBookmarks(toggleEduBookmark(article.slug, bookmarks))} className={`flex items-center gap-2 border px-3 py-2.5 ${bookmarked ? "border-lime bg-lime text-black" : "border-white/15 text-white/60 hover:border-lime hover:text-lime"}`}>
+              <Bookmark className="h-3.5 w-3.5" fill={bookmarked ? "currentColor" : "none"} />
+              <span className="meta text-[0.42rem] font-bold">{bookmarked ? "Saved" : "Save article"}</span>
+            </button>
+            <button type="button" onClick={() => setCompleted(toggleEduCompleted(article.slug, completed))} className={`flex items-center gap-2 border px-3 py-2.5 ${isCompleted ? "border-lime bg-lime text-black" : "border-white/15 text-white/60 hover:border-lime hover:text-lime"}`}>
+              <Check className="h-3.5 w-3.5" />
+              <span className="meta text-[0.42rem] font-bold">{isCompleted ? "Completed" : "Mark complete"}</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -358,4 +377,3 @@ function Block({ block }: { block: EduBlock }) {
       return null;
   }
 }
-

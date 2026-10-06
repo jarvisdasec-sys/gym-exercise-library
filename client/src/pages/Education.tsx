@@ -11,9 +11,9 @@
  *    hazard rule per section header are mandatory system language.
  *  - Copy is coach-direct and imperative. Meta text is mono caps.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
-import { BookOpen, ChevronRight, Clock, ShieldAlert } from "lucide-react";
+import { BookOpen, Bookmark, Check, ChevronRight, Clock, Search, ShieldAlert } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { BtbHeroMedia } from "@/components/BtbHeroMedia";
 import { BtbLogo } from "@/components/BtbLogo";
@@ -23,17 +23,31 @@ import {
   articlesInSection,
   totalReadMinutes,
 } from "@/lib/eduIndex";
+import { loadEduBookmarks, loadEduCompleted } from "@/lib/eduProgress";
 
 export default function Education() {
   const [active, setActive] = useState<EduSectionKey | "all">("all");
+  const [query, setQuery] = useState("");
+  const [bookmarkedOnly, setBookmarkedOnly] = useState(false);
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [completed, setCompleted] = useState<string[]>([]);
+
+  useEffect(() => {
+    setBookmarks(loadEduBookmarks());
+    setCompleted(loadEduCompleted());
+  }, []);
 
   const visibleSections = useMemo(
-    () =>
-      active === "all"
-        ? EDU_SECTIONS
-        : EDU_SECTIONS.filter((s) => s.key === active),
+    () => (active === "all" ? EDU_SECTIONS : EDU_SECTIONS.filter((s) => s.key === active)),
     [active],
   );
+
+  const search = query.trim().toLowerCase();
+  const visibleArticles = (section: EduSectionKey) => articlesInSection(section).filter((article) => {
+    if (bookmarkedOnly && !bookmarks.includes(article.slug)) return false;
+    if (!search) return true;
+    return `${article.title} ${article.summary} ${section}`.toLowerCase().includes(search);
+  });
 
   const totalMinutes = totalReadMinutes();
 
@@ -66,6 +80,7 @@ export default function Education() {
               <Stat value={String(EDU_ARTICLES.length)} label="Articles" />
               <Stat value={String(EDU_SECTIONS.length)} label="Sections" />
               <Stat value={`${totalMinutes}`} label="Min total read" />
+              <Stat value={`${completed.length}/${EDU_ARTICLES.length}`} label="Completed" />
             </div>
           </div>
         </div>
@@ -113,6 +128,16 @@ export default function Education() {
 
         {/* wall */}
         <main className="min-w-0 flex-1">
+          <div className="mb-6 flex flex-col gap-3 border border-white/12 p-3.5 sm:flex-row sm:items-center">
+            <div className="relative min-w-0 flex-1">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/35" />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the knowledge base" aria-label="Search education articles" className="h-10 w-full border border-white/15 bg-white/[0.03] pl-9 pr-3 text-sm text-white placeholder:text-white/35 focus:border-lime focus:outline-none" />
+            </div>
+            <button type="button" onClick={() => setBookmarkedOnly((value) => !value)} className={`flex shrink-0 items-center justify-center gap-2 border px-3 py-2.5 ${bookmarkedOnly ? "border-lime bg-lime text-black" : "border-white/15 text-white/60 hover:border-lime hover:text-lime"}`}>
+              <Bookmark className="h-3.5 w-3.5" />
+              <span className="meta text-[0.42rem] font-bold">Saved · {bookmarks.length}</span>
+            </button>
+          </div>
           {/* mobile section chips */}
           <div className="no-print mb-6 flex gap-2 overflow-x-auto pb-1 lg:hidden">
             <Chip
@@ -131,7 +156,7 @@ export default function Education() {
           </div>
 
           {visibleSections.map((section, si) => {
-            const articles = articlesInSection(section.key);
+            const articles = visibleArticles(section.key);
             return (
               <section key={section.key} className="mb-14 last:mb-6">
                 {/* section header with the mandated hazard rule */}
@@ -187,9 +212,10 @@ export default function Education() {
                         </span>
                       </div>
 
-                      <h3 className="display text-[1.05rem] leading-tight text-white transition-colors duration-200 group-hover:text-lime">
-                        {a.title}
-                      </h3>
+                      <div className="flex items-start gap-2">
+                        <h3 className="display min-w-0 flex-1 text-[1.05rem] leading-tight text-white transition-colors duration-200 group-hover:text-lime">{a.title}</h3>
+                        {completed.includes(a.slug) && <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-lime" aria-label="Completed" />}
+                      </div>
                       <p className="mt-2 flex-1 text-[0.8rem] leading-relaxed text-white/48">
                         {a.summary}
                       </p>
