@@ -3,6 +3,7 @@ import { LogOut, UserRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { isValidEmail } from "@/lib/passwordRecovery";
+import { Link } from "wouter";
 
 export function AuthControl() {
   const { user, configured, requestPasswordReset, signIn, signInWithGoogle, signOut, signUp } = useAuth();
@@ -36,11 +37,13 @@ export function AuthControl() {
 
   if (user) {
     return (
-      <button type="button" onClick={() => signOut()} className="inline-flex items-center gap-2 border border-white/15 px-3 py-2 text-xs text-white/75 transition-colors hover:border-lime hover:text-lime">
-        <UserRound className="h-3.5 w-3.5" />
-        <span className="max-w-24 truncate">{user.email?.split("@")[0] ?? "Account"}</span>
-        <LogOut className="h-3.5 w-3.5" />
-      </button>
+      <div className="inline-flex items-center gap-2 border border-white/15 px-2 py-1.5 text-xs text-white/75">
+        <Link href="/account" className="inline-flex items-center gap-2 transition-colors hover:text-lime">
+          <UserRound className="h-3.5 w-3.5" />
+          <span className="max-w-24 truncate">{user.email?.split("@")[0] ?? "Account"}</span>
+        </Link>
+        <button type="button" aria-label="Sign out" onClick={() => signOut()} className="text-white/45 transition-colors hover:text-lime"><LogOut className="h-3.5 w-3.5" /></button>
+      </div>
     );
   }
 
