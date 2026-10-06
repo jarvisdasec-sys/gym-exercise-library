@@ -15,6 +15,7 @@ import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { BookOpen, ChevronRight, Clock, ShieldAlert } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
+import { BtbHeroMedia } from "@/components/BtbHeroMedia";
 import { BtbLogo } from "@/components/BtbLogo";
 import { EDU_SECTIONS, type EduSectionKey } from "@/lib/education";
 import {
@@ -41,7 +42,8 @@ export default function Education() {
       <SiteNav active="education" />
 
       {/* ── masthead: compact index header, not a marketing hero ─────── */}
-      <section className="border-b border-white/10">
+      <section className="relative isolate overflow-hidden border-b border-white/10">
+        <BtbHeroMedia src="/images/site/btb-resources-hero.jpg" alt="Training notebook and resistance band on a dark gym bench" />
         <div className="container py-8 sm:py-10">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="min-w-0">

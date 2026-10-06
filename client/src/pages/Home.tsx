@@ -18,6 +18,7 @@ import { BtbLogo } from "@/components/BtbLogo";
 import { BookSpotlight } from "@/components/BookSpotlight";
 import { FreeChapterModal } from "@/components/FreeChapterModal";
 import { SuggestionBox } from "@/components/SuggestionBox";
+import { BtbHeroMedia } from "@/components/BtbHeroMedia";
 import {
   Apple,
   ArrowRight,
@@ -155,6 +156,7 @@ export default function Home() {
       <section className="relative isolate overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 bg-black" />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/78 to-black/25" />
+        <BtbHeroMedia src="/images/site/btb-movement-index-hero.jpg" alt="Athlete training with a barbell in a dark gym" />
 
         <div className="container relative">
           <div className="flex flex-col gap-8 py-9 lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:py-11">

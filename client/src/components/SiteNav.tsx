@@ -29,6 +29,7 @@ import { useState } from "react";
 import { BtbLogo } from "@/components/BtbLogo";
 import { AuthControl } from "@/components/AuthControl";
 import { useAuth } from "@/contexts/AuthContext";
+import { ROUTES } from "@/lib/routes";
 
 export type NavKey =
   | "plates"
@@ -51,49 +52,49 @@ const TABS: {
   {
     key: "plates",
     label: "Exercises",
-    href: "/",
+    href: ROUTES.exercises,
     icon: LayoutGrid,
     hint: "54 movement blueprints",
   },
   {
     key: "workouts",
     label: "Workouts",
-    href: "/workouts",
+    href: ROUTES.workouts,
     icon: Dumbbell,
     hint: "12 training sessions",
   },
   {
     key: "cardio",
     label: "Cardio",
-    href: "/cardio",
+    href: ROUTES.cardio,
     icon: HeartPulse,
     hint: "Conditioning & intervals",
   },
   {
     key: "mobility",
     label: "Mobility & Flow",
-    href: "/mobility",
+    href: ROUTES.mobility,
     icon: Accessibility,
     hint: "Yoga, Pilates & rhythm cardio",
   },
   {
     key: "nutrition",
     label: "Nutrition",
-    href: "/nutrition",
+    href: ROUTES.nutrition,
     icon: Apple,
     hint: "Food, meals & tracking",
   },
   {
     key: "calculators",
     label: "Calculators",
-    href: "/calculators",
+    href: ROUTES.calculators,
     icon: Calculator,
     hint: "BMI, 1RM, macros & more",
   },
   {
     key: "education",
     label: "Education",
-    href: "/learn",
+    href: ROUTES.education,
     icon: BookOpen,
     hint: "Training & nutrition knowledge",
   },
@@ -116,7 +117,7 @@ export function SiteNav({
         {
           key: "saved" as const,
           label: "Saved",
-          href: "/saved",
+          href: ROUTES.saved,
           icon: Bookmark,
           hint: "Your exercises & routines",
         },

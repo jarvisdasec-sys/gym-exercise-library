@@ -5,7 +5,7 @@ import { SocialFooter } from "@/components/SocialFooter";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SavedProvider } from "@/contexts/SavedContext";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -32,6 +32,52 @@ import ResetPassword from "./pages/ResetPassword";
 function Router() {
   return (
     <Switch>
+      {/* Legacy public URLs: keep existing bookmarks and production tabs useful. */}
+      <Route path="/exercises">
+        <Redirect to="/" />
+      </Route>
+      <Route path="/physical-fitness/running">
+        <Redirect to="/cardio" />
+      </Route>
+      <Route path="/fitness/warm-up-and-cooldown">
+        <Redirect to="/mobility" />
+      </Route>
+      <Route path="/fitness-calculators/bmi">
+        <Redirect to="/calculators#bmi" />
+      </Route>
+      <Route path="/fitness-calculators">
+        <Redirect to="/calculators" />
+      </Route>
+      <Route path="/fitness">
+        <Redirect to="/learn" />
+      </Route>
+      <Route path="/workouts/today">
+        <Redirect to="/wod" />
+      </Route>
+      <Route path="/resources">
+        <Redirect to="/learn" />
+      </Route>
+      <Route path="/app">
+        <Redirect to="/" />
+      </Route>
+      <Route path="/downloads">
+        <Redirect to="/stickers" />
+      </Route>
+      <Route path="/account">
+        <Redirect to="/" />
+      </Route>
+      <Route path="/nutrition/foods">
+        <Redirect to="/nutrition" />
+      </Route>
+      <Route path="/nutrition/education">
+        <Redirect to="/learn" />
+      </Route>
+      <Route path="/nutrition/grocery-planner">
+        <Redirect to="/nutrition/meal-prep" />
+      </Route>
+      <Route path="/nutrition/search">
+        <Redirect to="/nutrition" />
+      </Route>
       <Route path={"/"} component={Home} />
       <Route path={"/e/:slug"} component={ExercisePlate} />
       <Route path={"/workouts"} component={Workouts} />

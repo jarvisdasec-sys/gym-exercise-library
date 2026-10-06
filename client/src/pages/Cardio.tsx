@@ -15,6 +15,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
+import { BtbHeroMedia } from "@/components/BtbHeroMedia";
 import { ArrowRight, Info, Scale, Search, Timer, X } from "lucide-react";
 import {
   CARDIO,
@@ -118,7 +119,8 @@ export default function Cardio() {
       </SiteNav>
 
       {/* ══ MASTHEAD ═════════════════════════════════════════════════ */}
-      <section className="border-b border-white/10">
+      <section className="relative isolate overflow-hidden border-b border-white/10">
+        <BtbHeroMedia src="/images/site/btb-cardio-hero.jpg" alt="Runner training on a treadmill in a dark gym" />
         <div className="hazard-rule" />
         <div className="container py-8 sm:py-10">
           <div className="mb-3.5 flex items-center gap-3">
