@@ -24,7 +24,7 @@ import {
   estimateKcal,
   type CardioCategory,
 } from "@/lib/cardio";
-import { LB_PER_KG, loadWeightKg, saveWeightKg } from "@/lib/cardioLog";
+import { LB_PER_KG, loadCardioLog, loadWeightKg, saveWeightKg, sumCardio } from "@/lib/cardioLog";
 
 const CATEGORY_ORDER: CardioCategory[] = [
   "run",
@@ -45,6 +45,7 @@ export default function Cardio() {
   const [weightKg, setWeightKg] = useState<number | null>(() => loadWeightKg());
   const [unit, setUnit] = useState<"kg" | "lb">("lb");
   const [weightInput, setWeightInput] = useState("");
+  const [cardioLog] = useState(() => loadCardioLog());
 
   function commitWeight() {
     const raw = Number(weightInput);
@@ -86,6 +87,18 @@ export default function Cardio() {
       : unit === "kg"
         ? `${weightKg.toFixed(1)} kg`
         : `${Math.round(weightKg * LB_PER_KG)} lb`;
+
+  const recentSessions = useMemo(() => {
+    const entries = Object.entries(cardioLog)
+      .flatMap(([date, items]) => items.map((item) => ({ ...item, date })))
+      .sort((a, b) => `${b.date}-${b.id}`.localeCompare(`${a.date}-${a.id}`));
+    return entries.slice(0, 6);
+  }, [cardioLog]);
+
+  const recentTotals = useMemo(
+    () => sumCardio(recentSessions),
+    [recentSessions],
+  );
 
   return (
     <div className="min-h-screen">
@@ -348,6 +361,32 @@ export default function Cardio() {
             </section>
           );
         })}
+
+        {/* ══ RECENT ACTIVITY ════════════════════════════════════════ */}
+        {recentSessions.length > 0 && (
+          <section className="mt-14">
+            <div className="hazard-rule mb-4" />
+            <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <div className="flex items-baseline gap-3">
+                <span className="meta text-[0.55rem] text-white/25">{String(grouped.length + 1).padStart(2, "0")}</span>
+                <h2 className="display text-[1.7rem] font-bold uppercase leading-none text-white sm:text-[2.1rem]">Recent Output</h2>
+              </div>
+              <span className="meta border border-lime/35 px-2.5 py-1 text-[0.42rem] text-lime">{recentTotals.minutes} MIN LOGGED</span>
+            </div>
+            <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {recentSessions.map((session) => (
+                <Link key={session.id} href={`/cardio/${session.slug}`} className="border border-white/12 p-4 transition-colors hover:border-lime/50">
+                  <div className="meta text-[0.4rem] text-white/35">{session.date} · {session.intensity}</div>
+                  <h3 className="display mt-2 text-base font-semibold text-white">{session.name}</h3>
+                  <div className="mt-3 flex items-baseline justify-between border-t border-white/10 pt-2.5">
+                    <span className="meta text-[0.4rem] text-white/45">{session.minutes} min</span>
+                    <span className="display text-sm font-bold text-lime">{session.kcal === null ? "—" : `${session.kcal} kcal est.`}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ══ PROTOCOLS ═════════════════════════════════════════════ */}
         <section className="mt-14">
