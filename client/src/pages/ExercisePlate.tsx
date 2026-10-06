@@ -12,14 +12,17 @@
  * numerals, corner registration ticks, one hazard rule per section.
  */
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { Link, useParams } from "wouter";
-import { ArrowRight, Download, Dumbbell, QrCode } from "lucide-react";
+import { ArrowRight, Bookmark, Download, Dumbbell, QrCode } from "lucide-react";
 import { PlateQr } from "@/components/PlateQr";
 import { plateUrl, plateUrlLabel } from "@/lib/plateUrl";
 import { CATEGORIES, INDEXED_EXERCISES } from "@/lib/exercises";
 import { WORKOUTS } from "@/lib/workouts";
+import { getExerciseGuide } from "@/lib/exerciseGuides";
+import { useSaved } from "@/contexts/SavedContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function ExercisePlate() {
   const params = useParams<{ slug: string }>();
@@ -42,6 +45,19 @@ export default function ExercisePlate() {
     if (!exercise) return [];
     return WORKOUTS.filter((w) =>
       w.blocks.some((b) => b.items.some((i) => i.slug === exercise.slug)),
+    );
+  }, [exercise]);
+
+  const { user } = useAuth();
+  const { isFavorite, toggleFavorite } = useSaved();
+
+  useEffect(() => {
+    if (!exercise) return;
+    document.title = `${exercise.name} Form Guide | BTB Fitness & Health`;
+    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    description?.setAttribute(
+      "content",
+      `${exercise.name} form guide from BTB: setup, execution, coaching cues, common mistakes, and safer progressions.`,
     );
   }, [exercise]);
 
@@ -73,6 +89,8 @@ export default function ExercisePlate() {
     CATEGORIES.find((c) => c.id === exercise.category)?.label ??
     exercise.category;
   const url = plateUrl(exercise.slug);
+  const guide = getExerciseGuide(exercise);
+  const saved = isFavorite(exercise.slug);
 
   return (
     <div className="min-h-screen">
@@ -170,6 +188,17 @@ export default function ExercisePlate() {
               <span className="meta text-[0.5rem]">Save this plate</span>
             </a>
 
+            <button
+              type="button"
+              onClick={() => void toggleFavorite(exercise.slug)}
+              aria-pressed={saved}
+              className={`mt-3 flex w-full items-center justify-center gap-2 border py-3 transition-colors duration-200 ${saved ? "border-lime bg-lime text-black" : "border-lime/35 text-lime hover:bg-lime/10"}`}
+            >
+              <Bookmark className="h-3.5 w-3.5" fill={saved ? "currentColor" : "none"} />
+              <span className="meta text-[0.5rem] font-bold">{saved ? "Saved to library" : "Save this movement"}</span>
+            </button>
+            {!user && <p className="meta mt-2 text-center text-[0.38rem] text-white/35">Sign in to sync saved movements across devices.</p>}
+
             <div className="mt-3 border border-white/12 p-4">
               <p className="display text-sm font-semibold leading-snug text-lime">
                 Stay consistent.
@@ -182,6 +211,41 @@ export default function ExercisePlate() {
           </aside>
         </div>
       </div>
+
+      {/* ── premium coaching guide ─────────────────────────────────── */}
+      <section className="border-y border-white/10 bg-white/[0.02]">
+        <div className="container py-10 sm:py-14">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <div className="mb-3 flex items-center gap-3">
+                <span className="h-px w-8 bg-lime" />
+                <span className="meta text-[0.45rem] text-lime">Coach’s guide · Form first</span>
+              </div>
+              <h2 className="display text-2xl font-bold text-white sm:text-3xl">Run the movement clean.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/55">Use the guide with the blueprint. Pick a load that makes every rep look like the first one.</p>
+            </div>
+            <span className="meta border border-lime/35 px-3 py-2 text-[0.45rem] text-lime">{exercise.difficulty} · {exercise.primary}</span>
+          </div>
+
+          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+            <GuideBlock title="Set up" items={guide.setup} />
+            <GuideBlock title="Execute" items={guide.execution} />
+            <GuideBlock title="Coach cues" items={guide.cues} compact />
+            <GuideBlock title="Common mistakes" items={guide.mistakes} warning />
+          </div>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            <InfoBlock label="Breathing" value={guide.breathing} />
+            <InfoBlock label="Tempo" value={guide.tempo} />
+            <InfoBlock label="Safety check" value={guide.safety} warning />
+          </div>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <InfoBlock label="Scale it down" value={guide.easier} />
+            <InfoBlock label="Progress it" value={guide.harder} />
+          </div>
+        </div>
+      </section>
 
       {/* ── related plates ─────────────────────────────────────────── */}
       {related.length > 0 && (
@@ -273,5 +337,30 @@ function Tag({ label, lime = false }: { label: string; lime?: boolean }) {
     >
       {label}
     </span>
+  );
+}
+
+function GuideBlock({ title, items, compact = false, warning = false }: { title: string; items: string[]; compact?: boolean; warning?: boolean }) {
+  return (
+    <section className={`border p-4 sm:p-5 ${warning ? "border-red-200/20" : "border-white/12"}`}>
+      <h3 className={`display text-lg font-semibold ${warning ? "text-red-200" : "text-lime"}`}>{title}</h3>
+      <ol className={`mt-4 ${compact ? "grid gap-2 sm:grid-cols-2" : "space-y-3"}`}>
+        {items.map((item, index) => (
+          <li key={item} className="flex gap-3 text-sm leading-relaxed text-white/70">
+            <span className="meta flex h-5 w-5 shrink-0 items-center justify-center border border-lime/40 text-[0.4rem] text-lime">{index + 1}</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+function InfoBlock({ label, value, warning = false }: { label: string; value: string; warning?: boolean }) {
+  return (
+    <section className={`border p-4 ${warning ? "border-red-200/20" : "border-white/12"}`}>
+      <h3 className={`meta text-[0.45rem] font-bold ${warning ? "text-red-200" : "text-lime"}`}>{label}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-white/65">{value}</p>
+    </section>
   );
 }
