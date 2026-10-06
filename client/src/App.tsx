@@ -26,6 +26,7 @@ const Tracker = lazy(() => import("./pages/Tracker"));
 const Education = lazy(() => import("./pages/Education"));
 const EduArticle = lazy(() => import("./pages/EduArticle"));
 const SavedWorkouts = lazy(() => import("./pages/SavedWorkouts"));
+const Account = lazy(() => import("./pages/Account"));
 const WorkoutOfDay = lazy(() => import("./pages/WorkoutOfDay"));
 const WorkoutTools = lazy(() => import("./pages/WorkoutTools"));
 const WorkoutBuilder = lazy(() => import("./pages/WorkoutBuilder"));
@@ -66,9 +67,7 @@ function Router() {
       <Route path="/downloads">
         <Redirect to="/stickers" />
       </Route>
-      <Route path="/account">
-        <Redirect to="/" />
-      </Route>
+      <Route path="/account" component={Account} />
       <Route path="/nutrition/foods">
         <Redirect to="/nutrition" />
       </Route>
