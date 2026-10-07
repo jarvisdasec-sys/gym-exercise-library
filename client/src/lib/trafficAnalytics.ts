@@ -32,6 +32,7 @@ const publicPages = new Set([
   "/stickers",
 ]);
 let sdkPromise: Promise<PostHog | null> | undefined;
+let loadedSdk: PostHog | null = null;
 let lastPageUrl: string | null = null;
 
 export function isPublicTrafficPath(pathname: string): boolean {
@@ -148,6 +149,8 @@ export function sanitizeTrafficEvent<
   properties.$pathname = new URL(pageUrl).pathname;
   properties.btb_analytics_test =
     properties.btb_analytics_test === true ||
+    (typeof rawUrl === "string" &&
+      new URL(rawUrl).searchParams.get("btb_analytics_test") === "1") ||
     (typeof navigator !== "undefined" && navigator.webdriver === true);
   return { ...event, properties };
 }
@@ -216,6 +219,7 @@ async function trafficSdk(): Promise<PostHog | null> {
       .then(({ default: sdk }) => {
         if (!shouldTrackTraffic()) return null;
         sdk.init(TRAFFIC_PROJECT_TOKEN, trafficConfig());
+        loadedSdk = sdk;
         return sdk;
       })
       .catch(() => null);
@@ -260,7 +264,8 @@ export async function captureTrafficClick(
   placement: string
 ): Promise<void> {
   if (typeof window === "undefined") return;
-  const clean = sanitizePageUrl(window.location.href);
+  const rawUrl = window.location.href;
+  const clean = sanitizePageUrl(rawUrl);
   if (!clean || !/^[a-zA-Z0-9_.-]{1,80}$/.test(placement)) return;
   const target = sanitizeTrafficDestination(destination);
   if (!target) return;
@@ -268,15 +273,19 @@ export async function captureTrafficClick(
     ? new URL(target, window.location.origin).href
     : target;
   try {
-    const sdk = await trafficSdk();
+    const sdk = loadedSdk ?? (await trafficSdk());
     if (!sdk || !shouldTrackTraffic()) return;
-    sdk.capture("btb_social_click", {
-      destination: safeDestination,
-      placement,
-      $current_url: clean,
-      ...campaignProperties(window.location.href),
-      ...testProperties(window.location.href),
-    });
+    sdk.capture(
+      "btb_social_click",
+      {
+        destination: safeDestination,
+        placement,
+        $current_url: clean,
+        ...campaignProperties(rawUrl),
+        ...testProperties(rawUrl),
+      },
+      { transport: "sendBeacon", send_instantly: true }
+    );
   } catch {
     /* The existing anchor remains functional. */
   }

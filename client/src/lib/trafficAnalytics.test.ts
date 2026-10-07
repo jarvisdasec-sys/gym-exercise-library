@@ -220,7 +220,8 @@ describe("non-blocking runtime tracking", () => {
         destination: origin + "/wod",
         utm_source: "instagram",
         utm_medium: "bio",
-      })
+      }),
+      { transport: "sendBeacon", send_instantly: true }
     );
     await analytics.captureTrafficClick(
       "https://other.example/private",
@@ -243,5 +244,65 @@ describe("non-blocking runtime tracking", () => {
     await expect(
       analytics.captureTrafficClick("/wod", "instagram-featured-guide")
     ).resolves.toBeUndefined();
+  });
+});
+
+describe("navigation-delivery regressions", () => {
+  it("retains explicit test markers on SDK-generated pageleave events", () => {
+    const event = sanitizeTrafficEvent({
+      event: "$pageleave",
+      properties: {
+        $current_url: origin + "/instagram?btb_analytics_test=1",
+        btb_analytics_test: false,
+      },
+    });
+    expect(event?.properties).toMatchObject({
+      $current_url: origin + "/instagram",
+      btb_analytics_test: true,
+    });
+  });
+  it("dispatches an already initialized SDK click synchronously before navigation", async () => {
+    vi.stubEnv("PROD", true);
+    browser.happyDOM.setURL(
+      origin + "/instagram?utm_source=instagram&btb_analytics_test=1"
+    );
+    const analytics = await import("./trafficAnalytics");
+    await analytics.captureTrafficPage(window.location.href);
+    sdk.capture.mockClear();
+    const pending = analytics.captureTrafficClick(
+      "/wod",
+      "instagram-workout-of-day"
+    );
+    expect(sdk.capture).toHaveBeenCalledWith(
+      "btb_social_click",
+      expect.objectContaining({
+        $current_url: origin + "/instagram?utm_source=instagram",
+        btb_analytics_test: true,
+      }),
+      { transport: "sendBeacon", send_instantly: true }
+    );
+    browser.happyDOM.setURL(origin + "/wod");
+    await pending;
+  });
+  it("snapshots attribution and test flags before a pending SDK import", async () => {
+    vi.stubEnv("PROD", true);
+    browser.happyDOM.setURL(
+      origin + "/instagram?utm_source=instagram&btb_analytics_test=1"
+    );
+    const analytics = await import("./trafficAnalytics");
+    const pending = analytics.captureTrafficClick(
+      "/wod",
+      "instagram-workout-of-day"
+    );
+    browser.happyDOM.setURL(origin + "/wod");
+    await pending;
+    expect(sdk.capture).toHaveBeenCalledWith(
+      "btb_social_click",
+      expect.objectContaining({
+        utm_source: "instagram",
+        btb_analytics_test: true,
+      }),
+      { transport: "sendBeacon", send_instantly: true }
+    );
   });
 });
