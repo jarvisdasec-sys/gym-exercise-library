@@ -20,6 +20,8 @@ import { FreeChapterModal } from "@/components/FreeChapterModal";
 import { SuggestionBox } from "@/components/SuggestionBox";
 import { BtbHeroMedia } from "@/components/BtbHeroMedia";
 import { InstagramFollow } from "@/components/InstagramFollow";
+import { BtbMotion } from "@/components/BtbMotion";
+import { HomepageDashboard } from "@/components/MemberDashboard";
 import {
   Apple,
   ArrowRight,
@@ -44,8 +46,10 @@ import {
   type IndexedExercise,
 } from "@/lib/exercises";
 import { useDailyWod } from "@/hooks/useDailyWod";
+import { applyHomeMetadata } from "@/lib/homeMetadata";
 
 export default function Home() {
+  useEffect(() => applyHomeMetadata(), []);
   const [activeCategory, setActiveCategory] = useState<CategoryId | "all">(
     "all",
   );
@@ -203,9 +207,13 @@ export default function Home() {
         <div className="hazard-rule absolute inset-x-0 bottom-0" />
       </section>
 
+      <HomepageDashboard />
+
       <InstagramFollow />
 
       <HomepageWodCard />
+
+      <BtbMotion />
 
       <SuggestionBox />
 

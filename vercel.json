@@ -4,6 +4,7 @@
   "rewrites": [
     { "source": "/instagram", "destination": "/instagram.html" },
     { "source": "/instagram/", "destination": "/instagram.html" },
+    { "source": "/", "destination": "/home.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

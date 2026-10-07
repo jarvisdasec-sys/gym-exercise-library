@@ -16,6 +16,9 @@ async function startServer() {
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
+  app.get("/", (_req, res) => {
+    res.sendFile(path.join(staticPath, "home.html"));
+  });
   app.use(express.static(staticPath));
 
   // Match the Vercel static landing rewrite for local/Node production serving.
@@ -30,7 +33,7 @@ async function startServer() {
 
   const port = process.env.PORT || 3000;
 
-  server.listen(port, () => {
+  server.listen(Number(port), "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
 }
