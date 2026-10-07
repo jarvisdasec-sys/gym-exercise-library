@@ -56,3 +56,9 @@ Independent read-only review identified rewrite-order compatibility, keyboard fo
 ## Release boundary
 
 A review pull request and working temporary preview are prepared for the owner. **Production remains unchanged until the owner approves the exact three-Reel and homepage-dashboard publication payload.**
+
+## Production root-file correction
+
+The owner approved publication of both homepage features on 2026-10-07. PR #4 was merged as `5596546972d2894fc79efdcb4a981fa6a635914d`, and Vercel reported successful deployment. Direct live HTTP inspection confirmed the new active bundle and three cards in `/home.html`, but `/` still resolved the physical empty `index.html` before the explicit root rewrite. This was a serving issue, not a missing browser feature.
+
+The focused correction writes the same public-only generated homepage to both `index.html` and `home.html`, preserving the original generic shell in `app.html` first. Vercel and Node route all non-home SPA fallbacks to `app.html`, so other pages do not inherit a homepage canonical or initial homepage content. No Reel selection, member-data behavior, authentication, analytics scope or automation settings change. The correction stays within the approved publication payload.

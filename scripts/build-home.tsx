@@ -12,6 +12,9 @@ import {
 
 const output = path.resolve("dist/public");
 let html = await readFile(path.join(output, "index.html"), "utf8");
+// Vercel can resolve the physical directory index before a '/' rewrite.
+// Keep non-home SPA routes on an untouched shell, never a homepage snapshot.
+await writeFile(path.join(output, "app.html"), html);
 const escape = (value: string) =>
   value
     .replaceAll("&", "&amp;")
@@ -130,6 +133,7 @@ if (/<iframe\b/i.test(publicMarkup))
     "The public homepage must not load third-party players by default."
   );
 await writeFile(path.join(output, "home.html"), html);
+await writeFile(path.join(output, "index.html"), html);
 console.log(
-  "Generated public homepage: real published Reels, safe dashboard prompt and route metadata; no member data."
+  "Generated physical index/homepage with public-only content and a separate generic app shell; no member data."
 );
