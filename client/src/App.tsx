@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BookBanner } from "@/components/BookBanner";
 import { SocialFooter } from "@/components/SocialFooter";
+import { TrafficAnalytics } from "@/components/TrafficAnalytics";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SavedProvider } from "@/contexts/SavedContext";
 import { Redirect, Route, Switch } from "wouter";
@@ -140,6 +141,7 @@ function App() {
         <AuthProvider>
           <SavedProvider>
             <TooltipProvider>
+              <TrafficAnalytics />
               <BookBanner />
               <Toaster />
               <Router />

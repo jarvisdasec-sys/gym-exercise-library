@@ -1,4 +1,10 @@
 import { ROUTES } from "./routes";
+import {
+  captureTrafficClick,
+  hasTrafficPrivacyOptOut,
+  isPublicTrafficPath,
+  sanitizeTrafficDestination,
+} from "./trafficAnalytics";
 
 export const INSTAGRAM_URL = "https://www.instagram.com/btbfitnessandhealth/";
 export const BTB_PUBLIC_ORIGIN = "https://www.btbfitnessandhealth.com";
@@ -91,9 +97,17 @@ export const INSTAGRAM_WORKOUTS = [
   },
 ] as const;
 
-/** Reuse configured Umami only. Never let a tracker prevent navigation. */
+/** Analytics is optional and must never prevent normal navigation. */
 export function trackSocialClick(destination: string, placement: string): void {
-  if (typeof window === "undefined") return;
+  if (
+    typeof window === "undefined" ||
+    hasTrafficPrivacyOptOut() ||
+    !isPublicTrafficPath(window.location.pathname)
+  )
+    return;
+  const safeDestination = sanitizeTrafficDestination(destination);
+  if (!safeDestination) return;
+  void captureTrafficClick(safeDestination, placement);
   const analytics = (
     window as Window & {
       umami?: {
@@ -105,7 +119,10 @@ export function trackSocialClick(destination: string, placement: string): void {
     }
   ).umami;
   if (!analytics?.track) return;
-  const data: Record<string, string> = { destination, placement };
+  const data: Record<string, string> = {
+    destination: safeDestination,
+    placement,
+  };
   const params = new URLSearchParams(window.location.search);
   for (const key of ["utm_source", "utm_medium", "utm_campaign"] as const) {
     const value = params.get(key);
