@@ -1,4 +1,5 @@
 import type { PostHog, PostHogConfig } from "posthog-js";
+import { FEATURED_REELS, instagramReelUrl } from "./featuredReels";
 
 // Public, write-only project ingestion token. This is not a personal API key.
 export const TRAFFIC_PROJECT_TOKEN =
@@ -192,6 +193,12 @@ export function hasTrafficPrivacyOptOut(): boolean {
 
 export function sanitizeTrafficDestination(destination: string): string | null {
   if (destination === "https://www.instagram.com/btbfitnessandhealth/")
+    return destination;
+  if (
+    FEATURED_REELS.some(
+      reel => instagramReelUrl(reel.shortcode) === destination
+    )
+  )
     return destination;
   if (!destination.startsWith("/") || destination.startsWith("//")) return null;
   const clean = sanitizePageUrl(
