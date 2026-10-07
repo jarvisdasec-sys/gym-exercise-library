@@ -26,9 +26,9 @@ async function startServer() {
     res.sendFile(path.join(staticPath, "instagram.html"));
   });
 
-  // Handle client-side routing - serve index.html for all routes
+  // Non-home routes must use the generic shell, not the root snapshot.
   app.get("*", (_req, res) => {
-    res.sendFile(path.join(staticPath, "index.html"));
+    res.sendFile(path.join(staticPath, "app.html"));
   });
 
   const port = process.env.PORT || 3000;
