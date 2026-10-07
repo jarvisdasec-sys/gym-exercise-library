@@ -19,6 +19,7 @@ import { BookSpotlight } from "@/components/BookSpotlight";
 import { FreeChapterModal } from "@/components/FreeChapterModal";
 import { SuggestionBox } from "@/components/SuggestionBox";
 import { BtbHeroMedia } from "@/components/BtbHeroMedia";
+import { InstagramFollow } from "@/components/InstagramFollow";
 import {
   Apple,
   ArrowRight,
@@ -201,6 +202,8 @@ export default function Home() {
 
         <div className="hazard-rule absolute inset-x-0 bottom-0" />
       </section>
+
+      <InstagramFollow />
 
       <HomepageWodCard />
 

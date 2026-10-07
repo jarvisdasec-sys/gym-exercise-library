@@ -1,6 +1,7 @@
 export const ROUTES = {
   home: "/",
   exercises: "/",
+  instagram: "/instagram",
   workouts: "/workouts",
   wod: "/wod",
   cardio: "/cardio",

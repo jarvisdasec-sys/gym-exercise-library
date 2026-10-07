@@ -39,7 +39,8 @@ export type NavKey =
   | "nutrition"
   | "calculators"
   | "education"
-  | "saved";
+  | "saved"
+  | "instagram";
 
 const TABS: {
   key: NavKey;

@@ -31,6 +31,7 @@ const WorkoutOfDay = lazy(() => import("./pages/WorkoutOfDay"));
 const WorkoutTools = lazy(() => import("./pages/WorkoutTools"));
 const WorkoutBuilder = lazy(() => import("./pages/WorkoutBuilder"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const InstagramPage = lazy(() => import("./pages/Instagram"));
 
 function Router() {
   return (
@@ -81,6 +82,7 @@ function Router() {
         <Redirect to="/nutrition" />
       </Route>
       <Route path={"/"} component={Home} />
+      <Route path="/instagram" component={InstagramPage} />
       <Route path={"/e/:slug"} component={ExercisePlate} />
       <Route path={"/workouts"} component={Workouts} />
       <Route path={"/wod"} component={WorkoutOfDay} />

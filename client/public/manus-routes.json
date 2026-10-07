@@ -1,6 +1,7 @@
 {
   "routes": [
     { "path": "/", "title": "BTB Movement Index" },
+    { "path": "/instagram", "title": "BTB Instagram Hub" },
     { "path": "/e/:slug", "title": "Exercise Form Guide" },
     { "path": "/workouts", "title": "Workout Sessions" },
     { "path": "/wod", "title": "Workout of the Day" },

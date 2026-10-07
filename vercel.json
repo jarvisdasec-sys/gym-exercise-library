@@ -2,6 +2,8 @@
   "buildCommand": "pnpm build",
   "outputDirectory": "dist/public",
   "rewrites": [
+    { "source": "/instagram", "destination": "/instagram.html" },
+    { "source": "/instagram/", "destination": "/instagram.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
