@@ -3,6 +3,8 @@ packages:
 onlyBuiltDependencies:
   - esbuild
   - '@tailwindcss/oxide'
+ignoredBuiltDependencies:
+  - core-js
 patchedDependencies:
   wouter@3.7.1: patches/wouter@3.7.1.patch
 overrides:

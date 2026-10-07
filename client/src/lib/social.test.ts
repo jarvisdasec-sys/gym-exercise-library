@@ -26,6 +26,7 @@ const analyticsWindow = window as Window & {
 afterEach(() => {
   delete analyticsWindow.umami;
   window.history.replaceState({}, "", "/");
+  vi.unstubAllGlobals();
 });
 
 describe("BTB Instagram destinations", () => {
@@ -190,8 +191,46 @@ describe("optional existing analytics", () => {
       track: vi.fn(() => Promise.reject(new Error("Offline"))),
     };
     expect(() =>
-      trackSocialClick("/account", "instagram-account")
+      trackSocialClick("/wod", "instagram-workout-session")
     ).not.toThrow();
     await Promise.resolve();
+  });
+});
+
+describe("shared analytics privacy", () => {
+  it.each([{ doNotTrack: "1" }, { globalPrivacyControl: true }])(
+    "does not dispatch any social measurement when privacy preferences opt out: %o",
+    signal => {
+      const track = vi.fn();
+      analyticsWindow.umami = { track };
+      vi.stubGlobal("navigator", signal);
+      trackSocialClick("/wod", "instagram-workout-session");
+      expect(track).not.toHaveBeenCalled();
+    }
+  );
+  it("does not measure an account/private destination", () => {
+    const track = vi.fn();
+    analyticsWindow.umami = { track };
+    trackSocialClick("/account", "instagram-account");
+    expect(track).not.toHaveBeenCalled();
+  });
+  it("does not measure a social action from a private page", () => {
+    const track = vi.fn();
+    analyticsWindow.umami = { track };
+    window.history.replaceState({}, "", "/account");
+    trackSocialClick(INSTAGRAM_URL, "footer-follow");
+    expect(track).not.toHaveBeenCalled();
+  });
+  it("sanitizes destination query strings on both analytics paths", () => {
+    const track = vi.fn();
+    analyticsWindow.umami = { track };
+    trackSocialClick(
+      "/wod?email=private%40example.com#access_token=secret",
+      "instagram-workout-session"
+    );
+    expect(track).toHaveBeenCalledWith("btb_social_click", {
+      destination: "/wod",
+      placement: "instagram-workout-session",
+    });
   });
 });
