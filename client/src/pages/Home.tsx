@@ -22,6 +22,7 @@ import { BtbHeroMedia } from "@/components/BtbHeroMedia";
 import { InstagramFollow } from "@/components/InstagramFollow";
 import { BtbMotion } from "@/components/BtbMotion";
 import { HomepageDashboard } from "@/components/MemberDashboard";
+import { GroupWorkoutPromo } from "@/components/GroupWorkoutPromo";
 import {
   Apple,
   ArrowRight,
@@ -208,6 +209,8 @@ export default function Home() {
       </section>
 
       <HomepageDashboard />
+
+      <GroupWorkoutPromo />
 
       <InstagramFollow />
 

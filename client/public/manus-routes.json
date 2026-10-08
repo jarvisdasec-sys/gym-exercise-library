@@ -1,27 +1,100 @@
 {
   "routes": [
-    { "path": "/", "title": "BTB Movement Index" },
-    { "path": "/instagram", "title": "BTB Instagram Hub" },
-    { "path": "/e/:slug", "title": "Exercise Form Guide" },
-    { "path": "/workouts", "title": "Workout Sessions" },
-    { "path": "/wod", "title": "Workout of the Day" },
-    { "path": "/workouts/tools", "title": "Workout Tools" },
-    { "path": "/workouts/builder", "title": "Workout Builder" },
-    { "path": "/workouts/programs/:programId/:week/:day", "title": "Program Workout" },
-    { "path": "/workouts/:slug", "title": "Workout Session" },
-    { "path": "/cardio", "title": "Cardio Index" },
-    { "path": "/cardio/:slug", "title": "Cardio Session" },
-    { "path": "/mobility", "title": "Mobility & Flow" },
-    { "path": "/nutrition", "title": "Nutrition Index" },
-    { "path": "/nutrition/builder", "title": "Meal Builder" },
-    { "path": "/nutrition/meal-prep", "title": "Meal Prep" },
-    { "path": "/nutrition/tracker", "title": "Nutrition Tracker" },
-    { "path": "/calculators", "title": "Fitness Calculators" },
-    { "path": "/learn", "title": "BTB Education" },
-    { "path": "/learn/:slug", "title": "Education Article" },
-    { "path": "/stickers", "title": "Machine Stickers" },
-    { "path": "/account", "title": "Member Dashboard" },
-    { "path": "/saved", "title": "Saved Movements" },
-    { "path": "/reset-password", "title": "Reset Password" }
+    {
+      "path": "/",
+      "title": "BTB Movement Index"
+    },
+    {
+      "path": "/instagram",
+      "title": "BTB Instagram Hub"
+    },
+    {
+      "path": "/e/:slug",
+      "title": "Exercise Form Guide"
+    },
+    {
+      "path": "/workouts",
+      "title": "Workout Sessions"
+    },
+    {
+      "path": "/wod",
+      "title": "Workout of the Day"
+    },
+    {
+      "path": "/workouts/tools",
+      "title": "Workout Tools"
+    },
+    {
+      "path": "/workouts/builder",
+      "title": "Workout Builder"
+    },
+    {
+      "path": "/workouts/groups",
+      "title": "BTB Group Workouts"
+    },
+    {
+      "path": "/workouts/programs/:programId/:week/:day",
+      "title": "Program Workout"
+    },
+    {
+      "path": "/workouts/:slug",
+      "title": "Workout Session"
+    },
+    {
+      "path": "/cardio",
+      "title": "Cardio Index"
+    },
+    {
+      "path": "/cardio/:slug",
+      "title": "Cardio Session"
+    },
+    {
+      "path": "/mobility",
+      "title": "Mobility & Flow"
+    },
+    {
+      "path": "/nutrition",
+      "title": "Nutrition Index"
+    },
+    {
+      "path": "/nutrition/builder",
+      "title": "Meal Builder"
+    },
+    {
+      "path": "/nutrition/meal-prep",
+      "title": "Meal Prep"
+    },
+    {
+      "path": "/nutrition/tracker",
+      "title": "Nutrition Tracker"
+    },
+    {
+      "path": "/calculators",
+      "title": "Fitness Calculators"
+    },
+    {
+      "path": "/learn",
+      "title": "BTB Education"
+    },
+    {
+      "path": "/learn/:slug",
+      "title": "Education Article"
+    },
+    {
+      "path": "/stickers",
+      "title": "Machine Stickers"
+    },
+    {
+      "path": "/account",
+      "title": "Member Dashboard"
+    },
+    {
+      "path": "/saved",
+      "title": "Saved Movements"
+    },
+    {
+      "path": "/reset-password",
+      "title": "Reset Password"
+    }
   ]
 }

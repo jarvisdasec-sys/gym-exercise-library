@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { BtbMotion } from "../client/src/components/BtbMotion";
+import { GroupWorkoutPromo } from "../client/src/components/GroupWorkoutPromo";
 import {
   HOME_TITLE,
   HOME_DESCRIPTION,
@@ -107,6 +108,7 @@ const publicMarkup = renderToStaticMarkup(
           </a>
         </div>
       </section>
+      <GroupWorkoutPromo />
       <BtbMotion />
     </main>
     <footer className="container py-7 text-sm text-white/60">

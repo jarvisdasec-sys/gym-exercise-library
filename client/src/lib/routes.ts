@@ -3,6 +3,7 @@ export const ROUTES = {
   exercises: "/",
   instagram: "/instagram",
   workouts: "/workouts",
+  groupWorkouts: "/workouts/groups",
   wod: "/wod",
   cardio: "/cardio",
   mobility: "/mobility",

@@ -9,6 +9,7 @@ import { SavedProvider } from "@/contexts/SavedContext";
 import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import "./components/group-workouts.css";
 
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const Home = lazy(() => import("./pages/Home"));
@@ -33,6 +34,7 @@ const WorkoutTools = lazy(() => import("./pages/WorkoutTools"));
 const WorkoutBuilder = lazy(() => import("./pages/WorkoutBuilder"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const InstagramPage = lazy(() => import("./pages/Instagram"));
+const GroupWorkouts = lazy(() => import("./pages/GroupWorkouts"));
 
 function Router() {
   return (
@@ -89,6 +91,7 @@ function Router() {
       <Route path={"/wod"} component={WorkoutOfDay} />
       <Route path={"/workouts/tools"} component={WorkoutTools} />
       <Route path={"/workouts/builder"} component={WorkoutBuilder} />
+      <Route path={"/workouts/groups"} component={GroupWorkouts} />
       <Route
         path={"/workouts/programs/:programId/:week/:day"}
         component={WorkoutSession}

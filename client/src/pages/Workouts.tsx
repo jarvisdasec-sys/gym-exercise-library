@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { SiteNav } from "@/components/SiteNav";
 import { BtbHeroMedia } from "@/components/BtbHeroMedia";
+import { GroupWorkoutSection } from "@/components/GroupWorkoutSection";
 import { ArrowRight, Clock, Layers } from "lucide-react";
 import { INDEXED_EXERCISES } from "@/lib/exercises";
 import {
@@ -109,6 +110,10 @@ export default function Workouts() {
             Open Workout Tools
           </Link>
 
+          <Link href="/workouts/groups" className="meta ml-3 mt-5 inline-flex min-h-11 items-center border border-lime px-4 py-3 text-[0.5rem] font-bold text-lime">
+            Open Group Workouts
+          </Link>
+
           <div className="mt-7 grid max-w-lg grid-cols-3 border border-white/12 divide-x divide-white/12">
             {[
               { n: String(WORKOUTS.length), l: "Sessions" },
@@ -125,6 +130,10 @@ export default function Workouts() {
           </div>
         </div>
       </section>
+
+      <div className="container pb-8">
+        <GroupWorkoutSection />
+      </div>
 
       {/* ══ SESSION BOARD ════════════════════════════════════════════ */}
       <div className="container py-9">
