@@ -4,6 +4,8 @@
   "rewrites": [
     { "source": "/instagram", "destination": "/instagram.html" },
     { "source": "/instagram/", "destination": "/instagram.html" },
+    { "source": "/workouts/groups", "destination": "/group-workouts.html" },
+    { "source": "/workouts/groups/", "destination": "/group-workouts.html" },
     { "source": "/", "destination": "/home.html" },
     { "source": "/(.*)", "destination": "/app.html" }
   ]
