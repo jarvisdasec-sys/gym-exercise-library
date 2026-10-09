@@ -13,3 +13,10 @@
 - [ ] Validate TypeScript, existing and new regressions, production build and affected responsive integration. Prepare the actual-repository PR and publish to the live domain only after approval of the exact payload; verify production deployment before claiming the feature is live.
 
 Implementation verification complete: TypeScript, 137 full-run tests, added metadata regressions, production build and actual-site preview checks pass; read-only review issue fixed. Production publication remains pending owner approval.
+
+# Client-growth review release
+
+- [x] Client-focused brand homepage: beginner proposition, working free-planner CTA, author/book credibility, existing imagery, black/neon responsive navigation; all existing member/library/workout tools retained.
+- [x] Start Here and Plus interest: printable worksheet/walkthrough, explicit free versus proposed membership, no fake checkout/cloud claims; contact composer validates fields and provides email/copy/download without falsely reporting receipt.
+- [x] Discovery repair: initial HTML has actual known exercise-guide content and unique metadata; proper robots/sitemap; missing guides/routes return non-indexable 404; static Node/Vercel serving and manifest consistent.
+- [ ] Review handoff: passing checks/build/regressions, desktop/mobile verification and read-only integration review, saved feature PR/review URL; production unchanged until approval.

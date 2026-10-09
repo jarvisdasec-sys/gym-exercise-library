@@ -4,15 +4,20 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { BookBanner } from "@/components/BookBanner";
 import { SocialFooter } from "@/components/SocialFooter";
 import { TrafficAnalytics } from "@/components/TrafficAnalytics";
+import { RouteMetadata } from "@/components/RouteMetadata";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SavedProvider } from "@/contexts/SavedContext";
 import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import "./components/group-workouts.css";
+import "./components/growth.css";
 
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const Home = lazy(() => import("./pages/Home"));
+const BrandHome = lazy(() => import("./pages/BrandHome"));
+const StartHere = lazy(() => import("./pages/StartHere"));
+const PlusInterest = lazy(() => import("./pages/PlusInterest"));
 const ExercisePlate = lazy(() => import("./pages/ExercisePlate"));
 const StickerSheet = lazy(() => import("./pages/StickerSheet"));
 const Workouts = lazy(() => import("./pages/Workouts"));
@@ -41,9 +46,7 @@ function Router() {
     <Suspense fallback={<RouteLoading />}>
       <Switch>
       {/* Legacy public URLs: keep existing bookmarks and production tabs useful. */}
-      <Route path="/exercises">
-        <Redirect to="/" />
-      </Route>
+      <Route path="/exercises" component={Home} />
       <Route path="/physical-fitness/running">
         <Redirect to="/cardio" />
       </Route>
@@ -66,7 +69,7 @@ function Router() {
         <Redirect to="/learn" />
       </Route>
       <Route path="/app">
-        <Redirect to="/" />
+        <Redirect to="/start" />
       </Route>
       <Route path="/downloads">
         <Redirect to="/stickers" />
@@ -84,7 +87,9 @@ function Router() {
       <Route path="/nutrition/search">
         <Redirect to="/nutrition" />
       </Route>
-      <Route path={"/"} component={Home} />
+      <Route path={"/"} component={BrandHome} />
+      <Route path="/start" component={StartHere} />
+      <Route path="/plus" component={PlusInterest} />
       <Route path="/instagram" component={InstagramPage} />
       <Route path={"/e/:slug"} component={ExercisePlate} />
       <Route path={"/workouts"} component={Workouts} />
@@ -148,6 +153,7 @@ function App() {
               <BookBanner />
               <Toaster />
               <Router />
+              <RouteMetadata />
               <SocialFooter />
             </TooltipProvider>
           </SavedProvider>

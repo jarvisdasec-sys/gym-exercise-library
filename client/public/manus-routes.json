@@ -2,6 +2,18 @@
   "routes": [
     {
       "path": "/",
+      "title": "BTB Fitness & Health"
+    },
+    {
+      "path": "/start",
+      "title": "Start with BTB"
+    },
+    {
+      "path": "/plus",
+      "title": "BTB Plus \u2014 Membership Interest"
+    },
+    {
+      "path": "/exercises",
       "title": "BTB Movement Index"
     },
     {

@@ -62,7 +62,7 @@ describe("live BTB app group-workout integration", () => {
     expect(host.querySelector('a[href="/workouts/push-day"]')).not.toBeNull();
     expect(document.title).not.toBe(GROUP_TITLE);
     await clickLink('header a[href="/"]');
-    await waitForHeading("Find the movement.");
+    await waitForHeading("Train with confidence.");
     expect(
       host.querySelector('a[href="/workouts/groups"]')?.textContent
     ).toContain("Open Group Workouts");

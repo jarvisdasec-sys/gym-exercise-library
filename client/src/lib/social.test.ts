@@ -85,14 +85,12 @@ describe("BTB Instagram destinations", () => {
     const vercel = JSON.parse(
       readFileSync(path.join(root, "vercel.json"), "utf8")
     );
-    expect(vercel.rewrites[0]).toEqual({
-      source: "/instagram",
-      destination: "/instagram.html",
-    });
-    expect(vercel.rewrites[1]).toEqual({
-      source: "/instagram/",
-      destination: "/instagram.html",
-    });
+    expect(vercel.rewrites).toEqual(
+      expect.arrayContaining([
+        { source: "/instagram", destination: "/instagram.html" },
+        { source: "/instagram/", destination: "/instagram.html" },
+      ])
+    );
   });
 });
 
