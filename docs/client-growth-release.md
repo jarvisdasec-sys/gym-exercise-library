@@ -22,7 +22,7 @@ This improves technical accessibility to crawlers; it does not guarantee ranking
 
 Existing production-only privacy-respecting traffic measurement includes the new public routes and fixed tool-click labels. It does not capture inquiry content, health records, sessions or personal profiles, and continues honoring Do Not Track/Global Privacy Control. Preview visits do not initialize production analytics.
 
-The supplied hero artwork was losslessly reframed (no crop) and compressed to WebP; the original remains unchanged. There are no invented testimonials, clients, outcomes or professional credentials.
+The supplied hero artwork was compressed to WebP without cropping; the original remains unchanged. There are no invented testimonials, clients, outcomes or professional credentials.
 
 ## Verification
 
