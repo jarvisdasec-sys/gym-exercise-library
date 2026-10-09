@@ -32,6 +32,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ROUTES } from "@/lib/routes";
 
 export type NavKey =
+  | "home"
+  | "start"
+  | "plus"
   | "plates"
   | "workouts"
   | "cardio"
@@ -50,6 +53,13 @@ const TABS: {
   /** shown under the label in the mobile sheet */
   hint: string;
 }[] = [
+  {
+    key: "start",
+    label: "Start Here",
+    href: ROUTES.start,
+    icon: LayoutGrid,
+    hint: "Choose your next practical step",
+  },
   {
     key: "plates",
     label: "Exercises",
@@ -99,6 +109,13 @@ const TABS: {
     icon: BookOpen,
     hint: "Training & nutrition knowledge",
   },
+  {
+    key: "plus",
+    label: "BTB Plus",
+    href: ROUTES.plus,
+    icon: Bookmark,
+    hint: "Proposed membership · no payment",
+  },
 ];
 
 export function SiteNav({
@@ -136,8 +153,8 @@ export function SiteNav({
         </Link>
 
         {/* ── labelled tabs (desktop) ─────────────────────────────── */}
-        <nav className="ml-2 hidden items-stretch self-stretch lg:flex">
-          {tabs.map((t) => {
+        <nav className="ml-2 hidden items-stretch self-stretch xl:flex">
+          {tabs.map(t => {
             const isActive = t.key === active;
             const Icon = t.icon;
             return (
@@ -145,10 +162,8 @@ export function SiteNav({
                 key={t.key}
                 href={t.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`relative flex items-center gap-2 px-4 transition-colors duration-200 ${
-                  isActive
-                    ? "text-lime"
-                    : "text-white/55 hover:text-white"
+                className={`relative ${["cardio", "mobility", "calculators", "education"].includes(t.key) ? "hidden 2xl:flex" : "flex"} items-center gap-2 px-3 transition-colors duration-200 ${
+                  isActive ? "text-lime" : "text-white/55 hover:text-white"
                 }`}
                 style={{ transitionTimingFunction: "var(--ease-out-snap)" }}
               >
@@ -169,10 +184,10 @@ export function SiteNav({
           {children}
           <AuthControl />
           <button
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen(v => !v)}
             aria-label="Open sections"
             aria-expanded={open}
-            className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 transition-colors duration-200 hover:border-lime hover:text-lime lg:hidden"
+            className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 transition-colors duration-200 hover:border-lime hover:text-lime 2xl:hidden"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -181,8 +196,8 @@ export function SiteNav({
 
       {/* ── labelled tabs (mobile sheet) ──────────────────────────── */}
       {open && (
-        <nav className="border-t border-white/10 lg:hidden">
-          {tabs.map((t) => {
+        <nav className="max-h-[75vh] overflow-y-auto border-t border-white/10 2xl:hidden">
+          {tabs.map(t => {
             const isActive = t.key === active;
             const Icon = t.icon;
             return (

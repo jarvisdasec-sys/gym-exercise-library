@@ -2,11 +2,2217 @@
   "buildCommand": "pnpm build",
   "outputDirectory": "dist/public",
   "rewrites": [
-    { "source": "/instagram", "destination": "/instagram.html" },
-    { "source": "/instagram/", "destination": "/instagram.html" },
-    { "source": "/workouts/groups", "destination": "/group-workouts.html" },
-    { "source": "/workouts/groups/", "destination": "/group-workouts.html" },
-    { "source": "/", "destination": "/home.html" },
-    { "source": "/(.*)", "destination": "/app.html" }
+    {
+      "source": "/",
+      "destination": "/home.html"
+    },
+    {
+      "source": "/start",
+      "destination": "/start.html"
+    },
+    {
+      "source": "/start/",
+      "destination": "/start.html"
+    },
+    {
+      "source": "/plus",
+      "destination": "/plus.html"
+    },
+    {
+      "source": "/plus/",
+      "destination": "/plus.html"
+    },
+    {
+      "source": "/exercises",
+      "destination": "/library.html"
+    },
+    {
+      "source": "/exercises/",
+      "destination": "/library.html"
+    },
+    {
+      "source": "/instagram",
+      "destination": "/instagram.html"
+    },
+    {
+      "source": "/instagram/",
+      "destination": "/instagram.html"
+    },
+    {
+      "source": "/workouts/groups",
+      "destination": "/group-workouts.html"
+    },
+    {
+      "source": "/workouts/groups/",
+      "destination": "/group-workouts.html"
+    },
+    {
+      "source": "/e/barbell-bench-press",
+      "destination": "/guides/barbell-bench-press.html"
+    },
+    {
+      "source": "/e/barbell-bench-press/",
+      "destination": "/guides/barbell-bench-press.html"
+    },
+    {
+      "source": "/e/incline-dumbbell-press",
+      "destination": "/guides/incline-dumbbell-press.html"
+    },
+    {
+      "source": "/e/incline-dumbbell-press/",
+      "destination": "/guides/incline-dumbbell-press.html"
+    },
+    {
+      "source": "/e/decline-bench-press",
+      "destination": "/guides/decline-bench-press.html"
+    },
+    {
+      "source": "/e/decline-bench-press/",
+      "destination": "/guides/decline-bench-press.html"
+    },
+    {
+      "source": "/e/machine-chest-press",
+      "destination": "/guides/machine-chest-press.html"
+    },
+    {
+      "source": "/e/machine-chest-press/",
+      "destination": "/guides/machine-chest-press.html"
+    },
+    {
+      "source": "/e/cable-crossover",
+      "destination": "/guides/cable-crossover.html"
+    },
+    {
+      "source": "/e/cable-crossover/",
+      "destination": "/guides/cable-crossover.html"
+    },
+    {
+      "source": "/e/pec-deck",
+      "destination": "/guides/pec-deck.html"
+    },
+    {
+      "source": "/e/pec-deck/",
+      "destination": "/guides/pec-deck.html"
+    },
+    {
+      "source": "/e/dumbbell-chest-flyes",
+      "destination": "/guides/dumbbell-chest-flyes.html"
+    },
+    {
+      "source": "/e/dumbbell-chest-flyes/",
+      "destination": "/guides/dumbbell-chest-flyes.html"
+    },
+    {
+      "source": "/e/chest-dips",
+      "destination": "/guides/chest-dips.html"
+    },
+    {
+      "source": "/e/chest-dips/",
+      "destination": "/guides/chest-dips.html"
+    },
+    {
+      "source": "/e/lat-pulldown",
+      "destination": "/guides/lat-pulldown.html"
+    },
+    {
+      "source": "/e/lat-pulldown/",
+      "destination": "/guides/lat-pulldown.html"
+    },
+    {
+      "source": "/e/seated-cable-row",
+      "destination": "/guides/seated-cable-row.html"
+    },
+    {
+      "source": "/e/seated-cable-row/",
+      "destination": "/guides/seated-cable-row.html"
+    },
+    {
+      "source": "/e/barbell-bent-over-row",
+      "destination": "/guides/barbell-bent-over-row.html"
+    },
+    {
+      "source": "/e/barbell-bent-over-row/",
+      "destination": "/guides/barbell-bent-over-row.html"
+    },
+    {
+      "source": "/e/t-bar-row",
+      "destination": "/guides/t-bar-row.html"
+    },
+    {
+      "source": "/e/t-bar-row/",
+      "destination": "/guides/t-bar-row.html"
+    },
+    {
+      "source": "/e/single-arm-dumbbell-row",
+      "destination": "/guides/single-arm-dumbbell-row.html"
+    },
+    {
+      "source": "/e/single-arm-dumbbell-row/",
+      "destination": "/guides/single-arm-dumbbell-row.html"
+    },
+    {
+      "source": "/e/pull-ups",
+      "destination": "/guides/pull-ups.html"
+    },
+    {
+      "source": "/e/pull-ups/",
+      "destination": "/guides/pull-ups.html"
+    },
+    {
+      "source": "/e/straight-arm-pulldown",
+      "destination": "/guides/straight-arm-pulldown.html"
+    },
+    {
+      "source": "/e/straight-arm-pulldown/",
+      "destination": "/guides/straight-arm-pulldown.html"
+    },
+    {
+      "source": "/e/back-hyperextensions",
+      "destination": "/guides/back-hyperextensions.html"
+    },
+    {
+      "source": "/e/back-hyperextensions/",
+      "destination": "/guides/back-hyperextensions.html"
+    },
+    {
+      "source": "/e/barbell-back-squat",
+      "destination": "/guides/barbell-back-squat.html"
+    },
+    {
+      "source": "/e/barbell-back-squat/",
+      "destination": "/guides/barbell-back-squat.html"
+    },
+    {
+      "source": "/e/leg-press",
+      "destination": "/guides/leg-press.html"
+    },
+    {
+      "source": "/e/leg-press/",
+      "destination": "/guides/leg-press.html"
+    },
+    {
+      "source": "/e/hack-squat",
+      "destination": "/guides/hack-squat.html"
+    },
+    {
+      "source": "/e/hack-squat/",
+      "destination": "/guides/hack-squat.html"
+    },
+    {
+      "source": "/e/romanian-deadlift",
+      "destination": "/guides/romanian-deadlift.html"
+    },
+    {
+      "source": "/e/romanian-deadlift/",
+      "destination": "/guides/romanian-deadlift.html"
+    },
+    {
+      "source": "/e/leg-extension",
+      "destination": "/guides/leg-extension.html"
+    },
+    {
+      "source": "/e/leg-extension/",
+      "destination": "/guides/leg-extension.html"
+    },
+    {
+      "source": "/e/lying-leg-curl",
+      "destination": "/guides/lying-leg-curl.html"
+    },
+    {
+      "source": "/e/lying-leg-curl/",
+      "destination": "/guides/lying-leg-curl.html"
+    },
+    {
+      "source": "/e/bulgarian-split-squat",
+      "destination": "/guides/bulgarian-split-squat.html"
+    },
+    {
+      "source": "/e/bulgarian-split-squat/",
+      "destination": "/guides/bulgarian-split-squat.html"
+    },
+    {
+      "source": "/e/dumbbell-lunges",
+      "destination": "/guides/dumbbell-lunges.html"
+    },
+    {
+      "source": "/e/dumbbell-lunges/",
+      "destination": "/guides/dumbbell-lunges.html"
+    },
+    {
+      "source": "/e/goblet-squat",
+      "destination": "/guides/goblet-squat.html"
+    },
+    {
+      "source": "/e/goblet-squat/",
+      "destination": "/guides/goblet-squat.html"
+    },
+    {
+      "source": "/e/barbell-hip-thrust",
+      "destination": "/guides/barbell-hip-thrust.html"
+    },
+    {
+      "source": "/e/barbell-hip-thrust/",
+      "destination": "/guides/barbell-hip-thrust.html"
+    },
+    {
+      "source": "/e/standing-calf-raise",
+      "destination": "/guides/standing-calf-raise.html"
+    },
+    {
+      "source": "/e/standing-calf-raise/",
+      "destination": "/guides/standing-calf-raise.html"
+    },
+    {
+      "source": "/e/seated-calf-raise",
+      "destination": "/guides/seated-calf-raise.html"
+    },
+    {
+      "source": "/e/seated-calf-raise/",
+      "destination": "/guides/seated-calf-raise.html"
+    },
+    {
+      "source": "/e/dumbbell-overhead-press",
+      "destination": "/guides/dumbbell-overhead-press.html"
+    },
+    {
+      "source": "/e/dumbbell-overhead-press/",
+      "destination": "/guides/dumbbell-overhead-press.html"
+    },
+    {
+      "source": "/e/barbell-military-press",
+      "destination": "/guides/barbell-military-press.html"
+    },
+    {
+      "source": "/e/barbell-military-press/",
+      "destination": "/guides/barbell-military-press.html"
+    },
+    {
+      "source": "/e/arnold-press",
+      "destination": "/guides/arnold-press.html"
+    },
+    {
+      "source": "/e/arnold-press/",
+      "destination": "/guides/arnold-press.html"
+    },
+    {
+      "source": "/e/dumbbell-lateral-raise",
+      "destination": "/guides/dumbbell-lateral-raise.html"
+    },
+    {
+      "source": "/e/dumbbell-lateral-raise/",
+      "destination": "/guides/dumbbell-lateral-raise.html"
+    },
+    {
+      "source": "/e/dumbbell-front-raise",
+      "destination": "/guides/dumbbell-front-raise.html"
+    },
+    {
+      "source": "/e/dumbbell-front-raise/",
+      "destination": "/guides/dumbbell-front-raise.html"
+    },
+    {
+      "source": "/e/reverse-pec-deck",
+      "destination": "/guides/reverse-pec-deck.html"
+    },
+    {
+      "source": "/e/reverse-pec-deck/",
+      "destination": "/guides/reverse-pec-deck.html"
+    },
+    {
+      "source": "/e/cable-face-pulls",
+      "destination": "/guides/cable-face-pulls.html"
+    },
+    {
+      "source": "/e/cable-face-pulls/",
+      "destination": "/guides/cable-face-pulls.html"
+    },
+    {
+      "source": "/e/barbell-upright-row",
+      "destination": "/guides/barbell-upright-row.html"
+    },
+    {
+      "source": "/e/barbell-upright-row/",
+      "destination": "/guides/barbell-upright-row.html"
+    },
+    {
+      "source": "/e/dumbbell-shrugs",
+      "destination": "/guides/dumbbell-shrugs.html"
+    },
+    {
+      "source": "/e/dumbbell-shrugs/",
+      "destination": "/guides/dumbbell-shrugs.html"
+    },
+    {
+      "source": "/e/barbell-bicep-curl",
+      "destination": "/guides/barbell-bicep-curl.html"
+    },
+    {
+      "source": "/e/barbell-bicep-curl/",
+      "destination": "/guides/barbell-bicep-curl.html"
+    },
+    {
+      "source": "/e/ez-bar-bicep-curl",
+      "destination": "/guides/ez-bar-bicep-curl.html"
+    },
+    {
+      "source": "/e/ez-bar-bicep-curl/",
+      "destination": "/guides/ez-bar-bicep-curl.html"
+    },
+    {
+      "source": "/e/dumbbell-hammer-curl",
+      "destination": "/guides/dumbbell-hammer-curl.html"
+    },
+    {
+      "source": "/e/dumbbell-hammer-curl/",
+      "destination": "/guides/dumbbell-hammer-curl.html"
+    },
+    {
+      "source": "/e/preacher-curl",
+      "destination": "/guides/preacher-curl.html"
+    },
+    {
+      "source": "/e/preacher-curl/",
+      "destination": "/guides/preacher-curl.html"
+    },
+    {
+      "source": "/e/concentration-curl",
+      "destination": "/guides/concentration-curl.html"
+    },
+    {
+      "source": "/e/concentration-curl/",
+      "destination": "/guides/concentration-curl.html"
+    },
+    {
+      "source": "/e/cable-bicep-curl",
+      "destination": "/guides/cable-bicep-curl.html"
+    },
+    {
+      "source": "/e/cable-bicep-curl/",
+      "destination": "/guides/cable-bicep-curl.html"
+    },
+    {
+      "source": "/e/tricep-cable-pushdown",
+      "destination": "/guides/tricep-cable-pushdown.html"
+    },
+    {
+      "source": "/e/tricep-cable-pushdown/",
+      "destination": "/guides/tricep-cable-pushdown.html"
+    },
+    {
+      "source": "/e/skull-crushers",
+      "destination": "/guides/skull-crushers.html"
+    },
+    {
+      "source": "/e/skull-crushers/",
+      "destination": "/guides/skull-crushers.html"
+    },
+    {
+      "source": "/e/overhead-tricep-extension",
+      "destination": "/guides/overhead-tricep-extension.html"
+    },
+    {
+      "source": "/e/overhead-tricep-extension/",
+      "destination": "/guides/overhead-tricep-extension.html"
+    },
+    {
+      "source": "/e/overhead-cable-tricep-extension",
+      "destination": "/guides/overhead-cable-tricep-extension.html"
+    },
+    {
+      "source": "/e/overhead-cable-tricep-extension/",
+      "destination": "/guides/overhead-cable-tricep-extension.html"
+    },
+    {
+      "source": "/e/dumbbell-tricep-kickback",
+      "destination": "/guides/dumbbell-tricep-kickback.html"
+    },
+    {
+      "source": "/e/dumbbell-tricep-kickback/",
+      "destination": "/guides/dumbbell-tricep-kickback.html"
+    },
+    {
+      "source": "/e/bench-dips",
+      "destination": "/guides/bench-dips.html"
+    },
+    {
+      "source": "/e/bench-dips/",
+      "destination": "/guides/bench-dips.html"
+    },
+    {
+      "source": "/e/hanging-leg-raise",
+      "destination": "/guides/hanging-leg-raise.html"
+    },
+    {
+      "source": "/e/hanging-leg-raise/",
+      "destination": "/guides/hanging-leg-raise.html"
+    },
+    {
+      "source": "/e/kneeling-cable-crunch",
+      "destination": "/guides/kneeling-cable-crunch.html"
+    },
+    {
+      "source": "/e/kneeling-cable-crunch/",
+      "destination": "/guides/kneeling-cable-crunch.html"
+    },
+    {
+      "source": "/e/ab-wheel-rollout",
+      "destination": "/guides/ab-wheel-rollout.html"
+    },
+    {
+      "source": "/e/ab-wheel-rollout/",
+      "destination": "/guides/ab-wheel-rollout.html"
+    },
+    {
+      "source": "/e/plank",
+      "destination": "/guides/plank.html"
+    },
+    {
+      "source": "/e/plank/",
+      "destination": "/guides/plank.html"
+    },
+    {
+      "source": "/e/russian-twist",
+      "destination": "/guides/russian-twist.html"
+    },
+    {
+      "source": "/e/russian-twist/",
+      "destination": "/guides/russian-twist.html"
+    },
+    {
+      "source": "/account",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/account/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/app",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/app/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/calculators",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/calculators/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/elliptical",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/elliptical/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/freestyle-swimming",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/freestyle-swimming/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/heavy-bag",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/heavy-bag/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/hiit-circuit",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/hiit-circuit/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/hill-sprints",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/hill-sprints/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/incline-walking",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/incline-walking/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/jump-rope",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/jump-rope/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/outdoor-running",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/outdoor-running/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/road-cycling",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/road-cycling/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/rowing-machine",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/rowing-machine/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/rucking",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/rucking/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/shuttle-runs",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/shuttle-runs/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/ski-erg",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/ski-erg/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/spin-class",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/spin-class/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/stair-climber",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/stair-climber/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/stationary-bike",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/stationary-bike/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/treadmill-running",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/treadmill-running/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/water-running",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/cardio/water-running/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/downloads",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/downloads/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness-calculators",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness-calculators/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness-calculators/bmi",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness-calculators/bmi/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness/warm-up-and-cooldown",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/fitness/warm-up-and-cooldown/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/asking-for-a-spot",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/asking-for-a-spot/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/caffeine",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/caffeine/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/calories-and-energy-balance",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/calories-and-energy-balance/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/carbs-and-fats",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/carbs-and-fats/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/creatine",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/creatine/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/equipment-orientation",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/equipment-orientation/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/first-month-plan",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/first-month-plan/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/gym-myths",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/gym-myths/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/how-to-judge-a-supplement",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/how-to-judge-a-supplement/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/how-to-not-quit",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/how-to-not-quit/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/hydration",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/hydration/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/performance-supplements",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/performance-supplements/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/progressive-overload",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/progressive-overload/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/protein-explained",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/protein-explained/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/protein-powder",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/protein-powder/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/reading-a-label",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/reading-a-label/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/rest-days",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/rest-days/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/rest-periods",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/rest-periods/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/sets-reps-and-rep-ranges",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/sets-reps-and-rep-ranges/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/sleep-and-training",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/sleep-and-training/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/soreness-and-stalling",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/soreness-and-stalling/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/stretching-and-mobility",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/stretching-and-mobility/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/training-frequency",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/training-frequency/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/unwritten-rules",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/unwritten-rules/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/vitamins-and-minerals",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/vitamins-and-minerals/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/warm-up-properly",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/warm-up-properly/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/what-does-not-work",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/what-does-not-work/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/your-first-week",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/your-first-week/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/mobility",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/mobility/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/builder",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/builder/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/education",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/education/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/foods",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/foods/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/grocery-planner",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/grocery-planner/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/meal-prep",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/meal-prep/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/search",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/search/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/tracker",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/nutrition/tracker/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/physical-fitness/running",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/physical-fitness/running/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/reset-password",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/reset-password/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/resources",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/resources/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/saved",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/saved/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/stickers",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/stickers/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/wod",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/wod/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/arm-day",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/arm-day/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/builder",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/builder/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/core-and-abs",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/core-and-abs/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/dumbbell-only",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/dumbbell-only/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/full-body-starter",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/full-body-starter/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/legs-and-glutes",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/legs-and-glutes/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/lower-body",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/lower-body/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/machine-circuit",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/machine-circuit/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/1/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/1/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/1/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/1/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/1/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/1/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/2/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/2/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/2/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/2/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/2/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/2/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/3/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/3/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/3/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/3/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/3/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/3/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/4/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/4/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/4/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/4/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/4/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/4/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/5/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/5/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/5/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/5/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/5/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/5/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/6/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/6/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/6/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/6/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/6/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/beginner-fitness/6/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/1/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/2/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/3/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/4/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/5/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/conditioning/6/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/1/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/2/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/3/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/4/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/5/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/fat-loss/6/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/1/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/2/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/3/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/4/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/5/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/6/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/7/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/muscle-gain/8/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/1/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/2/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/3/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/4/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/5/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/6/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/7/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/1",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/1/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/2",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/2/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/3",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/3/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/4",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/programs/strength/8/4/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/pull-day",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/pull-day/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/push-day",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/push-day/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/shoulder-day",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/shoulder-day/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/strength-push-pull",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/strength-push-pull/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/today",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/today/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/tools",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/tools/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/upper-body",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/workouts/upper-body/",
+      "destination": "/app.html"
+    }
   ]
 }

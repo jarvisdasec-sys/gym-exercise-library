@@ -2,140 +2,179 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { BtbMotion } from "../client/src/components/BtbMotion";
-import { GroupWorkoutPromo } from "../client/src/components/GroupWorkoutPromo";
+import { GrowthContent } from "../client/src/components/GrowthContent";
 import {
-  HOME_TITLE,
-  HOME_DESCRIPTION,
-  HOME_URL,
-  HOME_IMAGE,
-} from "../client/src/lib/homeMetadata";
+  BTB_CONTACT,
+  GROWTH_META,
+  PLANNER_URL,
+} from "../client/src/lib/growth";
 
 const output = path.resolve("dist/public");
-let html = await readFile(path.join(output, "index.html"), "utf8");
-// Vercel can resolve the physical directory index before a '/' rewrite.
-// Keep non-home SPA routes on an untouched shell, never a homepage snapshot.
-await writeFile(path.join(output, "app.html"), html);
-const escape = (value: string) =>
+const PUBLIC_ORIGIN = "https://www.btbfitnessandhealth.com";
+const plannerUrl = process.env.VITE_PLANNER_REVIEW_URL?.trim() || PLANNER_URL;
+type GrowthPage = keyof typeof GROWTH_META;
+
+// Vite supplies the automatic JSX runtime in the browser. `tsx` evaluates the
+// shared component with the classic runtime during this static build, so expose
+// React for JSX compiled by that component without changing its client source.
+(globalThis as typeof globalThis & { React: typeof React }).React = React;
+
+const escapeAttribute = (value: string) =>
   value
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
-function setMeta(attribute: "name" | "property", name: string, value: string) {
-  const tag = `<meta ${attribute}="${name}" content="${escape(value)}" />`;
+
+function setMeta(
+  html: string,
+  attribute: "name" | "property",
+  name: string,
+  value: string
+) {
+  const tag = `<meta ${attribute}="${name}" content="${escapeAttribute(value)}" />`;
   const existing = new RegExp(`<meta\\b[^>]*${attribute}="${name}"[^>]*>`, "i");
-  html = existing.test(html)
+  return existing.test(html)
     ? html.replace(existing, tag)
     : html.replace("</head>", `${tag}\n</head>`);
 }
-html = html
-  .replace(/<title>[^<]*<\/title>/, `<title>${escape(HOME_TITLE)}</title>`)
-  .replace(/, maximum-scale=1/g, "");
-setMeta("name", "description", HOME_DESCRIPTION);
-for (const [key, value] of [
-  ["og:title", HOME_TITLE],
-  ["og:description", HOME_DESCRIPTION],
-  ["og:url", HOME_URL],
-  ["og:image", HOME_IMAGE],
-])
-  setMeta("property", key, value);
-for (const [key, value] of [
-  ["twitter:title", HOME_TITLE],
-  ["twitter:description", HOME_DESCRIPTION],
-  ["twitter:image", HOME_IMAGE],
-])
-  setMeta("name", key, value);
-html = html.replace(
-  "</head>",
-  `<link rel="canonical" href="${HOME_URL}" />\n</head>`
-);
-const publicMarkup = renderToStaticMarkup(
-  <>
-    <header className="border-b border-white/10 bg-black">
-      <nav
-        aria-label="BTB navigation"
-        className="container flex flex-wrap items-center justify-between gap-4 py-5"
-      >
-        <a href="/" className="display text-2xl font-bold text-lime">
-          BTB
-        </a>
-        <div className="flex flex-wrap gap-5 text-sm text-white/70">
-          <a href="/">Exercise guides</a>
-          <a href="/workouts">Workouts</a>
-          <a href="/nutrition">Nutrition</a>
-          <a href="/account">Account</a>
-        </div>
-      </nav>
-    </header>
-    <main>
-      <section className="border-b border-white/10 bg-black py-9">
-        <div className="container">
-          <p className="meta text-[0.48rem] text-lime">
-            Movement Index · 54 blueprints
-          </p>
-          <h1 className="display mt-4 text-4xl font-bold text-white">
-            Find the movement.
+
+function withMetadata(shell: string, page: GrowthPage) {
+  const metadata = GROWTH_META[page];
+  const canonical = `${PUBLIC_ORIGIN}${metadata.path}`;
+  let html = shell
+    .replace(
+      /<title>[^<]*<\/title>/,
+      `<title>${escapeAttribute(metadata.title)}</title>`
+    )
+    .replace(/, maximum-scale=1/g, "")
+    .replace(/<link\b[^>]*rel="canonical"[^>]*>/gi, "");
+
+  for (const [attribute, name, value] of [
+    ["name", "description", metadata.description],
+    ["name", "robots", "index,follow,max-image-preview:large"],
+    ["property", "og:type", "website"],
+    ["property", "og:site_name", "Build The Body (BTB)"],
+    ["property", "og:title", metadata.title],
+    ["property", "og:description", metadata.description],
+    ["property", "og:url", canonical],
+    [
+      "property",
+      "og:image",
+      `${PUBLIC_ORIGIN}/images/site/btb-movement-index-hero.jpg`,
+    ],
+    [
+      "property",
+      "og:image:alt",
+      "BTB training illustration in a black and neon-green gym",
+    ],
+    ["name", "twitter:card", "summary_large_image"],
+    ["name", "twitter:title", metadata.title],
+    ["name", "twitter:description", metadata.description],
+    [
+      "name",
+      "twitter:image",
+      `${PUBLIC_ORIGIN}/images/site/btb-movement-index-hero.jpg`,
+    ],
+  ] as const) {
+    html = setMeta(html, attribute, name, value);
+  }
+
+  return html.replace(
+    "</head>",
+    `<link rel="canonical" href="${canonical}" />\n</head>`
+  );
+}
+
+function StaticInquiryFallback() {
+  return (
+    <section id="btb-inquiry" className="growth-section">
+      <div className="growth-wrap growth-split">
+        <div>
+          <p className="growth-kicker">CONTACT BTB / EMAIL DRAFT</p>
+          <h2>
+            Ask a question.
             <br />
-            <span className="text-lime">Own the form.</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-sm text-white/65">
-            Explore exercise form guides, structured workouts, nutrition tools
-            and practical training education.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-5 text-sm text-lime">
-            <a href="/workouts">Workout sessions</a>
-            <a href="/wod">Today's workout</a>
-            <a href="/nutrition/builder">Meal Builder</a>
-            <a href="/learn">Training education</a>
-          </div>
-        </div>
-      </section>
-      <section className="border-b border-white/10 bg-black py-5">
-        <div className="container">
-          <h2 className="display text-2xl font-bold text-white">
-            Your BTB <span className="text-lime">Dashboard.</span>
+            <em>Keep control of the send.</em>
           </h2>
-          <p className="mt-3 text-sm text-white/65">
-            Sign in to see your personal saved movements and member dashboard.
-            Private account data is never included in this public page.
+        </div>
+        <div>
+          <p className="growth-lead">
+            JavaScript adds the inquiry composer. Without it, this link opens a
+            message addressed to BTB that you can review and send yourself.
           </p>
           <a
-            href="/account"
-            className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-lime"
+            className="growth-action"
+            href={`mailto:${BTB_CONTACT}?subject=BTB%20inquiry`}
           >
-            Open your dashboard →
+            Prepare an email to BTB →
           </a>
         </div>
-      </section>
-      <GroupWorkoutPromo />
-      <BtbMotion />
-    </main>
-    <footer className="container py-7 text-sm text-white/60">
-      <a
-        href="https://www.instagram.com/btbfitnessandhealth/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Follow @btbfitnessandhealth on Instagram
-      </a>
-    </footer>
-  </>
-);
-if (!html.includes('<div id="root"></div>'))
-  throw new Error(
-    "The app HTML root changed; cannot safely prerender the homepage."
+      </div>
+    </section>
   );
-html = html.replace(
-  '<div id="root"></div>',
-  `<div id="root">${publicMarkup}</div>`
-);
-if (/<iframe\b/i.test(publicMarkup))
-  throw new Error(
-    "The public homepage must not load third-party players by default."
+}
+
+function StaticPage({ page }: { page: GrowthPage }) {
+  return (
+    <>
+      <header className="border-b border-white/10 bg-black">
+        <nav
+          aria-label="BTB navigation"
+          className="container flex flex-wrap items-center justify-between gap-4 py-5"
+        >
+          <a href="/" className="display text-xl font-bold text-lime">
+            BTB <span className="sr-only">Fitness &amp; Health</span>
+          </a>
+          <div className="flex flex-wrap gap-4 text-sm text-white/70">
+            <a href="/start">Start here</a>
+            <a href="/exercises">Exercise guides</a>
+            <a href="/workouts">Workouts</a>
+            <a href="/nutrition">Nutrition</a>
+          </div>
+        </nav>
+      </header>
+      <GrowthContent page={page} plannerUrl={plannerUrl} />
+      {page === "start" && <StaticInquiryFallback />}
+      <footer className="border-t border-white/10">
+        <div className="container flex flex-wrap items-center justify-between gap-4 py-7 text-sm text-white/60">
+          <span>BTB Fitness &amp; Health</span>
+          <a href="/plus" className="text-lime">
+            Help shape BTB Plus
+          </a>
+        </div>
+      </footer>
+    </>
   );
-await writeFile(path.join(output, "home.html"), html);
-await writeFile(path.join(output, "index.html"), html);
+}
+
+const shell = await readFile(path.join(output, "index.html"), "utf8");
+if (!shell.includes('<div id="root"></div>')) {
+  throw new Error(
+    "The app HTML root changed; cannot safely render public pages."
+  );
+}
+
+// Preserve a generic client shell before any route-specific metadata or markup
+// is added. Known application routes use this shell; public snapshots do not.
+await writeFile(path.join(output, "app.html"), shell);
+
+for (const page of ["home", "start", "plus"] as const) {
+  const markup = renderToStaticMarkup(<StaticPage page={page} />);
+  if (/<iframe\b/i.test(markup)) {
+    throw new Error(
+      "Public growth snapshots must not load third-party players."
+    );
+  }
+  const html = withMetadata(shell, page).replace(
+    '<div id="root"></div>',
+    `<div id="root">${markup}</div>`
+  );
+  const file = page === "home" ? "home.html" : `${page}.html`;
+  await writeFile(path.join(output, file), html);
+  if (page === "home") await writeFile(path.join(output, "index.html"), html);
+}
+
 console.log(
-  "Generated physical index/homepage with public-only content and a separate generic app shell; no member data."
+  "Generated public home, start, and BTB Plus snapshots with route-specific metadata; no account data is included."
 );

@@ -1,6 +1,8 @@
 export const ROUTES = {
   home: "/",
-  exercises: "/",
+  exercises: "/exercises",
+  start: "/start",
+  plus: "/plus",
   instagram: "/instagram",
   workouts: "/workouts",
   groupWorkouts: "/workouts/groups",
@@ -21,7 +23,6 @@ export const ROUTES = {
 } as const;
 
 export const LEGACY_ROUTE_REDIRECTS = {
-  "/exercises": ROUTES.exercises,
   "/physical-fitness/running": ROUTES.cardio,
   "/fitness/warm-up-and-cooldown": ROUTES.mobility,
   "/fitness-calculators/bmi": "/calculators#bmi",
@@ -29,7 +30,7 @@ export const LEGACY_ROUTE_REDIRECTS = {
   "/fitness": ROUTES.education,
   "/workouts/today": ROUTES.wod,
   "/resources": ROUTES.education,
-  "/app": ROUTES.home,
+  "/app": ROUTES.start,
   "/downloads": ROUTES.stickers,
   "/nutrition/foods": ROUTES.nutrition,
   "/nutrition/education": ROUTES.education,

@@ -64,7 +64,7 @@ describe("Instagram hub application integration", () => {
     await act(async () => root.render(createElement(App)));
     await waitForHeading("Beyond the Reel.");
     const library = host.querySelector<HTMLAnchorElement>(
-      'header nav a[href="/"]'
+      'header nav a[href="/exercises"]'
     );
     expect(library).not.toBeNull();
     await act(async () =>

@@ -34,6 +34,9 @@ afterEach(() => {
 describe("public analytics scope", () => {
   it.each([
     "/",
+    "/start",
+    "/plus",
+    "/exercises",
     "/instagram",
     "/instagram/",
     "/e/barbell-bent-over-row",
@@ -147,6 +150,23 @@ describe("privacy controls", () => {
 });
 
 describe("non-blocking runtime tracking", () => {
+  it("tracks controlled tool-interest labels without personal form fields", async () => {
+    vi.stubEnv("PROD", true);
+    browser.happyDOM.setURL(
+      origin + "/start?utm_source=instagram&email=private"
+    );
+    const analytics = await import("./trafficAnalytics");
+    await analytics.captureGrowthClick("recipe_planner");
+    expect(sdk.capture).toHaveBeenCalledWith(
+      "btb_tool_click",
+      expect.objectContaining({
+        target: "recipe_planner",
+        $current_url: origin + "/start?utm_source=instagram",
+      }),
+      { transport: "sendBeacon", send_instantly: true }
+    );
+    expect(JSON.stringify(sdk.capture.mock.calls)).not.toContain("private");
+  });
   it("does not initialize on development or preview domains", async () => {
     const analytics = await import("./trafficAnalytics");
     await analytics.captureTrafficPage(window.location.href);

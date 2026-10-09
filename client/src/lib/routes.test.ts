@@ -8,7 +8,9 @@ const publicRoot = path.resolve(process.cwd(), "client/public");
 
 describe("canonical navigation", () => {
   it("keeps every primary tab pointed at an implemented route", () => {
-    expect(ROUTES.exercises).toBe("/");
+    expect(ROUTES.exercises).toBe("/exercises");
+    expect(ROUTES.start).toBe("/start");
+    expect(ROUTES.plus).toBe("/plus");
     expect(ROUTES.workouts).toBe("/workouts");
     expect(ROUTES.cardio).toBe("/cardio");
     expect(ROUTES.mobility).toBe("/mobility");
@@ -18,7 +20,7 @@ describe("canonical navigation", () => {
   });
 
   it("maps known legacy destinations to truthful working pages", () => {
-    expect(LEGACY_ROUTE_REDIRECTS["/exercises"]).toBe("/");
+    expect(LEGACY_ROUTE_REDIRECTS["/app"]).toBe("/start");
     expect(LEGACY_ROUTE_REDIRECTS["/physical-fitness/running"]).toBe("/cardio");
     expect(LEGACY_ROUTE_REDIRECTS["/fitness/warm-up-and-cooldown"]).toBe("/mobility");
     expect(LEGACY_ROUTE_REDIRECTS["/fitness-calculators"]).toBe("/calculators");

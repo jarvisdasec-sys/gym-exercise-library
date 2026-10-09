@@ -19,6 +19,9 @@ export const CAMPAIGN_KEYS = [
 const CAMPAIGN_LABEL = /^[a-zA-Z0-9_.-]{1,80}$/;
 const publicPages = new Set([
   "/",
+  "/start",
+  "/plus",
+  "/exercises",
   "/instagram",
   "/workouts",
   "/wod",
@@ -107,7 +110,11 @@ function safeReferrer(value: string): string | null {
 export function sanitizeTrafficEvent<
   T extends { event: string; properties: Record<string, unknown> },
 >(event: T): T | null {
-  if (!["$pageview", "$pageleave", "btb_social_click"].includes(event.event))
+  if (
+    !["$pageview", "$pageleave", "btb_social_click", "btb_tool_click"].includes(
+      event.event
+    )
+  )
     return null;
   const rawUrl = event.properties.$current_url;
   const pageUrl = typeof rawUrl === "string" ? sanitizePageUrl(rawUrl) : null;
@@ -295,5 +302,46 @@ export async function captureTrafficClick(
     );
   } catch {
     /* The existing anchor remains functional. */
+  }
+}
+
+/** Fixed destination labels only: no form content, health records, or user identifiers. */
+export async function captureGrowthClick(
+  target:
+    | "recipe_planner"
+    | "start_here"
+    | "plus_interest"
+    | "starter_worksheet"
+    | "app_store"
+): Promise<void> {
+  if (typeof window === "undefined") return;
+  const rawUrl = window.location.href;
+  const clean = sanitizePageUrl(rawUrl);
+  if (
+    !clean ||
+    ![
+      "recipe_planner",
+      "start_here",
+      "plus_interest",
+      "starter_worksheet",
+      "app_store",
+    ].includes(target)
+  )
+    return;
+  try {
+    const sdk = loadedSdk ?? (await trafficSdk());
+    if (!sdk || !shouldTrackTraffic()) return;
+    sdk.capture(
+      "btb_tool_click",
+      {
+        target,
+        $current_url: clean,
+        ...campaignProperties(rawUrl),
+        ...testProperties(rawUrl),
+      },
+      { transport: "sendBeacon", send_instantly: true }
+    );
+  } catch {
+    /* Tools work without analytics. */
   }
 }

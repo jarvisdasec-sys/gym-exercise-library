@@ -1,7 +1,7 @@
 export const HOME_TITLE = "BTB Gym Exercise Library — 54 Movement Blueprints";
 export const HOME_DESCRIPTION =
   "Explore BTB exercise guides, workouts, nutrition tools and published Reels. Sign in to see your saved movements and member dashboard.";
-export const HOME_URL = "https://www.btbfitnessandhealth.com/";
+export const HOME_URL = "https://www.btbfitnessandhealth.com/exercises";
 export const HOME_IMAGE =
   "https://www.btbfitnessandhealth.com/images/site/btb-movement-index-hero.jpg";
 

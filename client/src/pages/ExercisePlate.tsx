@@ -21,6 +21,7 @@ import { plateUrl, plateUrlLabel } from "@/lib/plateUrl";
 import { CATEGORIES, INDEXED_EXERCISES } from "@/lib/exercises";
 import { WORKOUTS } from "@/lib/workouts";
 import { getExerciseGuide } from "@/lib/exerciseGuides";
+import { applyExerciseGuideMetadata } from "@/lib/exerciseMetadata";
 import { useSaved } from "@/contexts/SavedContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { getExerciseVideo } from "@/lib/exerciseVideos";
@@ -52,15 +53,7 @@ export default function ExercisePlate() {
   const { user } = useAuth();
   const { isFavorite, toggleFavorite } = useSaved();
 
-  useEffect(() => {
-    if (!exercise) return;
-    document.title = `${exercise.name} Form Guide | BTB Fitness & Health`;
-    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    description?.setAttribute(
-      "content",
-      `${exercise.name} form guide from BTB: setup, execution, coaching cues, common mistakes, and safer progressions.`,
-    );
-  }, [exercise]);
+  useEffect(() => applyExerciseGuideMetadata(exercise), [exercise]);
 
   if (!exercise) {
     return (
@@ -74,7 +67,7 @@ export default function ExercisePlate() {
             That sticker points to a movement that is no longer in the index
           </p>
           <Link
-            href="/"
+            href="/exercises"
             className="mt-7 bg-lime px-5 py-3 transition-colors duration-200 hover:bg-lime-dim"
           >
             <span className="meta text-[0.55rem] font-bold text-black">
@@ -285,7 +278,7 @@ export default function ExercisePlate() {
               More {categoryLabel}
             </h2>
             <Link
-              href="/"
+              href="/exercises"
               className="meta shrink-0 border border-lime/35 px-2.5 py-1 text-[0.45rem] text-lime transition-colors hover:bg-lime/10"
             >
               All 54 plates
@@ -346,7 +339,7 @@ function PlateBar() {
         <span className="meta text-[0.5rem]">Sessions</span>
       </Link>
       <Link
-        href="/"
+        href="/exercises"
         className="hidden shrink-0 items-center gap-2 border border-white/15 px-3 py-2 transition-colors duration-200 hover:border-lime hover:text-lime sm:flex"
       >
         <span className="meta text-[0.5rem]">All Plates</span>
