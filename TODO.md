@@ -22,3 +22,10 @@ Implementation verification complete: TypeScript, 137 full-run tests, added meta
 - [x] Review handoff: passing checks/build/regressions, desktop/mobile verification and read-only integration review, saved feature PR/review URL; production unchanged until approval.
 
 Client-growth review PR: https://github.com/jarvisdasec-sys/gym-exercise-library/pull/7
+
+# BTB app and Instagram links
+
+- [x] Add prominent **Download BTB App** and **Follow BTB on Instagram** homepage buttons that open the official App Store listing (`https://apps.apple.com/us/app/btb-fitness-health/id6782528786`) and BTB Instagram profile (`https://www.instagram.com/btbfitnessandhealth/`) directly; retain existing homepage content, styling, mobile wrapping and public initial-HTML rendering.
+- [x] Add a clearly labeled App Store download link beside the existing Instagram follow link in the shared website footer; external links open safely in a new tab and remain keyboard accessible.
+- [x] Validate the changed links with regression tests, TypeScript and the production build. The two new link regressions, full regression suite, `pnpm check`, `pnpm build` and generated homepage link assertions passed.
+- [ ] Save the changes to the website's GitHub repository and confirm production separately before claiming that the links are live.

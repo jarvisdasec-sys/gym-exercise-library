@@ -1,4 +1,5 @@
 import { APP_STORE_URL, PLANNER_URL } from "../lib/growth";
+import { INSTAGRAM_URL } from "../lib/social";
 
 export function GrowthContent({
   page = "home",
@@ -250,6 +251,30 @@ export function GrowthContent({
           <p className="growth-fine">
             Free browser tools · No card required · Start at your own pace
           </p>
+          <nav
+            className="growth-actions"
+            aria-label="BTB app and Instagram"
+            style={{ maxWidth: 550 }}
+          >
+            <a
+              href={APP_STORE_URL}
+              className="growth-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download BTB App on the App Store (opens in a new tab)"
+            >
+              Download BTB App <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href={INSTAGRAM_URL}
+              className="growth-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow BTB on Instagram (opens in a new tab)"
+            >
+              Follow BTB on Instagram <span aria-hidden="true">↗</span>
+            </a>
+          </nav>
           <div className="growth-hero-label">
             <span className="growth-kicker">THE BTB APPROACH</span>
             <p>

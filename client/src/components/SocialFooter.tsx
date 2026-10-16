@@ -1,5 +1,6 @@
-import { ArrowUpRight, Facebook, Instagram } from "lucide-react";
+import { ArrowUpRight, Facebook, Instagram, Smartphone } from "lucide-react";
 import { INSTAGRAM_URL, trackSocialClick } from "@/lib/social";
+import { APP_STORE_URL } from "@/lib/growth";
 
 export function SocialFooter() {
   return (
@@ -23,6 +24,19 @@ export function SocialFooter() {
           </a>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <a
+            href={APP_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-12 items-center justify-center gap-3 border border-lime/50 px-4 py-3 text-sm font-semibold text-lime transition-colors hover:bg-lime/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime"
+          >
+            <Smartphone className="h-4 w-4" aria-hidden="true" /> Download BTB
+            App
+            <span className="sr-only">
+              {" "}
+              on the App Store (opens in a new tab)
+            </span>
+          </a>
           <a
             href={INSTAGRAM_URL}
             target="_blank"
