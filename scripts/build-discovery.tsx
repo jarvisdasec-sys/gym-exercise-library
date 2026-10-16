@@ -403,6 +403,7 @@ function buildManifest(): RouteManifest {
   const snapshotRoutes: Record<string, string> = {
     "/": "home.html",
     "/start": "start.html",
+    "/7-day-starter": "7-day-starter.html",
     "/plus": "plus.html",
     "/exercises": "library.html",
     "/instagram": "instagram.html",
@@ -413,7 +414,7 @@ function buildManifest(): RouteManifest {
     // This route is intentionally not part of the public navigation registry,
     // but it is a real App route used by password-recovery links.
     "/reset-password",
-    ...Object.values(ROUTES).filter((route) => !snapshotPaths.has(route)),
+    ...Object.values(ROUTES).filter(route => !snapshotPaths.has(route)),
     ...Object.keys(LEGACY_ROUTE_REDIRECTS),
     ...WORKOUTS.map(workout => `/workouts/${workout.slug}`),
     ...CARDIO.map(exercise => `/cardio/${exercise.slug}`),
@@ -503,6 +504,7 @@ await writeFile(
 const sitemapUrls = [
   `${BTB_SITE_ORIGIN}/`,
   `${BTB_SITE_ORIGIN}/start`,
+  `${BTB_SITE_ORIGIN}/7-day-starter`,
   `${BTB_SITE_ORIGIN}/plus`,
   `${BTB_SITE_ORIGIN}/exercises`,
   `${BTB_SITE_ORIGIN}/instagram`,

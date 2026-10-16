@@ -29,3 +29,9 @@ Client-growth review PR: https://github.com/jarvisdasec-sys/gym-exercise-library
 - [x] Add a clearly labeled App Store download link beside the existing Instagram follow link in the shared website footer; external links open safely in a new tab and remain keyboard accessible.
 - [x] Validate the changed links with regression tests, TypeScript and the production build. The two new link regressions, full regression suite, `pnpm check`, `pnpm build` and generated homepage link assertions passed.
 - [ ] Save the changes to the website's GitHub repository and confirm production separately before claiming that the links are live.
+
+# BTB seven-day starter launch
+
+- [ ] Convert the complete BTB 7-Day Starter Plan into a branded downloadable PDF, preserving all seven days, beginner strength options, meal-prep safety, checkboxes, write-in spaces and linked resources; publish the final PDF as a real downloadable website file without an account/email gate.
+- [ ] Publish a dedicated accessible starter-plan page with the full content, route-specific initial HTML metadata, a clear PDF download, and prominent links from the existing homepage and Start Here page; preserve all current tools, navigation, member data and deployment behavior. The owner requested publication on October 16, 2026; use the existing GitHub/Vercel workflow, not a replacement website.
+- [ ] Create a matching Instagram advertisement image and caption pointing to the live starter resource; save as a reviewable draft without changing today's existing 5 PM image post or publishing an unreviewed launch post.

@@ -15,6 +15,14 @@
       "destination": "/start.html"
     },
     {
+      "source": "/7-day-starter",
+      "destination": "/7-day-starter.html"
+    },
+    {
+      "source": "/7-day-starter/",
+      "destination": "/7-day-starter.html"
+    },
+    {
       "source": "/plus",
       "destination": "/plus.html"
     },
