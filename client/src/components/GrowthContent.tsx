@@ -1,5 +1,6 @@
 import { APP_STORE_URL, PLANNER_URL } from "../lib/growth";
 import { INSTAGRAM_URL } from "../lib/social";
+import { StarterPlanPromo } from "./StarterPlanPromo";
 
 export function GrowthContent({
   page = "home",
@@ -54,6 +55,7 @@ export function GrowthContent({
             </div>
           </div>
         </section>
+        <StarterPlanPromo />
         <section className="growth-section">
           <div className="growth-wrap growth-split">
             <div>
@@ -295,6 +297,7 @@ export function GrowthContent({
           <span>Author-led education</span>
         </div>
       </div>
+      <StarterPlanPromo />
       <section className="growth-section">
         <div className="growth-wrap growth-split">
           <div>

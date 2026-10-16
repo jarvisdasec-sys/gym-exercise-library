@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""Render the checked-in starter Markdown to static HTML (requires Python Markdown).
+
+The generated page is checked in and copied by Vite, so hosted builds need no
+Python dependency. Run manually when the starter-plan content is revised.
+"""
+from pathlib import Path
+import html
+import re
+import markdown
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / "content/btb-7-day-starter.md"
+OUTPUT = ROOT / "client/public/7-day-starter.html"
+ORIGIN = "https://www.btbfitnessandhealth.com"
+PDF = "/downloads/btb-7-day-starter-plan.pdf"
+source = SOURCE.read_text()
+assert source.startswith("# BTB 7-Day Starter Plan\n")
+body_source = source.split("\n", 1)[1]
+body = markdown.markdown(body_source, extensions=["extra", "toc"])
+body = re.sub(r"<li>\[ \] (.*?)</li>", lambda m: '<li class="check-item"><label><input type="checkbox"> <span>' + m.group(1) + '</span></label></li>', body, flags=re.S)
+refs = re.findall(r'^\[(\d+)\]: (https://\S+) "([^"]+)"$', source, re.M)
+body += '<ol class="references">' + ''.join(f'<li><a href="{html.escape(url, quote=True)}">{html.escape(title)}</a></li>' for _, url, title in refs) + '</ol>'
+css = """
+:root{color-scheme:light;--ink:#151713;--lime:#a6ff00;--paper:#f6f6f0;--muted:#555e4e}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.7 Arial,Helvetica,sans-serif}a{color:#365200;text-underline-offset:4px}a:focus-visible,input:focus-visible{outline:3px solid #659d00;outline-offset:5px}.skip{position:absolute;left:16px;top:-100px;background:var(--lime);color:#111;padding:12px;z-index:9}.skip:focus{top:12px}.nav{background:#10120e;color:#fff;padding:22px max(24px,calc((100vw - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.nav a{color:#e5e9dc;text-decoration:none;font-size:14px}.nav .brand{color:var(--lime);font-size:26px;font-weight:900;letter-spacing:-1px}.nav-links{display:flex;gap:22px;flex-wrap:wrap}.hero{background:#10120e;color:#f7f8f2;padding:66px 24px 55px;border-bottom:8px solid var(--lime)}.wrap{max-width:1100px;margin:auto}.kicker{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--lime);margin:0 0 18px}.hero h1{font-size:clamp(40px,7vw,76px);line-height:1.02;letter-spacing:-3px;margin:0;max-width:900px}.hero .lead{font-size:23px;line-height:1.45;max-width:680px;margin:25px 0}.actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.button{display:inline-block;background:var(--lime);color:#111!important;text-decoration:none;font-weight:800;line-height:1.4;padding:17px 23px;border:2px solid var(--lime)}.button.secondary{background:transparent;color:#fff!important;border-color:#6b745f}.fine{font-size:13px;color:#c4ceba}.layout{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:210px minmax(0,1fr);gap:54px;padding:44px 24px 70px}.contents{align-self:start;position:sticky;top:24px;font-size:14px}.contents h2{font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:0 0 16px}.contents a{display:block;padding:8px 0;color:#45563b;text-decoration:none;border-bottom:1px solid #dce1d3}.content{min-width:0;max-width:780px}.content h2{font-size:31px;line-height:1.2;letter-spacing:-.8px;margin:46px 0 20px;padding-top:18px;border-top:2px solid #d4dbca}.content h2:first-child{border:0;margin-top:0;padding-top:0}.content h3{font-size:23px;line-height:1.3;margin:34px 0 15px}.content p{margin:0 0 18px}.content ul,.content ol{padding-left:25px;margin-bottom:24px}.content li{padding-left:3px;margin:0 0 12px}.content li p{margin-bottom:10px}.content strong{font-weight:750}.content hr{border:0;border-top:1px solid #ced5c4;margin:40px 0}.content a{overflow-wrap:anywhere}.check-item{list-style:none;margin-left:-25px!important;border:1px solid #d5dfc8;background:#edf3e6;padding:14px!important}.check-item label{display:flex;gap:10px;align-items:flex-start}.check-item input{width:20px;height:20px;flex:0 0 20px;margin-top:4px;accent-color:#4c7300}.references{font-size:14px}.note{background:#e9eedf;border-left:4px solid #659d00;padding:17px;font-size:14px}.bottom{background:#12150f;color:#eef2e7;padding:44px 24px}.bottom p{max-width:670px}.footer{padding:25px 24px;text-align:center;font-size:13px;color:#56634a}.footer a{margin:0 10px}@media(max-width:760px){body{font-size:16px}.hero{padding:42px 22px}.hero h1{letter-spacing:-1.8px}.hero .lead{font-size:20px}.layout{display:block;padding:28px 22px 45px}.contents{position:static;margin-bottom:30px}.contents nav{display:flex;flex-wrap:wrap;gap:8px}.contents a{border:1px solid #ced8be;padding:7px 11px}.content h2{font-size:27px}.content h3{font-size:21px}.nav-links{gap:14px}.button{width:100%;text-align:center}}@media print{.nav,.hero,.contents,.bottom,.footer,.skip,.note{display:none}.layout{display:block;padding:0}.content{max-width:none;font-size:11pt}.content h2{page-break-after:avoid}.content h3{page-break-after:avoid}.check-item{break-inside:avoid}a{color:#111}}
+"""
+page = f'''<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free BTB 7-Day Starter Plan | Fitness &amp; Meal Prep</title>
+<meta name="description" content="Build your first consistent week with BTB. Download the free seven-day beginner plan with gym and home options, meal prep, recovery, and a checklist.">
+<meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="{ORIGIN}/7-day-starter">
+<meta property="og:type" content="website"><meta property="og:site_name" content="BTB Fitness &amp; Health"><meta property="og:title" content="Free BTB 7-Day Starter Plan"><meta property="og:description" content="Build your first consistent week. Simple training, meal prep, recovery, and a free downloadable PDF."><meta property="og:url" content="{ORIGIN}/7-day-starter"><meta property="og:image" content="{ORIGIN}/images/site/btb-movement-index-hero.jpg"><meta property="og:image:alt" content="BTB black and neon-green training illustration">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Free BTB 7-Day Starter Plan"><meta name="twitter:description" content="Simple training. Meal prep. Recovery. Download the free beginner PDF."><meta name="twitter:image" content="{ORIGIN}/images/site/btb-movement-index-hero.jpg">
+<link rel="icon" href="/favicon.ico"><style>{css}</style></head>
+<body><a class="skip" href="#read-plan">Skip to starter plan</a><header class="nav"><a class="brand" href="/" aria-label="BTB Fitness and Health homepage">BTB / BUILD THE BODY</a><nav class="nav-links" aria-label="Main navigation"><a href="/start">Start here</a><a href="/exercises">Exercise guides</a><a href="/nutrition">Nutrition</a></nav></header>
+<section class="hero"><div class="wrap"><p class="kicker">FREE BEGINNER RESOURCE / START ON ANY DAY</p><h1>BTB 7-Day<br>Starter Plan</h1><p class="lead">Build your first consistent week.<br>Simple training. Meal prep. Recovery.</p><div class="actions"><a class="button" href="{PDF}" download="BTB-7-Day-Starter-Plan.pdf">Download the free PDF ↓</a><a class="button secondary" href="#read-plan">Read the plan below →</a></div><p class="fine">No email gate. No account needed. General education, adapted to your ability.</p></div></section>
+<main class="layout"><aside class="contents"><h2>Find your next step</h2><nav aria-label="Starter plan contents"><a href="#your-seven-days">Your seven days</a><a href="#starter-strength-session">Strength session</a><a href="#simple-meal-prep-guide">Meal prep</a><a href="#your-next-week-written-down">Next week</a><a href="#keep-going-with-btb">BTB resources</a></nav><p class="note">Use the PDF for write-in notes. Web checkboxes are only for this open page; BTB does not save or receive your answers.</p></aside><article class="content" id="read-plan">{body}</article></main>
+<section class="bottom"><div class="wrap"><p class="kicker">BUILD THE BODY / ONE MANAGEABLE WEEK</p><h2>Keep the plan. Start at your own pace.</h2><p>Save the complete PDF with all seven daily tasks, gym and home practice options, meal-prep guidance and spaces for your next week.</p><a class="button" href="{PDF}" download="BTB-7-Day-Starter-Plan.pdf">Download BTB 7-Day Starter Plan ↓</a></div></section>
+<footer class="footer">BTB Fitness &amp; Health · General education · <a href="/start">More free tools</a><a href="https://www.instagram.com/btbfitnessandhealth/">Instagram</a></footer></body></html>
+'''
+OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+OUTPUT.write_text(page)
+print(f"Rendered full starter content: {OUTPUT}")
