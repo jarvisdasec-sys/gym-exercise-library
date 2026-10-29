@@ -20,7 +20,13 @@ afterEach(() => {
 describe("BTB growth release", () => {
   it("offers real product destinations without invented testimonials or active subscriptions", () => {
     const html = renderToStaticMarkup(createElement(GrowthContent));
-    expect(html).toContain("Train with confidence.");
+    expect(html).toContain("Find the movement.");
+    expect(html).toContain("Own the form.");
+    expect(html).toContain("Download Free Chapter 1 (PDF)");
+    expect(html).toContain("View all 54 plates");
+    expect(html.indexOf("WORKOUT OF THE DAY")).toBeLessThan(html.indexOf("BTB READING ROOM / FREE CHAPTER 1"));
+    expect(html.indexOf("BTB READING ROOM / FREE CHAPTER 1")).toBeLessThan(html.indexOf("EXERCISE LIBRARY / 54 PLATES"));
+    expect(html.indexOf("EXERCISE LIBRARY / 54 PLATES")).toBeLessThan(html.indexOf("BTB FITNESS &amp; HEALTH / COMPANION APP"));
     expect(html).toContain(PLANNER_URL.replaceAll("&", "&amp;"));
     expect(html).toContain(APP_STORE_URL);
     expect(html).toContain("/exercises");

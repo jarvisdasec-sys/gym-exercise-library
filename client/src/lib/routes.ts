@@ -30,7 +30,7 @@ export const LEGACY_ROUTE_REDIRECTS = {
   "/fitness": ROUTES.education,
   "/workouts/today": ROUTES.wod,
   "/resources": ROUTES.education,
-  "/app": ROUTES.start,
+  "/app": `${ROUTES.start}#btb-app`,
   "/downloads": ROUTES.stickers,
   "/nutrition/foods": ROUTES.nutrition,
   "/nutrition/education": ROUTES.education,

@@ -20,7 +20,7 @@ describe("canonical navigation", () => {
   });
 
   it("maps known legacy destinations to truthful working pages", () => {
-    expect(LEGACY_ROUTE_REDIRECTS["/app"]).toBe("/start");
+    expect(LEGACY_ROUTE_REDIRECTS["/app"]).toBe("/start#btb-app");
     expect(LEGACY_ROUTE_REDIRECTS["/physical-fitness/running"]).toBe("/cardio");
     expect(LEGACY_ROUTE_REDIRECTS["/fitness/warm-up-and-cooldown"]).toBe("/mobility");
     expect(LEGACY_ROUTE_REDIRECTS["/fitness-calculators"]).toBe("/calculators");

@@ -8,9 +8,9 @@ export const BTB_CONTACT = "btbfitnessandhealth@yahoo.com";
 export const GROWTH_META = {
   home: {
     path: "/",
-    title: "BTB Fitness & Health — Train, Plan & Prep",
+    title: "BTB Fitness & Health — Find the Movement. Own the Form.",
     description:
-      "Build a repeatable training and meal-prep routine with BTB. Explore exercise guides, complete recipe planning and practical education from Jarvis Dixon.",
+      "Explore 54 exercise blueprints, today's workout, the free Chapter 1 PDF, nutrition tools and fitness education from BTB Fitness & Health.",
   },
   start: {
     path: "/start",

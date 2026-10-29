@@ -22,6 +22,12 @@ export function SocialFooter() {
             Coming from Instagram? Start here{" "}
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </a>
+          <a
+            href="/exercises#suggestion-box"
+            className="ml-4 inline-flex min-h-10 items-center text-sm text-white/45 underline decoration-white/20 underline-offset-4 transition-colors hover:text-lime hover:decoration-lime"
+          >
+            Feedback
+          </a>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <a

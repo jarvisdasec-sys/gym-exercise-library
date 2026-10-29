@@ -1,6 +1,12 @@
 import { APP_STORE_URL, PLANNER_URL } from "../lib/growth";
 import { INSTAGRAM_URL } from "../lib/social";
+import { EXERCISES } from "../lib/exercises";
+import { HomepageWodPreview } from "./HomepageWodPreview";
 import { StarterPlanPromo } from "./StarterPlanPromo";
+
+const FEATURED_PLATES = ["barbell-bench-press", "lat-pulldown", "leg-press", "dumbbell-lateral-raise"]
+  .map((slug) => EXERCISES.find((exercise) => exercise.slug === slug))
+  .filter((exercise) => exercise !== undefined);
 
 export function GrowthContent({
   page = "home",
@@ -97,7 +103,7 @@ export function GrowthContent({
             </div>
           </div>
         </section>
-        <section className="growth-section">
+        <section id="btb-app" className="growth-section">
           <div className="growth-wrap growth-split">
             <div>
               <p className="growth-kicker">ON YOUR PHONE</p>
@@ -112,7 +118,7 @@ export function GrowthContent({
                 account or synchronized records.
               </p>
               <a
-                className="growth-secondary"
+                className="growth-action"
                 href={APP_STORE_URL}
                 target="_blank"
                 rel="noreferrer"
@@ -232,51 +238,25 @@ export function GrowthContent({
             BUILD THE BODY / BUILT FOR YOUR REAL LIFE
           </p>
           <h1>
-            Train with confidence.
+            Find the movement.
             <br />
-            <em>Prep with purpose.</em>
-            <br />
-            Own your week.
+            <em>Own the form.</em>
           </h1>
           <p className="growth-lead">
-            Practical training education and complete meal-planning tools for
-            busy gym beginners. Less guessing. A more repeatable routine.
+            Clear exercise guidance, workouts, nutrition tools, and fitness
+            education to help you build a stronger, more repeatable routine.
           </p>
           <div className="growth-actions">
-            <a href={plannerUrl} className="growth-action">
-              Build my free recipe week <span>↗</span>
+            <a href="/exercises" className="growth-action">
+              Explore the Exercise Library <span>→</span>
             </a>
             <a href="/start" className="growth-secondary">
-              See how BTB works <span>→</span>
+              Start Here <span>→</span>
             </a>
           </div>
           <p className="growth-fine">
             Free browser tools · No card required · Start at your own pace
           </p>
-          <nav
-            className="growth-actions"
-            aria-label="BTB app and Instagram"
-            style={{ maxWidth: 550 }}
-          >
-            <a
-              href={APP_STORE_URL}
-              className="growth-secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Download BTB App on the App Store (opens in a new tab)"
-            >
-              Download BTB App <span aria-hidden="true">↗</span>
-            </a>
-            <a
-              href={INSTAGRAM_URL}
-              className="growth-secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Follow BTB on Instagram (opens in a new tab)"
-            >
-              Follow BTB on Instagram <span aria-hidden="true">↗</span>
-            </a>
-          </nav>
           <div className="growth-hero-label">
             <span className="growth-kicker">THE BTB APPROACH</span>
             <p>
@@ -291,12 +271,72 @@ export function GrowthContent({
       </section>
       <div className="growth-strip">
         <div className="growth-wrap">
+          <a href="/start" className="text-lime underline decoration-lime/40 underline-offset-4">New to BTB? Start here →</a>
           <span>54 exercise blueprints</span>
           <span>Complete recipe planning</span>
           <span>Prep + shopping tools</span>
           <span>Author-led education</span>
         </div>
       </div>
+      <HomepageWodPreview />
+      <section id="btb-reading-room" className="growth-section bg-[#0b0b0b]">
+        <div className="growth-wrap grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_220px]">
+          <div>
+            <p className="growth-kicker">BTB READING ROOM / FREE CHAPTER 1</p>
+            <h2>Build your fitness foundation.<br /><em>Start with the free chapter.</em></h2>
+            <p className="growth-lead">Get a practical introduction to the ideas behind <i>BTB: The Foundation of Fitness and Health</i>—a clear place to begin with training, nutrition, and healthier routines.</p>
+            <div className="growth-actions">
+              <a className="growth-action" href="/BTB_Chapter_1.pdf" download>Download Free Chapter 1 (PDF) ↓</a>
+              <a className="growth-secondary" href="https://www.amazon.com/dp/B0HCMVK5ZN" target="_blank" rel="noopener noreferrer">Explore the full book ↗</a>
+            </div>
+            <p className="growth-fine">Free PDF · No email gate · Read at your own pace</p>
+          </div>
+          <img src="/images/books/btb-volume-1.jpg" alt="BTB: The Foundation of Fitness and Health book cover" className="mx-auto w-44 border border-lime/50 shadow-[-10px_12px_0_#8cff00]" loading="lazy" />
+        </div>
+      </section>
+      <section id="exercise-preview" className="growth-section">
+        <div className="growth-wrap">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="growth-kicker">EXERCISE LIBRARY / 54 PLATES</p>
+              <h2>Learn the movement.<br /><em>Own the form.</em></h2>
+            </div>
+            <a href="/exercises" className="growth-secondary">View all 54 plates →</a>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {FEATURED_PLATES.map((exercise) => (
+              <a key={exercise.slug} href={`/e/${exercise.slug}`} className="group border border-white/12 bg-black transition-colors hover:border-lime">
+                <img src={exercise.image} alt={`${exercise.name} exercise guide`} className="aspect-[4/5] w-full object-cover object-top" loading="lazy" />
+                <div className="p-3">
+                  <p className="growth-kicker">{exercise.category}</p>
+                  <h3 className="display mt-1 font-semibold text-white group-hover:text-lime">{exercise.name}</h3>
+                  <p className="mt-1 text-xs text-white/50">{exercise.difficulty} · {exercise.equipment}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="btb-app" className="growth-section bg-[#0b0b0b]">
+        <div className="growth-wrap growth-split">
+          <div>
+            <p className="growth-kicker">BTB FITNESS &amp; HEALTH / COMPANION APP</p>
+            <h2>Bring your training<br /><em>and health tools together.</em></h2>
+            <p className="growth-lead">Explore the BTB Fitness &amp; Health app for workout tracking, personalized training plans, nutrition logging, health measurements, and a fitness education library.</p>
+            <a className="growth-action" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" aria-label="Open the BTB Fitness & Health App Store listing (opens in a new tab)">View BTB on the App Store ↗</a>
+            <p className="growth-fine">The app is a separate product; website planner data is not currently synced with app records.</p>
+          </div>
+          <div className="border border-lime/40 p-5">
+            <p className="growth-kicker">AFTER THE FREE CHAPTER</p>
+            <h3>Choose your next step.</h3>
+            <div className="mt-4 flex flex-col gap-3">
+              <a className="growth-text-link" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer">Explore the companion app ↗</a>
+              <a className="growth-text-link" href="https://www.amazon.com/dp/B0HCMVK5ZN" target="_blank" rel="noopener noreferrer">Find the full book ↗</a>
+              <a className="growth-text-link" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Follow BTB on Instagram (opens in a new tab)">Follow BTB on Instagram ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
       <StarterPlanPromo />
       <section className="growth-section">
         <div className="growth-wrap growth-split">
@@ -416,6 +456,9 @@ export function GrowthContent({
             <p className="growth-lead">
               BTB connects Jarvis Dixon's published fitness and nutrition
               education with practical tools you can put to use outside the gym.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-white/65">
+              The BTB method starts with learning sound movement, choosing a realistic training and meal plan, then reviewing what fits your life and repeating the habits that work.
             </p>
             <p>
               Explore the book, browse a form guide, or start a planning week.

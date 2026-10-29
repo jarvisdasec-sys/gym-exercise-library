@@ -43,6 +43,7 @@ export function SuggestionBox() {
 
   return (
     <section
+      id="suggestion-box"
       className="border-b border-white/10 bg-black py-10 sm:py-14"
       aria-labelledby="btb-suggestion-box-heading"
     >

@@ -22,28 +22,29 @@ function expectSafeExternalLink(link: HTMLAnchorElement | null, href: string) {
 }
 
 describe("BTB direct app and Instagram links", () => {
-  it("renders both links prominently in the homepage hero and initial HTML", () => {
+  it("keeps the homepage hero focused and places app/social links in the app section", () => {
     const host = parseMarkup(
       renderToStaticMarkup(createElement(GrowthContent))
     );
-    const links = host.querySelector('nav[aria-label="BTB app and Instagram"]');
-    expect(links?.closest(".growth-hero")).not.toBeNull();
-    const app = links!.querySelector<HTMLAnchorElement>(
+    expect(host.querySelector(`.growth-hero a[href="${APP_STORE_URL}"]`)).toBeNull();
+    expect(host.querySelector(`.growth-hero a[href="${INSTAGRAM_URL}"]`)).toBeNull();
+    const section = host.querySelector("#btb-app");
+    expect(section).not.toBeNull();
+    const app = section!.querySelector<HTMLAnchorElement>(
       `a[href="${APP_STORE_URL}"]`
     );
-    const instagram = links!.querySelector<HTMLAnchorElement>(
+    const instagram = section!.querySelector<HTMLAnchorElement>(
       `a[href="${INSTAGRAM_URL}"]`
     );
     expectSafeExternalLink(app, APP_STORE_URL);
     expectSafeExternalLink(instagram, INSTAGRAM_URL);
-    expect(app!.textContent).toContain("Download BTB App");
+    expect(app!.textContent).toContain("View BTB on the App Store");
     expect(instagram!.textContent).toContain("Follow BTB on Instagram");
     expect(app!.getAttribute("aria-label")).toContain("opens in a new tab");
     expect(instagram!.getAttribute("aria-label")).toContain(
       "opens in a new tab"
     );
-    expect(app!.classList.contains("growth-secondary")).toBe(true);
-    expect(instagram!.classList.contains("growth-secondary")).toBe(true);
+    expect(app!.classList.contains("growth-action")).toBe(true);
     expect(host.querySelector('a[href="/start"]')).not.toBeNull();
   });
 

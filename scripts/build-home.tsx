@@ -126,11 +126,25 @@ function StaticPage({ page }: { page: GrowthPage }) {
           <a href="/" className="display text-xl font-bold text-lime">
             BTB <span className="sr-only">Fitness &amp; Health</span>
           </a>
-          <div className="flex flex-wrap gap-4 text-sm text-white/70">
-            <a href="/start">Start here</a>
-            <a href="/exercises">Exercise guides</a>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
+            <a href="/exercises">Exercises</a>
             <a href="/workouts">Workouts</a>
             <a href="/nutrition">Nutrition</a>
+            <a href="/learn">Education</a>
+            <a href="/start#btb-app">App</a>
+            <details className="relative">
+              <summary className="cursor-pointer">More</summary>
+              <div className="absolute right-0 z-50 mt-2 grid min-w-48 gap-2 border border-white/15 bg-black p-3">
+                <strong className="text-xs text-lime">Getting Started</strong>
+                <a href="/start">Start Here</a>
+                <strong className="mt-1 text-xs text-lime">Training</strong>
+                <a href="/cardio">Cardio</a>
+                <a href="/mobility">Mobility &amp; Flow</a>
+                <strong className="mt-1 text-xs text-lime">Tools</strong>
+                <a href="/calculators">Calculators</a>
+                <a href="/plus">BTB Plus</a>
+              </div>
+            </details>
           </div>
         </nav>
       </header>

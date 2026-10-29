@@ -73,6 +73,9 @@ export default function Education() {
                 so you stop guessing, stop wasting effort, and stop believing
                 the shelf.
               </p>
+              <Link href="/start" className="mt-4 inline-flex min-h-11 items-center gap-2 bg-lime px-4 py-3 text-sm font-bold text-black transition-colors hover:bg-white">
+                New to BTB? Start with the beginner path <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
 
             {/* instrumentation block */}

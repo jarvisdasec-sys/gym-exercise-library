@@ -147,6 +147,13 @@ export default function Nutrition() {
               <span className="display text-sm font-bold">Build a Meal</span>
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
+            <a
+              href="/BTB_Chapter_1.pdf"
+              download
+              className="flex items-center gap-2 border border-lime/60 px-5 py-3 text-lime transition-colors duration-200 hover:bg-lime hover:text-background"
+            >
+              <span className="display text-sm font-bold">Read the Free Chapter</span>
+            </a>
             <Link
               href="/nutrition/tracker"
               className="flex items-center gap-2 border border-white/20 px-5 py-3 transition-colors duration-200 hover:border-lime hover:text-lime"
@@ -160,6 +167,10 @@ export default function Nutrition() {
               <span className="display text-sm font-bold">Meal Prep</span>
             </Link>
           </div>
+
+          <p className="mt-4 max-w-xl border-l-2 border-lime/60 pl-3 text-xs leading-relaxed text-white/50">
+            Nutrition data and tools are general educational estimates, not individualized medical or dietary advice. Check food labels and consult a qualified professional about personal health needs.
+          </p>
 
           {/* packaged foods live in the tracker and builder, not this index */}
           <div className="mt-5 flex max-w-xl flex-wrap items-center gap-2.5 border border-lime/30 bg-lime/[0.04] px-4 py-3">

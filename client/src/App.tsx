@@ -69,7 +69,7 @@ function Router() {
         <Redirect to="/learn" />
       </Route>
       <Route path="/app">
-        <Redirect to="/start" />
+        <Redirect to="/start#btb-app" />
       </Route>
       <Route path="/downloads">
         <Redirect to="/stickers" />

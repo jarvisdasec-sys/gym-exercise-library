@@ -103,6 +103,15 @@ export default function Workouts() {
             the cue that matters. Every exercise links to its blueprint. Work
             top to bottom.
           </p>
+          <div className="mt-5 flex flex-col gap-3 border border-lime/45 bg-lime/[0.04] p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="meta text-[0.45rem] font-bold text-lime">RECOMMENDED FOR BEGINNERS</p>
+              <p className="mt-1 text-sm text-white/65">Start with the Full Body Starter and build a manageable training rhythm.</p>
+            </div>
+            <Link href="/workouts/full-body-starter" className="meta inline-flex min-h-11 shrink-0 items-center justify-center gap-2 bg-lime px-4 py-3 text-[0.48rem] font-bold text-black hover:bg-white">
+              Open beginner workout <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
           <Link
             href="/workouts/tools"
             className="meta mt-5 inline-flex border border-lime bg-lime px-4 py-3 text-[0.5rem] font-bold text-black"
