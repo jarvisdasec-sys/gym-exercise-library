@@ -39,7 +39,15 @@ Client-growth review PR: https://github.com/jarvisdasec-sys/gym-exercise-library
 
 # BTB community blog
 
-- [ ] Add a public blog section to the existing www.btbfitnessandhealth.com site; make the Blog navigation destination and homepage callout prominent enough that members notice and want to click them; preserve existing site sections and responsive behavior.
-- [ ] Start the blog with four separate posts covering weight lifting, health, cardio, and gear; provide a browsable blog landing page, clear category labels, and individual article pages.
-- [ ] Allow anybody to contribute an article, post, image, or other contribution to the blog; provide a usable contribution flow with submission type and contact details; let image contributors include their image as an email attachment; explain submissions are reviewed and are not posted automatically.
-- [ ] Keep the source changes on a review branch/PR, verify TypeScript, affected regressions, and production build; do not merge or publish until the owner approves the exact review payload.
+- [x] Add a public blog section to the existing www.btbfitnessandhealth.com site; make the Blog navigation destination and homepage callout prominent enough that members notice and want to click them; preserve existing site sections and responsive behavior.
+- [x] Start the blog with four separate posts covering weight lifting, health, cardio, and gear; provide a browsable blog landing page, clear category labels, and individual article pages.
+- [x] Allow anybody to contribute an article, post, image, or other contribution to the blog; provide a usable contribution flow with submission type and contact details; let image contributors include their image as an email attachment; explain submissions are reviewed and are not posted automatically.
+- [x] Keep the source changes on a review branch/PR, verify TypeScript, affected regressions, and production build; do not merge or publish until the owner approves the exact review payload.
+
+Implementation verification: TypeScript passes, all 168 regression tests pass, and the production build plus generated blog routes/sitemap pass. Production remains unchanged.
+Review PR: https://github.com/jarvisdasec-sys/gym-exercise-library/pull/10
+Production remains unchanged pending owner approval.
+
+Implementation verification: TypeScript passes, all 168 regression tests pass, and the production build plus generated blog routes/sitemap pass. Production remains unchanged.
+Review PR: https://github.com/jarvisdasec-sys/gym-exercise-library/pull/10
+Production remains unchanged pending owner approval.
