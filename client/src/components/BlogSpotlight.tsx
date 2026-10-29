@@ -1,4 +1,4 @@
-import { ArrowRight, Newspaper } from "lucide-react";
+import { ArrowLeft, ArrowRight, Newspaper } from "lucide-react";
 import { BLOG_CATEGORIES, BLOG_POSTS } from "@/lib/blog";
 
 export function BlogSpotlight() {
@@ -13,7 +13,7 @@ export function BlogSpotlight() {
           <div className="blog-spotlight-topics" aria-label="Blog topics">
             {BLOG_CATEGORIES.map(category => <a key={category} href={`/blog?topic=${encodeURIComponent(category)}`}>{category}</a>)}
           </div>
-          <a href="/blog" className="blog-spotlight-link">Explore the BTB blog <ArrowRight aria-hidden="true" /></a>
+          <a href="/blog" className="blog-spotlight-link" aria-label="Read the BTB blog"><span>READ THE</span><ArrowRight aria-hidden="true" /><strong>BLOG</strong><ArrowLeft aria-hidden="true" /></a>
         </div>
         <a href={`/blog/${featured.slug}`} className="blog-spotlight-story">
           <div className="blog-spotlight-image"><img src={featured.image} alt={featured.imageAlt} loading="lazy" /><span className="meta">START HERE / {featured.category.toUpperCase()}</span></div>
