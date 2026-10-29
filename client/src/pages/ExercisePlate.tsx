@@ -113,6 +113,41 @@ export default function ExercisePlate() {
         </div>
       </div>
 
+      <section className="border-b border-white/10 bg-white/[0.02]">
+        <div className="container py-4">
+          <p className="meta mb-3 text-[0.45rem] text-white/55">
+            Browse muscle groups here. The exercise plate below is a static
+            guide, not a clickable menu.
+          </p>
+          <nav
+            aria-label="Browse exercise library by muscle group"
+            className="flex flex-wrap gap-2"
+          >
+            {CATEGORIES.map((category) => (
+              <Link
+                key={category.id}
+                href={`/exercises?group=${category.id}#exercise-results`}
+                aria-label={`Browse ${category.label} exercises`}
+                aria-current={category.id === exercise.category ? "true" : undefined}
+                className={`border px-3 py-2 transition-colors duration-200 ${
+                  category.id === exercise.category
+                    ? "border-lime bg-lime/10 text-lime"
+                    : "border-white/15 text-white/70 hover:border-lime hover:text-lime"
+                }`}
+              >
+                <span className="meta text-[0.45rem] font-bold">{category.label}</span>
+              </Link>
+            ))}
+            <Link
+              href="/exercises#exercise-results"
+              className="border border-lime/35 px-3 py-2 text-lime transition-colors duration-200 hover:bg-lime/10"
+            >
+              <span className="meta text-[0.45rem] font-bold">All 54 plates →</span>
+            </Link>
+          </nav>
+        </div>
+      </section>
+
       {/* ── the poster, immediately ─────────────────────────────────── */}
       <div className="container py-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
@@ -339,7 +374,7 @@ function PlateBar() {
         <span className="meta text-[0.5rem]">Sessions</span>
       </Link>
       <Link
-        href="/exercises"
+        href="/exercises#exercise-results"
         className="hidden shrink-0 items-center gap-2 border border-white/15 px-3 py-2 transition-colors duration-200 hover:border-lime hover:text-lime sm:flex"
       >
         <span className="meta text-[0.5rem]">All Plates</span>

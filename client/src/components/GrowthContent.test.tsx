@@ -30,6 +30,7 @@ describe("BTB growth release", () => {
     expect(html).toContain(PLANNER_URL.replaceAll("&", "&amp;"));
     expect(html).toContain(APP_STORE_URL);
     expect(html).toContain("/exercises");
+    expect(html).toContain('href="/exercises#exercise-results"');
     expect(html).toContain("/downloads/btb-weekly-starter.html");
     expect(html).not.toContain("Trusted by thousands");
     const plus = renderToStaticMarkup(

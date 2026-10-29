@@ -52,7 +52,16 @@ import { applyHomeMetadata } from "@/lib/homeMetadata";
 export default function Home() {
   useEffect(() => applyHomeMetadata(), []);
   const [activeCategory, setActiveCategory] = useState<CategoryId | "all">(
-    "all",
+    () => {
+      if (typeof window === "undefined") return "all";
+      const requestedGroup = new URLSearchParams(window.location.search).get(
+        "group",
+      );
+      return (
+        CATEGORIES.find((category) => category.id === requestedGroup)?.id ??
+        "all"
+      );
+    },
   );
   const [activeDifficulty, setActiveDifficulty] = useState<Difficulty | "all">(
     "all",
@@ -61,7 +70,7 @@ export default function Home() {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [railOpen, setRailOpen] = useState(false);
   const [chapterModalOpen, setChapterModalOpen] = useState(false);
-  const wallRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLElement>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -100,15 +109,51 @@ export default function Home() {
   const hasFilters =
     activeCategory !== "all" || activeDifficulty !== "all" || query.length > 0;
 
-  const resetFilters = () => {
-    setActiveCategory("all");
-    setActiveDifficulty("all");
-    setQuery("");
+  const scrollToResults = (behavior: ScrollBehavior = "auto") => {
+    const scroll = () =>
+      resultsRef.current?.scrollIntoView?.({ behavior, block: "start" });
+    if (typeof window.requestAnimationFrame === "function") {
+      window.requestAnimationFrame(scroll);
+    } else {
+      scroll();
+    }
   };
 
   useEffect(() => {
+    const hasGroup = new URLSearchParams(window.location.search).has("group");
+    if (window.location.hash !== "#exercise-results" && !hasGroup) return;
+    scrollToResults();
+  }, []);
+
+  const closeMobileFilters = () => {
+    if (!railOpen) return;
     setRailOpen(false);
-  }, [activeCategory, activeDifficulty]);
+    scrollToResults("smooth");
+  };
+
+  const selectCategory = (category: CategoryId | "all") => {
+    setActiveCategory(category);
+    const url = new URL(window.location.href);
+    if (category === "all") url.searchParams.delete("group");
+    else url.searchParams.set("group", category);
+    window.history.replaceState(
+      window.history.state,
+      "",
+      `${url.pathname}${url.search}${url.hash}`,
+    );
+    closeMobileFilters();
+  };
+
+  const selectDifficulty = (difficulty: Difficulty | "all") => {
+    setActiveDifficulty(difficulty);
+    closeMobileFilters();
+  };
+
+  const resetFilters = () => {
+    selectCategory("all");
+    setActiveDifficulty("all");
+    setQuery("");
+  };
 
   return (
     <div className="min-h-screen">
@@ -119,6 +164,7 @@ export default function Home() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            aria-label="Search exercises by movement, muscle, or equipment"
             placeholder="SEARCH MOVEMENT / MUSCLE"
             className="meta h-10 w-full border border-white/12 bg-white/[0.03] pl-9 pr-8 text-[0.55rem] text-foreground outline-none transition-colors duration-200 placeholder:text-muted-foreground/60 focus:border-lime"
             style={{ transitionTimingFunction: "var(--ease-out-snap)" }}
@@ -137,6 +183,7 @@ export default function Home() {
           onClick={() => setRailOpen((v) => !v)}
           className="flex h-10 shrink-0 items-center gap-2 border border-white/12 px-3 transition-colors duration-200 hover:border-lime hover:text-lime lg:hidden"
           aria-label="Toggle filters"
+          aria-expanded={railOpen}
         >
           <SlidersHorizontal className="h-4 w-4" />
         </button>
@@ -208,22 +255,8 @@ export default function Home() {
         <div className="hazard-rule absolute inset-x-0 bottom-0" />
       </section>
 
-      <HomepageDashboard />
-
-      <GroupWorkoutPromo />
-
-      <InstagramFollow />
-
-      <HomepageWodCard />
-
-      <BtbMotion />
-
-      <SuggestionBox />
-
-      <BookSpotlight onDownloadChapter={() => setChapterModalOpen(true)} />
-
       {/* ══ RAIL + WALL ═════════════════════════════════════════════ */}
-      <div className="container" ref={wallRef}>
+      <div className="container">
         <div className="flex gap-0 lg:gap-9">
           {/* ── LEFT RAIL ──────────────────────────────────────────── */}
           <aside
@@ -253,7 +286,7 @@ export default function Home() {
                   label="All Movements"
                   count={INDEXED_EXERCISES.length}
                   active={activeCategory === "all"}
-                  onClick={() => setActiveCategory("all")}
+                  onClick={() => selectCategory("all")}
                 />
                 {CATEGORIES.map((cat) => (
                   <RailItem
@@ -264,7 +297,7 @@ export default function Home() {
                         .length
                     }
                     active={activeCategory === cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
+                    onClick={() => selectCategory(cat.id)}
                   />
                 ))}
               </nav>
@@ -278,14 +311,14 @@ export default function Home() {
                 <ChipButton
                   label="Any"
                   active={activeDifficulty === "all"}
-                  onClick={() => setActiveDifficulty("all")}
+                  onClick={() => selectDifficulty("all")}
                 />
                 {DIFFICULTIES.map((d) => (
                   <ChipButton
                     key={d}
                     label={d}
                     active={activeDifficulty === d}
-                    onClick={() => setActiveDifficulty(d)}
+                    onClick={() => selectDifficulty(d)}
                   />
                 ))}
               </div>
@@ -353,7 +386,7 @@ export default function Home() {
 
             {railOpen && (
               <button
-                onClick={() => setRailOpen(false)}
+                onClick={closeMobileFilters}
                 className="mt-6 w-full bg-lime py-3 lg:hidden"
               >
                 <span className="meta text-[0.55rem] font-bold text-black">
@@ -364,7 +397,12 @@ export default function Home() {
           </aside>
 
           {/* ── PLATE WALL ─────────────────────────────────────────── */}
-          <main className="min-w-0 flex-1 py-8">
+          <main
+            id="exercise-results"
+            ref={resultsRef}
+            aria-label="Exercise plate results"
+            className="min-w-0 flex-1 scroll-mt-24 py-8"
+          >
             {groups.length === 0 ? (
               <div className="border border-white/10 px-8 py-24 text-center">
                 <p className="display text-2xl font-semibold text-white">
@@ -428,6 +466,14 @@ export default function Home() {
           </main>
         </div>
       </div>
+
+      <HomepageDashboard />
+      <GroupWorkoutPromo />
+      <InstagramFollow />
+      <HomepageWodCard />
+      <BtbMotion />
+      <SuggestionBox />
+      <BookSpotlight onDownloadChapter={() => setChapterModalOpen(true)} />
 
       {/* ══ FOOTER ══════════════════════════════════════════════════ */}
       <footer className="mt-6 border-t border-white/10">
@@ -567,6 +613,7 @@ function RailItem({
   return (
     <button
       onClick={onClick}
+      aria-pressed={active}
       className={`group flex items-center justify-between border-l-2 border-b border-b-white/8 py-2 pl-3 pr-2 text-left transition-colors duration-200 ${
         active
           ? "border-l-lime bg-lime/8"
@@ -604,6 +651,7 @@ function ChipButton({
   return (
     <button
       onClick={onClick}
+      aria-pressed={active}
       className={`border px-2.5 py-1.5 transition-colors duration-200 ${
         active
           ? "border-lime bg-lime/10 text-lime"

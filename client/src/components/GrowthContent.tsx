@@ -284,7 +284,7 @@ export function GrowthContent({
               <p className="growth-kicker">EXERCISE LIBRARY / 54 PLATES</p>
               <h2>Learn the movement.<br /><em>Own the form.</em></h2>
             </div>
-            <a href="/exercises" className="growth-secondary">View all 54 plates →</a>
+            <a href="/exercises#exercise-results" className="growth-secondary">View all 54 plates →</a>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURED_PLATES.map((exercise) => (
