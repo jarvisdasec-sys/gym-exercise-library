@@ -10,6 +10,7 @@ import {
   Bookmark,
   LayoutGrid,
   Menu,
+  Newspaper,
   Smartphone,
   X,
 } from "lucide-react";
@@ -31,6 +32,7 @@ export type NavKey =
   | "nutrition"
   | "calculators"
   | "education"
+  | "blog"
   | "saved"
   | "instagram";
 
@@ -48,6 +50,7 @@ const PRIMARY: NavItem[] = [
   { key: "workouts", label: "Workouts", href: ROUTES.workouts, icon: Dumbbell, hint: "Training sessions and weekly plans" },
   { key: "nutrition", label: "Nutrition", href: ROUTES.nutrition, icon: Apple, hint: "Food, meals and tracking" },
   { key: "education", label: "Education", href: ROUTES.education, icon: BookOpen, hint: "Training and nutrition knowledge" },
+  { key: "blog", label: "Blog", href: ROUTES.blog, icon: Newspaper, hint: "Stories, ideas and community contributions" },
   { key: "app", label: "App", href: `${ROUTES.start}#btb-app`, icon: Smartphone, hint: "BTB Fitness & Health app" },
 ];
 
@@ -82,12 +85,12 @@ export function SiteNav({
           {primary.map((item) => {
             const Icon = item.icon;
             const current = isCurrent(item.key);
-            const className = `relative flex items-center gap-2 px-3 transition-colors ${current ? "text-lime" : "text-white/55 hover:text-white"}`;
+            const className = `relative flex items-center gap-2 px-3 transition-colors ${item.key === "blog" ? "bg-lime text-black hover:bg-white hover:text-black" : current ? "text-lime" : "text-white/55 hover:text-white"}`;
             const content = (
               <>
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 <span className="meta text-[0.52rem] font-bold">{item.label}</span>
-                <span className={`absolute bottom-0 left-2 right-2 h-[2px] ${current ? "bg-lime" : "bg-transparent"}`} />
+                <span className={`absolute bottom-0 left-2 right-2 h-[2px] ${item.key === "blog" && current ? "bg-black" : current ? "bg-lime" : "bg-transparent"}`} />
               </>
             );
             return item.key === "app" ? (

@@ -18,6 +18,7 @@ import { WORKOUTS } from "../client/src/lib/workouts";
 import { CARDIO } from "../client/src/lib/cardio";
 import { EDU_ARTICLES } from "../client/src/lib/eduIndex";
 import { TRAINING_PROGRAMS } from "../client/src/lib/programs";
+import { BLOG_POSTS } from "../client/src/lib/blog";
 
 const output = path.resolve("dist/public");
 const guidesOutput = path.join(output, "guides");
@@ -415,6 +416,9 @@ function buildManifest(): RouteManifest {
     // but it is a real App route used by password-recovery links.
     "/reset-password",
     ...Object.values(ROUTES).filter(route => !snapshotPaths.has(route)),
+    "/blog",
+    "/blog/contribute",
+    ...BLOG_POSTS.map(post => `/blog/${post.slug}`),
     ...Object.keys(LEGACY_ROUTE_REDIRECTS),
     ...WORKOUTS.map(workout => `/workouts/${workout.slug}`),
     ...CARDIO.map(exercise => `/cardio/${exercise.slug}`),
@@ -508,6 +512,8 @@ const sitemapUrls = [
   `${BTB_SITE_ORIGIN}/plus`,
   `${BTB_SITE_ORIGIN}/exercises`,
   `${BTB_SITE_ORIGIN}/instagram`,
+  `${BTB_SITE_ORIGIN}/blog`,
+  ...BLOG_POSTS.map(post => `${BTB_SITE_ORIGIN}/blog/${post.slug}`),
   `${BTB_SITE_ORIGIN}/workouts/groups`,
   ...INDEXED_EXERCISES.map(exercise => `${BTB_SITE_ORIGIN}/e/${exercise.slug}`),
 ];
