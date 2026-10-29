@@ -4,6 +4,7 @@ import { INSTAGRAM_URL } from "../lib/social";
 import { EXERCISES } from "../lib/exercises";
 import { HomepageWodPreview } from "./HomepageWodPreview";
 import { StarterPlanPromo } from "./StarterPlanPromo";
+import { GoalBasedStartPathway } from "./GoalBasedStartPathway";
 
 const FEATURED_PLATES = ["barbell-bench-press", "lat-pulldown", "leg-press", "dumbbell-lateral-raise"]
   .map((slug) => EXERCISES.find((exercise) => exercise.slug === slug))
@@ -37,40 +38,12 @@ export function GrowthContent({
               <em>Make it repeatable.</em>
             </h1>
             <p className="growth-lead">
-              You don't need to use every tool today. Pick the next step that
-              makes your week easier.
+              Choose what matters most right now. Get a practical first-week
+              path with small steps you can adapt to your real life.
             </p>
-            <div className="growth-paths">
-              <a href={plannerUrl} className="growth-path">
-                <span className="growth-index">01 / PLAN</span>
-                <h2>Build a recipe week.</h2>
-                <p>
-                  Complete meals, ingredients, prep instructions and a grocery
-                  list. Try it without an account.
-                </p>
-                <strong>Open BTB Meal Planner ↗</strong>
-              </a>
-              <a href="/exercises" className="growth-path">
-                <span className="growth-index">02 / TRAIN</span>
-                <h2>Learn the movement.</h2>
-                <p>
-                  Explore 54 exercise blueprints with setup, execution and
-                  common-mistake guides.
-                </p>
-                <strong>Explore exercise guides →</strong>
-              </a>
-              <a href="/workouts" className="growth-path">
-                <span className="growth-index">03 / PRACTICE</span>
-                <h2>Choose a training session.</h2>
-                <p>
-                  Browse the existing BTB workout tools. Adapt activity to your
-                  ability and circumstances.
-                </p>
-                <strong>Explore workouts →</strong>
-              </a>
-            </div>
           </div>
         </section>
+        <GoalBasedStartPathway recipePlannerUrl={plannerUrl} />
         <StarterPlanPromo />
         <section className="growth-section">
           <div className="growth-wrap growth-split">
