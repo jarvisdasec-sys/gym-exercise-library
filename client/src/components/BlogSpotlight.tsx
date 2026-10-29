@@ -1,5 +1,4 @@
 import { ArrowRight, Newspaper } from "lucide-react";
-import { Link } from "wouter";
 import { BLOG_CATEGORIES, BLOG_POSTS } from "@/lib/blog";
 
 export function BlogSpotlight() {
@@ -12,14 +11,14 @@ export function BlogSpotlight() {
           <h2 id="blog-spotlight-heading" className="display">Read up.<br /><span>Pass it on.</span></h2>
           <p>Practical stories for your training week—and a place for members to share what they have learned.</p>
           <div className="blog-spotlight-topics" aria-label="Blog topics">
-            {BLOG_CATEGORIES.map(category => <Link key={category} href={`/blog?topic=${encodeURIComponent(category)}`}>{category}</Link>)}
+            {BLOG_CATEGORIES.map(category => <a key={category} href={`/blog?topic=${encodeURIComponent(category)}`}>{category}</a>)}
           </div>
-          <Link href="/blog" className="blog-spotlight-link">Explore the BTB blog <ArrowRight aria-hidden="true" /></Link>
+          <a href="/blog" className="blog-spotlight-link">Explore the BTB blog <ArrowRight aria-hidden="true" /></a>
         </div>
-        <Link href={`/blog/${featured.slug}`} className="blog-spotlight-story">
+        <a href={`/blog/${featured.slug}`} className="blog-spotlight-story">
           <div className="blog-spotlight-image"><img src={featured.image} alt={featured.imageAlt} loading="lazy" /><span className="meta">START HERE / {featured.category.toUpperCase()}</span></div>
           <div className="blog-spotlight-story-copy"><Newspaper aria-hidden="true" /><div><p className="meta">BTB READING ROOM / 01</p><h3 className="display">{featured.title}</h3><span className="blog-spotlight-read">Read the story <ArrowRight aria-hidden="true" /></span></div></div>
-        </Link>
+        </a>
       </div>
     </section>
   );
