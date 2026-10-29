@@ -82,12 +82,18 @@ export function SiteNav({
           {primary.map((item) => {
             const Icon = item.icon;
             const current = isCurrent(item.key);
-            return (
-              <Link key={item.key} href={item.href} aria-current={current ? "page" : undefined} className={`relative flex items-center gap-2 px-3 transition-colors ${current ? "text-lime" : "text-white/55 hover:text-white"}`}>
+            const className = `relative flex items-center gap-2 px-3 transition-colors ${current ? "text-lime" : "text-white/55 hover:text-white"}`;
+            const content = (
+              <>
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 <span className="meta text-[0.52rem] font-bold">{item.label}</span>
                 <span className={`absolute bottom-0 left-2 right-2 h-[2px] ${current ? "bg-lime" : "bg-transparent"}`} />
-              </Link>
+              </>
+            );
+            return item.key === "app" ? (
+              <a key={item.key} href={item.href} aria-current={current ? "page" : undefined} className={className}>{content}</a>
+            ) : (
+              <Link key={item.key} href={item.href} aria-current={current ? "page" : undefined} className={className}>{content}</Link>
             );
           })}
           <details className="group relative flex items-stretch">
@@ -126,12 +132,18 @@ export function SiteNav({
           {[...primary, ...more.filter((item) => !primary.some((primaryItem) => primaryItem.key === item.key))].map((item) => {
             const Icon = item.icon;
             const current = isCurrent(item.key);
-            return (
-              <Link key={item.key} href={item.href} onClick={() => setOpen(false)} aria-current={current ? "page" : undefined} className={`flex items-center gap-3 border-b border-white/[0.07] px-5 py-3.5 last:border-b-0 ${current ? "bg-lime/[0.07]" : ""}`}>
+            const className = `flex items-center gap-3 border-b border-white/[0.07] px-5 py-3.5 last:border-b-0 ${current ? "bg-lime/[0.07]" : ""}`;
+            const content = (
+              <>
                 <span className={`h-8 w-[3px] shrink-0 ${current ? "bg-lime" : "bg-white/12"}`} />
                 <Icon className={`h-4 w-4 shrink-0 ${current ? "text-lime" : "text-white/45"}`} aria-hidden="true" />
                 <span className="min-w-0 flex-1"><span className={`display block text-[0.95rem] font-semibold ${current ? "text-lime" : "text-white"}`}>{item.label}</span><span className="meta text-[0.4rem] text-white/40">{item.hint}</span></span>
-              </Link>
+              </>
+            );
+            return item.key === "app" ? (
+              <a key={item.key} href={item.href} onClick={() => setOpen(false)} aria-current={current ? "page" : undefined} className={className}>{content}</a>
+            ) : (
+              <Link key={item.key} href={item.href} onClick={() => setOpen(false)} aria-current={current ? "page" : undefined} className={className}>{content}</Link>
             );
           })}
         </nav>

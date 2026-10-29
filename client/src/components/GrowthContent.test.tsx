@@ -38,6 +38,40 @@ describe("BTB growth release", () => {
     expect(plus).toContain("Research stage—not a paid offer.");
     expect(plus).toContain("No subscription is available here.");
   });
+  it("scrolls to the app section after rendering a Start page hash destination", async () => {
+    vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
+    window.history.replaceState({}, "", "/start#btb-app");
+    const previousRaf = window.requestAnimationFrame;
+    const previousCancelRaf = window.cancelAnimationFrame;
+    const descriptor = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      "scrollIntoView"
+    );
+    const scrollIntoView = vi.fn();
+    window.requestAnimationFrame = (callback) => {
+      callback(0);
+      return 1;
+    };
+    window.cancelAnimationFrame = () => {};
+    Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+      configurable: true,
+      value: scrollIntoView,
+    });
+    const host = document.createElement("div");
+    document.body.append(host);
+    const root = createRoot(host);
+    try {
+      await act(async () => root.render(createElement(GrowthContent, { page: "start" })));
+      expect(host.querySelector("#btb-app")).not.toBeNull();
+      expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "auto", block: "start" });
+      await act(async () => root.unmount());
+    } finally {
+      window.requestAnimationFrame = previousRaf;
+      window.cancelAnimationFrame = previousCancelRaf;
+      if (descriptor) Object.defineProperty(HTMLElement.prototype, "scrollIntoView", descriptor);
+      else delete (HTMLElement.prototype as { scrollIntoView?: unknown }).scrollIntoView;
+    }
+  });
   it("validates and encodes a draft rather than claiming delivery", () => {
     expect(() =>
       inquiryDraft({ name: "", email: "x", topic: "x", message: "" })

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { APP_STORE_URL, PLANNER_URL } from "../lib/growth";
 import { INSTAGRAM_URL } from "../lib/social";
 import { EXERCISES } from "../lib/exercises";
@@ -15,6 +16,15 @@ export function GrowthContent({
   page?: "home" | "start" | "plus";
   plannerUrl?: string;
 }) {
+  useEffect(() => {
+    if (page !== "start" || !window.location.hash) return;
+    const targetId = decodeURIComponent(window.location.hash.slice(1));
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: "auto", block: "start" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [page]);
+
   if (page === "start")
     return (
       <main className="growth-main">
@@ -103,7 +113,7 @@ export function GrowthContent({
             </div>
           </div>
         </section>
-        <section id="btb-app" className="growth-section">
+        <section id="btb-app" className="growth-section scroll-mt-32">
           <div className="growth-wrap growth-split">
             <div>
               <p className="growth-kicker">ON YOUR PHONE</p>
