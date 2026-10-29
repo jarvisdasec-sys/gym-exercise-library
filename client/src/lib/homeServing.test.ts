@@ -18,6 +18,8 @@ describe("public snapshots and exact route serving", () => {
       'if (page === "home") await writeFile(path.join(output, "index.html"), html)'
     );
     expect(source).toContain("VITE_PLANNER_REVIEW_URL?.trim() || PLANNER_URL");
+    expect(source).toContain('<a href="/blog" className="border border-lime bg-lime');
+    expect(source).toContain("{page === \"home\" && <BlogSpotlight />}");
     expect(
       source.indexOf('writeFile(path.join(output, "app.html"), shell)')
     ).toBeLessThan(
