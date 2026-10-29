@@ -7,9 +7,9 @@ export function BlogSpotlight() {
     <section className="blog-spotlight-section" aria-labelledby="blog-spotlight-heading">
       <div className="container blog-spotlight-layout">
         <div className="blog-spotlight-copy">
-          <p className="meta blog-kicker"><span className="blog-kicker-mark" /> THE BTB BLOG / OPEN TO EVERY VOICE</p>
+          <p className="meta blog-kicker"><span className="blog-kicker-mark" /> THE BTB BLOG / READ IT. SHARE IT.</p>
           <h2 id="blog-spotlight-heading" className="display">Read up.<br /><span>Pass it on.</span></h2>
-          <p>Practical stories for your training week—and a place for everyone to share what they have learned.</p>
+          <p>Real training, health, cardio and gear stories for your week. Read what helps—or share your own without an account.</p>
           <div className="blog-spotlight-topics" aria-label="Blog topics">
             {BLOG_CATEGORIES.map(category => <a key={category} href={`/blog?topic=${encodeURIComponent(category)}`}>{category}</a>)}
           </div>

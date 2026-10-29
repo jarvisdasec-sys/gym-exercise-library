@@ -38,7 +38,7 @@ Client-growth review PR: https://github.com/jarvisdasec-sys/gym-exercise-library
 
 # BTB community blog
 
-- [ ] Make the blog prominent on the front page with a readable “READ THE → BLOG ←” callout whose arrows point inward at the word BLOG, and keep the linked Blog destination easy to find on desktop and mobile.
+- [ ] Make the blog prominent near the top of the front page, immediately after the hero/benefits strip and before the next workout/content modules. Use a high-contrast BTB-lime feature panel and a readable “READ THE → BLOG ←” callout whose arrows point inward at the word BLOG; keep the linked Blog destination obvious on desktop and mobile.
 - [x] Start the blog with four separate public starter stories covering weight lifting, health, cardio and gear; provide topic filters, a browsable blog landing page and individual article pages.
 - [ ] Let anybody publish an article, post, image or other contribution directly on the blog with no account/sign-in, no email handoff and no editorial approval; successful posts appear publicly immediately. Accept one JPEG, PNG or WebP image up to 5 MB, allow an optional display name, and collect no email/contact details. Show submitted text as plain text (do not execute HTML or scripts) and tell contributors their text/image will become public immediately.
 - [ ] Apply the scoped Supabase table, anonymous RLS and public image-bucket setup; verify anonymous listing, detail pages, form submission and image rendering; run TypeScript, regressions and production build. Do not claim the direct-post flow is live until the migration has been applied and verified in the actual Supabase project.

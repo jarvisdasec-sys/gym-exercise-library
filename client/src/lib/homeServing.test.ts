@@ -19,7 +19,23 @@ describe("public snapshots and exact route serving", () => {
     );
     expect(source).toContain("VITE_PLANNER_REVIEW_URL?.trim() || PLANNER_URL");
     expect(source).toContain('<a href="/blog" className="border border-lime bg-lime');
-    expect(source).toContain("{page === \"home\" && <BlogSpotlight />}");
+    const growth = readFileSync(
+      path.join(root, "client/src/components/GrowthContent.tsx"),
+      "utf8"
+    );
+    expect(growth).toContain('{page === "home" && <BlogSpotlight />}');
+    const benefitsStripPosition = growth.indexOf('<div className="growth-strip">');
+    const blogPosition = growth.indexOf('{page === "home" && <BlogSpotlight />}');
+    const firstModulePosition = growth.indexOf("<HomepageWodPreview />");
+    expect(benefitsStripPosition).toBeGreaterThan(-1);
+    expect(blogPosition).toBeGreaterThan(benefitsStripPosition);
+    expect(blogPosition).toBeLessThan(firstModulePosition);
+    const brandHome = readFileSync(
+      path.join(root, "client/src/pages/BrandHome.tsx"),
+      "utf8"
+    );
+    expect(brandHome).not.toContain("<BlogSpotlight />");
+    expect(source).toContain("<GrowthContent page={page} plannerUrl={plannerUrl} />");
     const spotlight = readFileSync(
       path.join(root, "client/src/components/BlogSpotlight.tsx"),
       "utf8"
