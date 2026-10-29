@@ -40,6 +40,7 @@ Client-growth review PR: https://github.com/jarvisdasec-sys/gym-exercise-library
 # BTB community blog
 
 - [x] Add a public blog section to the existing www.btbfitnessandhealth.com site; make the Blog navigation destination and homepage callout prominent enough that members notice and want to click them; preserve existing site sections and responsive behavior.
+- [ ] Move the homepage Blog callout immediately below the hero/benefits strip and before the first workout module. Give it a distinct BTB-lime panel and a large “READ THE → BLOG ←” action with arrows pointing inward at BLOG; keep the feature responsive and keyboard-accessible.
 - [x] Start the blog with four separate posts covering weight lifting, health, cardio, and gear; provide a browsable blog landing page, clear category labels, and individual article pages.
 - [x] Allow anybody to contribute an article, post, image, or other contribution to the blog; provide a usable contribution flow with submission type and contact details; let image contributors include their image as an email attachment; explain submissions are reviewed and are not posted automatically.
 - [x] Keep the source changes on a review branch/PR, verify TypeScript, affected regressions, and production build; do not merge or publish until the owner approves the exact review payload.

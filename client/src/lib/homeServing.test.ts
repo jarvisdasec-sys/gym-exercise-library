@@ -19,7 +19,29 @@ describe("public snapshots and exact route serving", () => {
     );
     expect(source).toContain("VITE_PLANNER_REVIEW_URL?.trim() || PLANNER_URL");
     expect(source).toContain('<a href="/blog" className="border border-lime bg-lime');
-    expect(source).toContain("{page === \"home\" && <BlogSpotlight />}");
+    const growth = readFileSync(
+      path.join(root, "client/src/components/GrowthContent.tsx"),
+      "utf8"
+    );
+    expect(growth).toContain('{page === "home" && <BlogSpotlight />}');
+    const benefitsStripPosition = growth.indexOf('<div className="growth-strip">');
+    const blogPosition = growth.indexOf('{page === "home" && <BlogSpotlight />}');
+    const workoutPosition = growth.indexOf("<HomepageWodPreview />");
+    expect(blogPosition).toBeGreaterThan(benefitsStripPosition);
+    expect(blogPosition).toBeLessThan(workoutPosition);
+    const spotlight = readFileSync(
+      path.join(root, "client/src/components/BlogSpotlight.tsx"),
+      "utf8"
+    );
+    expect(spotlight).toContain('aria-label="Read the BTB blog"');
+    expect(spotlight).toContain("<ArrowRight aria-hidden=\"true\" />");
+    expect(spotlight).toContain("<strong>BLOG</strong>");
+    expect(spotlight).toContain("<ArrowLeft aria-hidden=\"true\" />");
+    const brandHome = readFileSync(
+      path.join(root, "client/src/pages/BrandHome.tsx"),
+      "utf8"
+    );
+    expect(brandHome).not.toContain("<BlogSpotlight />");
     expect(
       source.indexOf('writeFile(path.join(output, "app.html"), shell)')
     ).toBeLessThan(

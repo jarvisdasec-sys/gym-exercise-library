@@ -5,6 +5,7 @@ import { EXERCISES } from "../lib/exercises";
 import { HomepageWodPreview } from "./HomepageWodPreview";
 import { StarterPlanPromo } from "./StarterPlanPromo";
 import { GoalBasedStartPathway } from "./GoalBasedStartPathway";
+import { BlogSpotlight } from "./BlogSpotlight";
 
 const FEATURED_PLATES = ["barbell-bench-press", "lat-pulldown", "leg-press", "dumbbell-lateral-raise"]
   .map((slug) => EXERCISES.find((exercise) => exercise.slug === slug))
@@ -261,6 +262,7 @@ export function GrowthContent({
           <span>Author-led education</span>
         </div>
       </div>
+      {page === "home" && <BlogSpotlight />}
       <HomepageWodPreview />
       <section id="btb-reading-room" className="growth-section bg-[#0b0b0b]">
         <div className="growth-wrap grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_220px]">

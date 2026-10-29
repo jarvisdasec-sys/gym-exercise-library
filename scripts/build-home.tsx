@@ -3,7 +3,6 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { GrowthContent } from "../client/src/components/GrowthContent";
-import { BlogSpotlight } from "../client/src/components/BlogSpotlight";
 import {
   BTB_CONTACT,
   GROWTH_META,
@@ -151,7 +150,6 @@ function StaticPage({ page }: { page: GrowthPage }) {
         </nav>
       </header>
       <GrowthContent page={page} plannerUrl={plannerUrl} />
-      {page === "home" && <BlogSpotlight />}
       {page === "start" && <StaticInquiryFallback />}
       <footer className="border-t border-white/10">
         <div className="container flex flex-wrap items-center justify-between gap-4 py-7 text-sm text-white/60">
