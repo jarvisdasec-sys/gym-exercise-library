@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { EXERCISES } from "@/lib/exercises";
 import { LEGACY_ROUTE_REDIRECTS, ROUTES } from "@/lib/routes";
+import { BLOG_CATEGORIES, BLOG_POSTS, buildBlogSubmissionMailto } from "@/lib/blog";
 
 const publicRoot = path.resolve(process.cwd(), "client/public");
 
@@ -17,6 +18,28 @@ describe("canonical navigation", () => {
     expect(ROUTES.nutrition).toBe("/nutrition");
     expect(ROUTES.calculators).toBe("/calculators");
     expect(ROUTES.education).toBe("/learn");
+    expect(ROUTES.blog).toBe("/blog");
+    expect(ROUTES.blogContribute).toBe("/blog/contribute");
+    expect(BLOG_POSTS.map(post => post.category)).toEqual(BLOG_CATEGORIES);
+    expect(BLOG_POSTS).toHaveLength(4);
+    for (const post of BLOG_POSTS) {
+      expect(post.slug).toMatch(/^[a-z0-9-]+$/);
+      expect(existsSync(path.join(publicRoot, post.image))).toBe(true);
+    }
+  });
+
+  it("prepares a contribution email without claiming automatic delivery", () => {
+    const mailto = buildBlogSubmissionMailto({
+      name: "Alex Example",
+      email: "alex@example.com",
+      type: "Article",
+      category: "Health",
+      title: "A useful habit",
+      message: "A short contribution.",
+    });
+    expect(mailto).toMatch(/^mailto:btbfitnessandhealth@yahoo\.com\?/);
+    expect(decodeURIComponent(mailto)).toContain("A short contribution.");
+    expect(decodeURIComponent(mailto)).toContain("attach the image files");
   });
 
   it("maps known legacy destinations to truthful working pages", () => {

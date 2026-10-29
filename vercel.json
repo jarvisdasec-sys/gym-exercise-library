@@ -503,6 +503,54 @@
       "destination": "/app.html"
     },
     {
+      "source": "/blog",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/a-simple-first-strength-week",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/a-simple-first-strength-week/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/cardio-at-your-own-pace",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/cardio-at-your-own-pace/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/contribute",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/contribute/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/everyday-health-small-habits",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/everyday-health-small-habits/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/gear-that-earns-its-place",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/gear-that-earns-its-place/",
+      "destination": "/app.html"
+    },
+    {
       "source": "/calculators",
       "destination": "/app.html"
     },

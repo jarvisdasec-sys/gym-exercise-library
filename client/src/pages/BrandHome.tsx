@@ -5,6 +5,7 @@ import { BtbMotion } from "../components/BtbMotion";
 import { GroupWorkoutPromo } from "../components/GroupWorkoutPromo";
 import { InstagramFollow } from "../components/InstagramFollow";
 import { HomepageDashboard } from "../components/MemberDashboard";
+import { BlogSpotlight } from "../components/BlogSpotlight";
 import { applyGrowthMetadata, PLANNER_URL } from "../lib/growth";
 
 export default function BrandHome() {
@@ -14,6 +15,7 @@ export default function BrandHome() {
     <>
       <SiteNav active="home" />
       <GrowthContent plannerUrl={plannerUrl} />
+      <BlogSpotlight />
       <HomepageDashboard />
       <GroupWorkoutPromo />
       <BtbMotion />

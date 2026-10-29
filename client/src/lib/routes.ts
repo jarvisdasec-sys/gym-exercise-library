@@ -12,6 +12,8 @@ export const ROUTES = {
   nutrition: "/nutrition",
   calculators: "/calculators",
   education: "/learn",
+  blog: "/blog",
+  blogContribute: "/blog/contribute",
   saved: "/saved",
   account: "/account",
   stickers: "/stickers",

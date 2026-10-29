@@ -12,6 +12,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import "./components/group-workouts.css";
 import "./components/growth.css";
+import "./components/blog.css";
 
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const Home = lazy(() => import("./pages/Home"));
@@ -40,6 +41,9 @@ const WorkoutBuilder = lazy(() => import("./pages/WorkoutBuilder"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const InstagramPage = lazy(() => import("./pages/Instagram"));
 const GroupWorkouts = lazy(() => import("./pages/GroupWorkouts"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
+const BlogSubmit = lazy(() => import("./pages/BlogSubmit"));
 
 function Router() {
   return (
@@ -88,6 +92,9 @@ function Router() {
         <Redirect to="/nutrition" />
       </Route>
       <Route path={"/"} component={BrandHome} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/contribute" component={BlogSubmit} />
+      <Route path="/blog/:slug" component={BlogArticle} />
       <Route path="/start" component={StartHere} />
       <Route path="/plus" component={PlusInterest} />
       <Route path="/instagram" component={InstagramPage} />

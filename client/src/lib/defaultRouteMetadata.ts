@@ -1,3 +1,5 @@
+import { getBlogPost } from "@/lib/blog";
+
 export function applyFallbackRouteMetadata(path: string) {
   const normalized = path.replace(/\/+$/, "") || "/";
   // These pages have their own tested metadata owner.
@@ -14,6 +16,8 @@ export function applyFallbackRouteMetadata(path: string) {
   )
     return;
   const labels: Record<string, string> = {
+    "/blog": "BTB Fitness & Health Blog",
+    "/blog/contribute": "Contribute to the BTB Blog",
     "/workouts": "Workout Sessions",
     "/wod": "Workout of the Day",
     "/cardio": "Cardio Sessions",
@@ -31,9 +35,16 @@ export function applyFallbackRouteMetadata(path: string) {
     "/workouts/tools": "Workout Tools",
     "/workouts/builder": "Workout Builder",
   };
-  const label = labels[normalized] || "Training & Nutrition Tools";
+  const blogPost = normalized.startsWith("/blog/") && normalized !== "/blog/contribute"
+    ? getBlogPost(normalized.slice("/blog/".length))
+    : undefined;
+  const label = blogPost?.title ?? labels[normalized] ?? "Training & Nutrition Tools";
   const title = `${label} | BTB Fitness & Health`;
-  const description = `Explore ${label.toLowerCase()} from BTB Fitness & Health. Practical education and tools to build a repeatable routine.`;
+  const description = blogPost?.summary ?? (normalized === "/blog"
+    ? "Read practical BTB stories about weight lifting, health, cardio and gear—and contribute an idea of your own."
+    : normalized === "/blog/contribute"
+      ? "Send an article, short post, image or idea to the BTB editorial team for review."
+      : `Explore ${label.toLowerCase()} from BTB Fitness & Health. Practical education and tools to build a repeatable routine.`);
   const canonicalUrl = `https://www.btbfitnessandhealth.com${normalized}`;
   document.title = title;
   for (const [attribute, name, value] of [
