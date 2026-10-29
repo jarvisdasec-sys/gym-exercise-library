@@ -17,7 +17,7 @@ export function applyFallbackRouteMetadata(path: string) {
     return;
   const labels: Record<string, string> = {
     "/blog": "BTB Fitness & Health Blog",
-    "/blog/contribute": "Contribute to the BTB Blog",
+    "/blog/contribute": "Post to the BTB Blog",
     "/workouts": "Workout Sessions",
     "/wod": "Workout of the Day",
     "/cardio": "Cardio Sessions",
@@ -38,12 +38,15 @@ export function applyFallbackRouteMetadata(path: string) {
   const blogPost = normalized.startsWith("/blog/") && normalized !== "/blog/contribute"
     ? getBlogPost(normalized.slice("/blog/".length))
     : undefined;
-  const label = blogPost?.title ?? labels[normalized] ?? "Training & Nutrition Tools";
+  const isCommunityPost = normalized.startsWith("/blog/") && normalized !== "/blog/contribute" && !blogPost;
+  const label = blogPost?.title ?? (isCommunityPost ? "Community Blog Post" : labels[normalized] ?? "Training & Nutrition Tools");
   const title = `${label} | BTB Fitness & Health`;
-  const description = blogPost?.summary ?? (normalized === "/blog"
+  const description = blogPost?.summary ?? (isCommunityPost
+    ? "A community contribution published directly to the BTB Fitness & Health blog."
+    : normalized === "/blog"
     ? "Read practical BTB stories about weight lifting, health, cardio and gear—and contribute an idea of your own."
-    : normalized === "/blog/contribute"
-      ? "Send an article, short post, image or idea to the BTB editorial team for review."
+      : normalized === "/blog/contribute"
+        ? "Publish an article, short post, image or idea directly to the BTB blog. No account, email or editorial approval is required."
       : `Explore ${label.toLowerCase()} from BTB Fitness & Health. Practical education and tools to build a repeatable routine.`);
   const canonicalUrl = `https://www.btbfitnessandhealth.com${normalized}`;
   document.title = title;

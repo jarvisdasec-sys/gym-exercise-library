@@ -18,6 +18,15 @@ function normalizePathname(value: string) {
   return value.replace(/\/+$/, "") || "/";
 }
 
+export function matchesRoutePattern(pattern: string, pathname: string) {
+  const patternSegments = normalizePathname(pattern).split("/").filter(Boolean);
+  const pathSegments = normalizePathname(pathname).split("/").filter(Boolean);
+  return patternSegments.length === pathSegments.length &&
+    patternSegments.every((segment, index) =>
+      segment.startsWith(":") ? pathSegments[index].length > 0 : segment === pathSegments[index]
+    );
+}
+
 async function loadRouteManifest(staticPath: string): Promise<RouteManifest> {
   const source = await readFile(
     path.join(staticPath, "route-manifest.json"),
@@ -53,6 +62,7 @@ export async function createApp(staticPath: string) {
   const manifest = await loadRouteManifest(staticPath);
   const app = express();
   const appRoutes = new Set(manifest.appRoutes.map(normalizePathname));
+  const appRoutePatterns = Array.from(appRoutes).filter(route => route.includes(":"));
   const guideSlugs = new Set(manifest.guideSlugs);
   const snapshots = new Map(
     Object.entries(manifest.snapshotRoutes).map(([route, file]) => [
@@ -77,7 +87,10 @@ export async function createApp(staticPath: string) {
     if (snapshot) return res.sendFile(path.join(staticPath, snapshot));
 
     if (route === "/404") return sendNotFound(res, staticPath);
-    if (appRoutes.has(route)) {
+    if (
+      appRoutes.has(route) ||
+      appRoutePatterns.some(pattern => matchesRoutePattern(pattern, route))
+    ) {
       return res.sendFile(path.join(staticPath, "app.html"));
     }
 

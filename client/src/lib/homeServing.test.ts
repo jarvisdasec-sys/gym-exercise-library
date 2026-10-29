@@ -20,6 +20,14 @@ describe("public snapshots and exact route serving", () => {
     expect(source).toContain("VITE_PLANNER_REVIEW_URL?.trim() || PLANNER_URL");
     expect(source).toContain('<a href="/blog" className="border border-lime bg-lime');
     expect(source).toContain("{page === \"home\" && <BlogSpotlight />}");
+    const spotlight = readFileSync(
+      path.join(root, "client/src/components/BlogSpotlight.tsx"),
+      "utf8"
+    );
+    expect(spotlight).toContain('aria-label="Read the blog"');
+    expect(spotlight).toContain("<ArrowRight aria-hidden=\"true\" />");
+    expect(spotlight).toContain("<strong>BLOG</strong>");
+    expect(spotlight).toContain("<ArrowLeft aria-hidden=\"true\" />");
     expect(
       source.indexOf('writeFile(path.join(output, "app.html"), shell)')
     ).toBeLessThan(
@@ -27,7 +35,7 @@ describe("public snapshots and exact route serving", () => {
     );
   });
 
-  it("uses exact static rewrites and leaves unmatched paths to the platform 404", () => {
+  it("uses exact static rewrites, supports direct dynamic blog posts, and leaves unmatched paths to the platform 404", () => {
     const config = JSON.parse(
       readFileSync(path.join(root, "vercel.json"), "utf8")
     );
@@ -36,6 +44,7 @@ describe("public snapshots and exact route serving", () => {
         { source: "/instagram", destination: "/instagram.html" },
         { source: "/start", destination: "/start.html" },
         { source: "/exercises", destination: "/library.html" },
+        { source: "/blog/:slug", destination: "/app.html" },
         {
           source: "/e/barbell-bench-press",
           destination: "/guides/barbell-bench-press.html",
@@ -55,11 +64,13 @@ describe("public snapshots and exact route serving", () => {
     expect(discovery).toContain('path.join(output, "robots.txt")');
     expect(discovery).toContain('path.join(output, "sitemap.xml")');
     expect(discovery).toContain('path.join(output, "route-manifest.json")');
+    expect(discovery).toContain('"/blog/:slug"');
   });
 
   it("keeps a generic client shell only for known app routes and sends all others to a non-indexable 404", () => {
     const server = readFileSync(path.join(root, "server/index.ts"), "utf8");
     expect(server).toContain('res.sendFile(path.join(staticPath, "app.html"))');
+    expect(server).toContain("appRoutePatterns.some(pattern => matchesRoutePattern(pattern, route))");
     expect(server).toContain(
       'res.status(404).sendFile(path.join(staticPath, "404.html")'
     );

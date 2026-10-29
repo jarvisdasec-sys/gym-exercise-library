@@ -1,4 +1,4 @@
-import { ArrowRight, Newspaper } from "lucide-react";
+import { ArrowLeft, ArrowRight, Newspaper } from "lucide-react";
 import { BLOG_CATEGORIES, BLOG_POSTS } from "@/lib/blog";
 
 export function BlogSpotlight() {
@@ -9,11 +9,11 @@ export function BlogSpotlight() {
         <div className="blog-spotlight-copy">
           <p className="meta blog-kicker"><span className="blog-kicker-mark" /> THE BTB BLOG / OPEN TO EVERY VOICE</p>
           <h2 id="blog-spotlight-heading" className="display">Read up.<br /><span>Pass it on.</span></h2>
-          <p>Practical stories for your training week—and a place for members to share what they have learned.</p>
+          <p>Practical stories for your training week—and a place for everyone to share what they have learned.</p>
           <div className="blog-spotlight-topics" aria-label="Blog topics">
             {BLOG_CATEGORIES.map(category => <a key={category} href={`/blog?topic=${encodeURIComponent(category)}`}>{category}</a>)}
           </div>
-          <a href="/blog" className="blog-spotlight-link">Explore the BTB blog <ArrowRight aria-hidden="true" /></a>
+          <a href="/blog" className="blog-spotlight-link" aria-label="Read the blog"><span>READ THE</span><ArrowRight aria-hidden="true" /><strong>BLOG</strong><ArrowLeft aria-hidden="true" /></a>
         </div>
         <a href={`/blog/${featured.slug}`} className="blog-spotlight-story">
           <div className="blog-spotlight-image"><img src={featured.image} alt={featured.imageAlt} loading="lazy" /><span className="meta">START HERE / {featured.category.toUpperCase()}</span></div>

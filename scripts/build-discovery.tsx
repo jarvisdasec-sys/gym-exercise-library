@@ -418,6 +418,7 @@ function buildManifest(): RouteManifest {
     ...Object.values(ROUTES).filter(route => !snapshotPaths.has(route)),
     "/blog",
     "/blog/contribute",
+    "/blog/:slug",
     ...BLOG_POSTS.map(post => `/blog/${post.slug}`),
     ...Object.keys(LEGACY_ROUTE_REDIRECTS),
     ...WORKOUTS.map(workout => `/workouts/${workout.slug}`),
