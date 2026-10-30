@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { EXERCISES } from "@/lib/exercises";
 import { LEGACY_ROUTE_REDIRECTS, ROUTES } from "@/lib/routes";
-import { BLOG_CATEGORIES, BLOG_POSTS, buildBlogSubmissionMailto } from "@/lib/blog";
+import { BLOG_CATEGORIES, BLOG_POSTS } from "@/lib/blog";
 
-const publicRoot = path.resolve(process.cwd(), "client/public");
+const projectRoot = path.resolve(process.cwd());
+const publicRoot = path.join(projectRoot, "client/public");
 
 describe("canonical navigation", () => {
   it("keeps every primary tab pointed at an implemented route", () => {
@@ -28,18 +29,17 @@ describe("canonical navigation", () => {
     }
   });
 
-  it("prepares a contribution email without claiming automatic delivery", () => {
-    const mailto = buildBlogSubmissionMailto({
-      name: "Alex Example",
-      email: "alex@example.com",
-      type: "Article",
-      category: "Health",
-      title: "A useful habit",
-      message: "A short contribution.",
-    });
-    expect(mailto).toMatch(/^mailto:btbfitnessandhealth@yahoo\.com\?/);
-    expect(decodeURIComponent(mailto)).toContain("A short contribution.");
-    expect(decodeURIComponent(mailto)).toContain("attach the image files");
+  it("publishes blog contributions on site without an email handoff", () => {
+    const form = readFileSync(
+      path.join(projectRoot, "client/src/pages/BlogSubmit.tsx"),
+      "utf8"
+    );
+    expect(form).toContain("publishCommunityBlogPost(input)");
+    expect(form).toContain("No account or email is needed.");
+    expect(form).toContain("No login, email, or editorial approval is required.");
+    expect(form).toContain("will publish publicly immediately");
+    expect(form).not.toContain("mailto:");
+    expect(form).not.toContain('name="email"');
   });
 
   it("maps known legacy destinations to truthful working pages", () => {
@@ -60,7 +60,7 @@ describe("exercise media integrity", () => {
   });
 
   it("includes the requested barbell row record", () => {
-    const row = EXERCISES.find((exercise) => exercise.slug === "barbell-bent-over-row");
+    const row = EXERCISES.find(exercise => exercise.slug === "barbell-bent-over-row");
     expect(row).toMatchObject({
       name: "Barbell Bent-Over Row",
       image: "/images/exercises/barbell_row.png",

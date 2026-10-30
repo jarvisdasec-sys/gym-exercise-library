@@ -151,31 +151,3 @@ export const BLOG_POSTS: BlogPost[] = [
 export function getBlogPost(slug: string) {
   return BLOG_POSTS.find(post => post.slug === slug);
 }
-
-export type BlogSubmission = {
-  name: string;
-  email: string;
-  type: string;
-  category: string;
-  title: string;
-  message: string;
-};
-
-export function buildBlogSubmissionMailto(submission: BlogSubmission) {
-  const subject = `BTB Blog Contribution - ${submission.type}: ${submission.title.trim()}`;
-  const body = [
-    "BTB BLOG CONTRIBUTION",
-    `Contribution type: ${submission.type}`,
-    `Topic: ${submission.category}`,
-    `Title: ${submission.title.trim()}`,
-    `Contributor: ${submission.name.trim()}`,
-    `Reply email: ${submission.email.trim()}`,
-    "",
-    "Submission:",
-    submission.message.trim() || "(Details or image description to follow.)",
-    "",
-    "I created or have permission to share this material for BTB editorial review.",
-    "If this contribution includes images, I will attach the image files to this email before sending.",
-  ].join("\n");
-  return `mailto:btbfitnessandhealth@yahoo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}

@@ -511,6 +511,14 @@
       "destination": "/app.html"
     },
     {
+      "source": "/blog/:slug",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/blog/:slug/",
+      "destination": "/app.html"
+    },
+    {
       "source": "/blog/a-simple-first-strength-week",
       "destination": "/app.html"
     },

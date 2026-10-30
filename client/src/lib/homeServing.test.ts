@@ -26,22 +26,24 @@ describe("public snapshots and exact route serving", () => {
     expect(growth).toContain('{page === "home" && <BlogSpotlight />}');
     const benefitsStripPosition = growth.indexOf('<div className="growth-strip">');
     const blogPosition = growth.indexOf('{page === "home" && <BlogSpotlight />}');
-    const workoutPosition = growth.indexOf("<HomepageWodPreview />");
+    const firstModulePosition = growth.indexOf("<HomepageWodPreview />");
+    expect(benefitsStripPosition).toBeGreaterThan(-1);
     expect(blogPosition).toBeGreaterThan(benefitsStripPosition);
-    expect(blogPosition).toBeLessThan(workoutPosition);
-    const spotlight = readFileSync(
-      path.join(root, "client/src/components/BlogSpotlight.tsx"),
-      "utf8"
-    );
-    expect(spotlight).toContain('aria-label="Read the BTB blog"');
-    expect(spotlight).toContain("<ArrowRight aria-hidden=\"true\" />");
-    expect(spotlight).toContain("<strong>BLOG</strong>");
-    expect(spotlight).toContain("<ArrowLeft aria-hidden=\"true\" />");
+    expect(blogPosition).toBeLessThan(firstModulePosition);
     const brandHome = readFileSync(
       path.join(root, "client/src/pages/BrandHome.tsx"),
       "utf8"
     );
     expect(brandHome).not.toContain("<BlogSpotlight />");
+    expect(source).toContain("<GrowthContent page={page} plannerUrl={plannerUrl} />");
+    const spotlight = readFileSync(
+      path.join(root, "client/src/components/BlogSpotlight.tsx"),
+      "utf8"
+    );
+    expect(spotlight).toContain('aria-label="Read the blog"');
+    expect(spotlight).toContain("<ArrowRight aria-hidden=\"true\" />");
+    expect(spotlight).toContain("<strong>BLOG</strong>");
+    expect(spotlight).toContain("<ArrowLeft aria-hidden=\"true\" />");
     expect(
       source.indexOf('writeFile(path.join(output, "app.html"), shell)')
     ).toBeLessThan(
@@ -49,7 +51,7 @@ describe("public snapshots and exact route serving", () => {
     );
   });
 
-  it("uses exact static rewrites and leaves unmatched paths to the platform 404", () => {
+  it("uses exact static rewrites, supports direct dynamic blog posts, and leaves unmatched paths to the platform 404", () => {
     const config = JSON.parse(
       readFileSync(path.join(root, "vercel.json"), "utf8")
     );
@@ -58,6 +60,7 @@ describe("public snapshots and exact route serving", () => {
         { source: "/instagram", destination: "/instagram.html" },
         { source: "/start", destination: "/start.html" },
         { source: "/exercises", destination: "/library.html" },
+        { source: "/blog/:slug", destination: "/app.html" },
         {
           source: "/e/barbell-bench-press",
           destination: "/guides/barbell-bench-press.html",
@@ -77,11 +80,13 @@ describe("public snapshots and exact route serving", () => {
     expect(discovery).toContain('path.join(output, "robots.txt")');
     expect(discovery).toContain('path.join(output, "sitemap.xml")');
     expect(discovery).toContain('path.join(output, "route-manifest.json")');
+    expect(discovery).toContain('"/blog/:slug"');
   });
 
   it("keeps a generic client shell only for known app routes and sends all others to a non-indexable 404", () => {
     const server = readFileSync(path.join(root, "server/index.ts"), "utf8");
     expect(server).toContain('res.sendFile(path.join(staticPath, "app.html"))');
+    expect(server).toContain("appRoutePatterns.some(pattern => matchesRoutePattern(pattern, route))");
     expect(server).toContain(
       'res.status(404).sendFile(path.join(staticPath, "404.html")'
     );

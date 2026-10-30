@@ -36,19 +36,11 @@ Client-growth review PR: https://github.com/jarvisdasec-sys/gym-exercise-library
 - [ ] Publish a dedicated accessible starter-plan page with the full content, route-specific initial HTML metadata, a clear PDF download, and prominent links from the existing homepage and Start Here page; preserve all current tools, navigation, member data and deployment behavior. The owner requested publication on October 16, 2026; use the existing GitHub/Vercel workflow, not a replacement website.
 - [ ] Create a matching Instagram advertisement image and caption pointing to the live starter resource; save as a reviewable draft without changing today's existing 5 PM image post or publishing an unreviewed launch post.
 
-
 # BTB community blog
 
-- [x] Add a public blog section to the existing www.btbfitnessandhealth.com site; make the Blog navigation destination and homepage callout prominent enough that members notice and want to click them; preserve existing site sections and responsive behavior.
-- [ ] Move the homepage Blog callout immediately below the hero/benefits strip and before the first workout module. Give it a distinct BTB-lime panel and a large “READ THE → BLOG ←” action with arrows pointing inward at BLOG; keep the feature responsive and keyboard-accessible.
-- [x] Start the blog with four separate posts covering weight lifting, health, cardio, and gear; provide a browsable blog landing page, clear category labels, and individual article pages.
-- [x] Allow anybody to contribute an article, post, image, or other contribution to the blog; provide a usable contribution flow with submission type and contact details; let image contributors include their image as an email attachment; explain submissions are reviewed and are not posted automatically.
-- [x] Keep the source changes on a review branch/PR, verify TypeScript, affected regressions, and production build; do not merge or publish until the owner approves the exact review payload.
+- [ ] Make the blog prominent near the top of the front page, immediately after the hero/benefits strip and before the next workout/content modules. Use a high-contrast BTB-lime feature panel and a readable “READ THE → BLOG ←” callout whose arrows point inward at the word BLOG; keep the linked Blog destination obvious on desktop and mobile.
+- [x] Start the blog with four separate public starter stories covering weight lifting, health, cardio and gear; provide topic filters, a browsable blog landing page and individual article pages.
+- [ ] Let anybody publish an article, post, image or other contribution directly on the blog with no account/sign-in, no email handoff and no editorial approval; successful posts appear publicly immediately. Accept one JPEG, PNG or WebP image up to 5 MB, allow an optional display name, and collect no email/contact details. Show submitted text as plain text (do not execute HTML or scripts) and tell contributors their text/image will become public immediately.
+- [ ] Apply the scoped Supabase table, anonymous RLS and public image-bucket setup; verify anonymous listing, detail pages, form submission and image rendering; run TypeScript, regressions and production build. Do not claim the direct-post flow is live until the migration has been applied and verified in the actual Supabase project.
 
-Implementation verification: TypeScript passes, all 168 regression tests pass, and the production build plus generated blog routes/sitemap pass. Production remains unchanged.
-Review PR: https://github.com/jarvisdasec-sys/gym-exercise-library/pull/10
-Production remains unchanged pending owner approval.
-
-Implementation verification: TypeScript passes, all 168 regression tests pass, and the production build plus generated blog routes/sitemap pass. Production remains unchanged.
-Review PR: https://github.com/jarvisdasec-sys/gym-exercise-library/pull/10
-Production remains unchanged pending owner approval.
+Implementation status: the project owner reported SQL Editor success. Anonymous read from `blog_posts` and a temporary public PNG upload both returned HTTP 200; no test post was created. Supabase rejected the SQL-based cleanup RPC and anonymous storage listing is blocked, so the random-path temporary image cannot be independently confirmed or removed here. The source now drops that obsolete RPC and no longer calls it. Direct-post code remains unmerged and is not live.
