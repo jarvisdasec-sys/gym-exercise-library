@@ -87,31 +87,6 @@ create policy "Anyone can upload BTB blog images"
     and metadata ->> 'mimetype' in ('image/jpeg', 'image/png', 'image/webp')
   );
 
-create or replace function public.cleanup_unattached_blog_image(p_path text)
-returns void
-language plpgsql
-security definer
-set search_path = ''
-as $$
-begin
-  delete from storage.objects as o
-  where o.bucket_id = 'btb-blog-images'
-    and o.name = p_path
-    and o.created_at > pg_catalog.now() - interval '15 minutes'
-    and array_length(storage.foldername(o.name), 1) = 1
-    and (storage.foldername(o.name))[1] ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
-    and split_part(o.name, '/', 2) in (
-      (storage.foldername(o.name))[1] || '.jpg',
-      (storage.foldername(o.name))[1] || '.png',
-      (storage.foldername(o.name))[1] || '.webp'
-    )
-    and not exists (
-      select 1 from public.blog_posts as post where post.image_path = o.name
-    );
-end;
-$$;
-
-revoke all on function public.cleanup_unattached_blog_image(text) from public;
-grant execute on function public.cleanup_unattached_blog_image(text) to anon, authenticated;
+drop function if exists public.cleanup_unattached_blog_image(text);
 
 commit;

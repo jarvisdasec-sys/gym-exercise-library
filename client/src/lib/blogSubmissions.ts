@@ -133,18 +133,6 @@ export async function getCommunityBlogPost(
   return data ? toCommunityPost(data as BlogPostRow) : null;
 }
 
-async function cleanupUnattachedBlogImage(path: string) {
-  if (!supabase) return;
-  try {
-    const { error } = await supabase.rpc("cleanup_unattached_blog_image", {
-      p_path: path,
-    });
-    if (error) console.warn("Could not remove an unlinked public blog image.");
-  } catch {
-    console.warn("Could not remove an unlinked public blog image.");
-  }
-}
-
 export async function publishCommunityBlogPost(
   input: BlogContributionInput
 ): Promise<CommunityBlogPost> {
@@ -165,10 +153,9 @@ export async function publishCommunityBlogPost(
         contentType: input.image.type,
         upsert: false,
       });
-    if (uploadError) {
-      await cleanupUnattachedBlogImage(imagePath);
-      throw uploadError;
-    }
+      if (uploadError) {
+        throw uploadError;
+      }
   }
 
   const { data, error } = await supabase
@@ -185,7 +172,6 @@ export async function publishCommunityBlogPost(
     .select(POST_COLUMNS)
     .single();
   if (error) {
-    if (imagePath) await cleanupUnattachedBlogImage(imagePath);
     throw error;
   }
   return toCommunityPost(data as BlogPostRow);

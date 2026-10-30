@@ -55,8 +55,9 @@ describe("direct community blog publishing", () => {
     expect(migration).not.toMatch(/grant\s+(update|delete)\b[^;]*blog_posts/i);
     expect(migration).toContain("5242880");
     expect(migration).toContain("btb-blog-images");
-    expect(migration).toContain("cleanup_unattached_blog_image");
-    expect(migration).toContain("15 minutes");
+    expect(migration).toContain("drop function if exists public.cleanup_unattached_blog_image(text)");
+    expect(migration).not.toMatch(/create or replace function public\.cleanup_unattached_blog_image/i);
+    expect(migration).not.toMatch(/for delete\s+to anon, authenticated/i);
     expect(migration).toContain("id::text || '/' || id::text || '.jpg'");
     expect(migration).not.toMatch(/email|author_email/i);
   });
