@@ -63,5 +63,20 @@ describe("public cardio SEO metadata", () => {
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
     ).toBe(metadata.url);
+    expect(
+      document
+        .querySelector('meta[property="og:image"]')
+        ?.getAttribute("content")
+    ).toBe(metadata.image);
+    expect(
+      document
+        .querySelector('meta[property="og:image:alt"]')
+        ?.getAttribute("content")
+    ).toBe(metadata.imageAlt);
+    expect(
+      document
+        .querySelector('meta[name="twitter:image"]')
+        ?.getAttribute("content")
+    ).toBe(metadata.image);
   });
 });

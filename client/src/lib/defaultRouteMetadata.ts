@@ -76,19 +76,23 @@ export function applyFallbackRouteMetadata(path: string) {
           : `Explore ${label.toLowerCase()} from BTB Fitness & Health. Practical education and tools to build a repeatable routine.`);
   const canonicalUrl =
     cardioMetadata?.url ?? `https://www.btbfitnessandhealth.com${normalized}`;
+  const socialImage =
+    cardioMetadata?.image ??
+    "https://www.btbfitnessandhealth.com/images/site/btb-movement-index-hero.jpg";
+  const socialImageAlt =
+    cardioMetadata?.imageAlt ??
+    "BTB training illustration in a black and neon-green gym";
   document.title = title;
   for (const [attribute, name, value] of [
     ["name", "description", description],
     ["property", "og:title", title],
     ["property", "og:description", description],
     ["property", "og:url", canonicalUrl],
-    [
-      "property",
-      "og:image",
-      "https://www.btbfitnessandhealth.com/images/site/btb-movement-index-hero.jpg",
-    ],
+    ["property", "og:image", socialImage],
+    ["property", "og:image:alt", socialImageAlt],
     ["name", "twitter:title", title],
     ["name", "twitter:description", description],
+    ["name", "twitter:image", socialImage],
   ]) {
     let node = document.head.querySelector<HTMLMetaElement>(
       `meta[${attribute}="${name}"]`
