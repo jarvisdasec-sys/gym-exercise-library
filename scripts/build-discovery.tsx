@@ -15,7 +15,15 @@ import {
 import { getExerciseGuide } from "../client/src/lib/exerciseGuides";
 import { LEGACY_ROUTE_REDIRECTS, ROUTES } from "../client/src/lib/routes";
 import { WORKOUTS } from "../client/src/lib/workouts";
-import { CARDIO } from "../client/src/lib/cardio";
+import {
+  CARDIO,
+  CARDIO_CATEGORY_META,
+  type CardioExercise,
+} from "../client/src/lib/cardio";
+import {
+  CARDIO_HUB_METADATA,
+  getCardioGuideMetadata,
+} from "../client/src/lib/cardioMetadata";
 import { EDU_ARTICLES } from "../client/src/lib/eduIndex";
 import { TRAINING_PROGRAMS } from "../client/src/lib/programs";
 import { BLOG_POSTS } from "../client/src/lib/blog";
@@ -38,6 +46,7 @@ type RouteManifest = {
   snapshotRoutes: Record<string, string>;
   appRoutes: string[];
   guideSlugs: string[];
+  cardioSlugs: string[];
 };
 
 const escapeAttribute = (value: string) =>
@@ -133,6 +142,7 @@ function PublicHeader() {
           <a href="/start">Start here</a>
           <a href="/exercises">Exercise library</a>
           <a href="/workouts">Workouts</a>
+          <a href="/cardio">Cardio</a>
           <a href="/nutrition">Nutrition</a>
         </div>
       </nav>
@@ -362,6 +372,164 @@ function StaticLibrary() {
   );
 }
 
+function StaticCardioIndex() {
+  return (
+    <>
+      <PublicHeader />
+      <main className="container py-8 sm:py-12">
+        <p className="meta text-[0.5rem] font-bold text-lime">
+          BTB conditioning index / {CARDIO.length} methods
+        </p>
+        <h1 className="display mt-3 text-4xl font-bold text-white sm:text-5xl">
+          Cardio Workouts &amp; Training Guides
+        </h1>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/70">
+          Compare running, cycling, rowing, walking, swimming, jump rope and
+          interval training. Every method includes technique cues, common
+          mistakes, three effort levels and a starter session.
+        </p>
+        <ul className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CARDIO.map(exercise => (
+            <li key={exercise.slug}>
+              <article className="h-full border border-white/12 p-4">
+                <p className="meta text-[0.45rem] font-bold text-lime">
+                  {CARDIO_CATEGORY_META[exercise.category].label} /{" "}
+                  {exercise.equipment}
+                </p>
+                <h2 className="display mt-3 text-xl font-semibold text-white">
+                  <a href={`/cardio/${exercise.slug}`}>{exercise.name}</a>
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-white/65">
+                  {exercise.summary}
+                </p>
+                <a
+                  href={`/cardio/${exercise.slug}`}
+                  className="mt-4 inline-block text-sm text-lime"
+                >
+                  Read the {exercise.name} cardio guide →
+                </a>
+              </article>
+            </li>
+          ))}
+        </ul>
+        <aside className="mt-8 border border-white/12 p-4 text-sm leading-relaxed text-white/60">
+          These are general exercise education and population-average effort
+          references, not an individual medical or training prescription. Adapt
+          movement to your ability and seek qualified guidance for individual
+          health concerns.
+        </aside>
+      </main>
+      <PublicFooter />
+    </>
+  );
+}
+
+function StaticCardioGuide({ exercise }: { exercise: CardioExercise }) {
+  const category = CARDIO_CATEGORY_META[exercise.category];
+  return (
+    <>
+      <PublicHeader />
+      <main className="container py-8 sm:py-12">
+        <nav aria-label="Breadcrumb" className="text-sm text-white/50">
+          <a href="/cardio" className="text-lime">
+            Cardio guides
+          </a>
+          <span aria-hidden="true"> / </span>
+          <span>{exercise.name}</span>
+        </nav>
+        <p className="meta mt-5 text-[0.5rem] font-bold text-lime">
+          {category.label} / {exercise.equipment}
+        </p>
+        <h1 className="display mt-3 text-4xl font-bold text-white sm:text-5xl">
+          {exercise.name}
+        </h1>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/70">
+          {exercise.summary}
+        </p>
+
+        <section className="mt-8 border-y border-white/10 py-6">
+          <h2 className="display text-2xl font-bold text-lime">
+            Choose an effort level
+          </h2>
+          <ul className="mt-4 grid gap-4 md:grid-cols-3">
+            {exercise.intensities.map(intensity => (
+              <li key={intensity.label} className="border border-white/12 p-4">
+                <h3 className="display text-lg font-semibold text-white">
+                  {intensity.label}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/70">
+                  {intensity.effort}
+                </p>
+                <p className="meta mt-3 text-[0.45rem] text-white/45">
+                  {intensity.met} MET · {intensity.source}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-xs leading-relaxed text-white/45">
+            MET values reference the 2024 Adult Compendium of Physical
+            Activities. They are population averages, not personal measurements.
+          </p>
+        </section>
+
+        <div className="mt-7 grid gap-4 lg:grid-cols-2">
+          <section className="border border-white/12 p-5">
+            <h2 className="display text-xl font-bold text-lime">
+              Technique cues
+            </h2>
+            <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-white/70">
+              {exercise.technique.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ol>
+          </section>
+          <section className="border border-white/12 p-5">
+            <h2 className="display text-xl font-bold text-lime">
+              Common mistakes
+            </h2>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-white/70">
+              {exercise.mistakes.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+          <section className="border border-white/12 p-5">
+            <h2 className="display text-xl font-bold text-lime">
+              A starter session
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              {exercise.starter}
+            </p>
+          </section>
+          <section className="border border-white/12 p-5">
+            <h2 className="display text-xl font-bold text-lime">
+              Who it may suit
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              {exercise.impact}
+            </p>
+          </section>
+        </div>
+
+        <aside className="mt-6 border border-lime/35 p-4 text-sm leading-relaxed text-white/65">
+          General education only—not a personalized medical or exercise
+          prescription. Adapt activity to your ability; stop for concerning
+          symptoms and seek qualified guidance when needed.
+        </aside>
+        <div className="mt-7 flex flex-wrap gap-4 text-sm">
+          <a href="/cardio" className="text-lime">
+            Browse all cardio methods →
+          </a>
+          <a href="/workouts" className="text-white/65">
+            Explore BTB workouts →
+          </a>
+        </div>
+      </main>
+      <PublicFooter />
+    </>
+  );
+}
+
 function StaticNotFound() {
   return (
     <>
@@ -407,6 +575,7 @@ function buildManifest(): RouteManifest {
     "/7-day-starter": "7-day-starter.html",
     "/plus": "plus.html",
     "/exercises": "library.html",
+    "/cardio": "cardio.html",
     "/instagram": "instagram.html",
     "/workouts/groups": "group-workouts.html",
   };
@@ -422,7 +591,6 @@ function buildManifest(): RouteManifest {
     ...BLOG_POSTS.map(post => `/blog/${post.slug}`),
     ...Object.keys(LEGACY_ROUTE_REDIRECTS),
     ...WORKOUTS.map(workout => `/workouts/${workout.slug}`),
-    ...CARDIO.map(exercise => `/cardio/${exercise.slug}`),
     ...EDU_ARTICLES.map(article => `/learn/${article.slug}`),
     ...TRAINING_PROGRAMS.flatMap(program =>
       program.weeks.flatMap(week =>
@@ -437,6 +605,7 @@ function buildManifest(): RouteManifest {
     snapshotRoutes,
     appRoutes: uniqueRoutes(appRoutes),
     guideSlugs: INDEXED_EXERCISES.map(exercise => exercise.slug),
+    cardioSlugs: CARDIO.map(exercise => exercise.slug),
   };
 }
 
@@ -454,6 +623,12 @@ function vercelConfig(manifest: RouteManifest) {
       destination: `/guides/${slug}.html`,
     }))
   );
+  const cardioRewrites = manifest.cardioSlugs.flatMap(slug =>
+    withTrailingSlash([`/cardio/${slug}`]).map(source => ({
+      source,
+      destination: `/cardio-guides/${slug}.html`,
+    }))
+  );
   const appRewrites = withTrailingSlash(manifest.appRoutes).map(source => ({
     source,
     destination: "/app.html",
@@ -461,12 +636,36 @@ function vercelConfig(manifest: RouteManifest) {
   return {
     buildCommand: "pnpm build",
     outputDirectory: "dist/public",
-    rewrites: [...snapshotRewrites, ...guideRewrites, ...appRewrites],
+    rewrites: [
+      ...snapshotRewrites,
+      ...guideRewrites,
+      ...cardioRewrites,
+      ...appRewrites,
+    ],
   };
 }
 
 const shell = await readFile(path.join(output, "app.html"), "utf8");
 await mkdir(guidesOutput, { recursive: true });
+const cardioOutput = path.join(output, "cardio-guides");
+await mkdir(cardioOutput, { recursive: true });
+
+const cardioHubMeta: PageMeta = { ...CARDIO_HUB_METADATA, type: "website" };
+await writeFile(
+  path.join(output, "cardio.html"),
+  renderPage(shell, cardioHubMeta, <StaticCardioIndex />)
+);
+
+for (const exercise of CARDIO) {
+  const metadata: PageMeta = {
+    ...getCardioGuideMetadata(exercise),
+    type: "article",
+  };
+  await writeFile(
+    path.join(cardioOutput, `${exercise.slug}.html`),
+    renderPage(shell, metadata, <StaticCardioGuide exercise={exercise} />)
+  );
+}
 
 const libraryMeta: PageMeta = {
   title: "BTB Exercise Library — 54 Form Guides",
@@ -512,6 +711,8 @@ const sitemapUrls = [
   `${BTB_SITE_ORIGIN}/7-day-starter`,
   `${BTB_SITE_ORIGIN}/plus`,
   `${BTB_SITE_ORIGIN}/exercises`,
+  `${BTB_SITE_ORIGIN}/cardio`,
+  ...CARDIO.map(exercise => `${BTB_SITE_ORIGIN}/cardio/${exercise.slug}`),
   `${BTB_SITE_ORIGIN}/instagram`,
   `${BTB_SITE_ORIGIN}/blog`,
   ...BLOG_POSTS.map(post => `${BTB_SITE_ORIGIN}/blog/${post.slug}`),
@@ -538,5 +739,5 @@ await writeFile(
 );
 
 console.log(
-  `Generated ${INDEXED_EXERCISES.length} public exercise guides, the full library, robots.txt, sitemap.xml, 404.html, and exact serving routes.`
+  `Generated ${INDEXED_EXERCISES.length} public exercise guides, ${CARDIO.length} cardio guides, the full library, robots.txt, sitemap.xml, 404.html, and exact serving routes.`
 );

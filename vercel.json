@@ -39,6 +39,14 @@
       "destination": "/library.html"
     },
     {
+      "source": "/cardio",
+      "destination": "/cardio.html"
+    },
+    {
+      "source": "/cardio/",
+      "destination": "/cardio.html"
+    },
+    {
       "source": "/instagram",
       "destination": "/instagram.html"
     },
@@ -487,6 +495,150 @@
       "destination": "/guides/russian-twist.html"
     },
     {
+      "source": "/cardio/outdoor-running",
+      "destination": "/cardio-guides/outdoor-running.html"
+    },
+    {
+      "source": "/cardio/outdoor-running/",
+      "destination": "/cardio-guides/outdoor-running.html"
+    },
+    {
+      "source": "/cardio/treadmill-running",
+      "destination": "/cardio-guides/treadmill-running.html"
+    },
+    {
+      "source": "/cardio/treadmill-running/",
+      "destination": "/cardio-guides/treadmill-running.html"
+    },
+    {
+      "source": "/cardio/hill-sprints",
+      "destination": "/cardio-guides/hill-sprints.html"
+    },
+    {
+      "source": "/cardio/hill-sprints/",
+      "destination": "/cardio-guides/hill-sprints.html"
+    },
+    {
+      "source": "/cardio/stationary-bike",
+      "destination": "/cardio-guides/stationary-bike.html"
+    },
+    {
+      "source": "/cardio/stationary-bike/",
+      "destination": "/cardio-guides/stationary-bike.html"
+    },
+    {
+      "source": "/cardio/spin-class",
+      "destination": "/cardio-guides/spin-class.html"
+    },
+    {
+      "source": "/cardio/spin-class/",
+      "destination": "/cardio-guides/spin-class.html"
+    },
+    {
+      "source": "/cardio/road-cycling",
+      "destination": "/cardio-guides/road-cycling.html"
+    },
+    {
+      "source": "/cardio/road-cycling/",
+      "destination": "/cardio-guides/road-cycling.html"
+    },
+    {
+      "source": "/cardio/rowing-machine",
+      "destination": "/cardio-guides/rowing-machine.html"
+    },
+    {
+      "source": "/cardio/rowing-machine/",
+      "destination": "/cardio-guides/rowing-machine.html"
+    },
+    {
+      "source": "/cardio/ski-erg",
+      "destination": "/cardio-guides/ski-erg.html"
+    },
+    {
+      "source": "/cardio/ski-erg/",
+      "destination": "/cardio-guides/ski-erg.html"
+    },
+    {
+      "source": "/cardio/stair-climber",
+      "destination": "/cardio-guides/stair-climber.html"
+    },
+    {
+      "source": "/cardio/stair-climber/",
+      "destination": "/cardio-guides/stair-climber.html"
+    },
+    {
+      "source": "/cardio/elliptical",
+      "destination": "/cardio-guides/elliptical.html"
+    },
+    {
+      "source": "/cardio/elliptical/",
+      "destination": "/cardio-guides/elliptical.html"
+    },
+    {
+      "source": "/cardio/freestyle-swimming",
+      "destination": "/cardio-guides/freestyle-swimming.html"
+    },
+    {
+      "source": "/cardio/freestyle-swimming/",
+      "destination": "/cardio-guides/freestyle-swimming.html"
+    },
+    {
+      "source": "/cardio/water-running",
+      "destination": "/cardio-guides/water-running.html"
+    },
+    {
+      "source": "/cardio/water-running/",
+      "destination": "/cardio-guides/water-running.html"
+    },
+    {
+      "source": "/cardio/jump-rope",
+      "destination": "/cardio-guides/jump-rope.html"
+    },
+    {
+      "source": "/cardio/jump-rope/",
+      "destination": "/cardio-guides/jump-rope.html"
+    },
+    {
+      "source": "/cardio/hiit-circuit",
+      "destination": "/cardio-guides/hiit-circuit.html"
+    },
+    {
+      "source": "/cardio/hiit-circuit/",
+      "destination": "/cardio-guides/hiit-circuit.html"
+    },
+    {
+      "source": "/cardio/heavy-bag",
+      "destination": "/cardio-guides/heavy-bag.html"
+    },
+    {
+      "source": "/cardio/heavy-bag/",
+      "destination": "/cardio-guides/heavy-bag.html"
+    },
+    {
+      "source": "/cardio/shuttle-runs",
+      "destination": "/cardio-guides/shuttle-runs.html"
+    },
+    {
+      "source": "/cardio/shuttle-runs/",
+      "destination": "/cardio-guides/shuttle-runs.html"
+    },
+    {
+      "source": "/cardio/incline-walking",
+      "destination": "/cardio-guides/incline-walking.html"
+    },
+    {
+      "source": "/cardio/incline-walking/",
+      "destination": "/cardio-guides/incline-walking.html"
+    },
+    {
+      "source": "/cardio/rucking",
+      "destination": "/cardio-guides/rucking.html"
+    },
+    {
+      "source": "/cardio/rucking/",
+      "destination": "/cardio-guides/rucking.html"
+    },
+    {
       "source": "/account",
       "destination": "/app.html"
     },
@@ -564,158 +716,6 @@
     },
     {
       "source": "/calculators/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/elliptical",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/elliptical/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/freestyle-swimming",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/freestyle-swimming/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/heavy-bag",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/heavy-bag/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/hiit-circuit",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/hiit-circuit/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/hill-sprints",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/hill-sprints/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/incline-walking",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/incline-walking/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/jump-rope",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/jump-rope/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/outdoor-running",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/outdoor-running/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/road-cycling",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/road-cycling/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/rowing-machine",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/rowing-machine/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/rucking",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/rucking/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/shuttle-runs",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/shuttle-runs/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/ski-erg",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/ski-erg/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/spin-class",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/spin-class/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/stair-climber",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/stair-climber/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/stationary-bike",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/stationary-bike/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/treadmill-running",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/treadmill-running/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/water-running",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/cardio/water-running/",
       "destination": "/app.html"
     },
     {
