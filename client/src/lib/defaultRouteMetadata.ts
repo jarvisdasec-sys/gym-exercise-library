@@ -1,7 +1,21 @@
 import { getBlogPost } from "@/lib/blog";
+import { CARDIO } from "@/lib/cardio";
+import {
+  CARDIO_HUB_METADATA,
+  getCardioGuideMetadata,
+} from "@/lib/cardioMetadata";
 
 export function applyFallbackRouteMetadata(path: string) {
   const normalized = path.replace(/\/+$/, "") || "/";
+  const cardioGuide = normalized.startsWith("/cardio/")
+    ? CARDIO.find(exercise => `/cardio/${exercise.slug}` === normalized)
+    : undefined;
+  const cardioMetadata =
+    normalized === "/cardio"
+      ? CARDIO_HUB_METADATA
+      : cardioGuide
+        ? getCardioGuideMetadata(cardioGuide)
+        : undefined;
   // These pages have their own tested metadata owner.
   if (
     [
@@ -35,20 +49,33 @@ export function applyFallbackRouteMetadata(path: string) {
     "/workouts/tools": "Workout Tools",
     "/workouts/builder": "Workout Builder",
   };
-  const blogPost = normalized.startsWith("/blog/") && normalized !== "/blog/contribute"
-    ? getBlogPost(normalized.slice("/blog/".length))
-    : undefined;
-  const isCommunityPost = normalized.startsWith("/blog/") && normalized !== "/blog/contribute" && !blogPost;
-  const label = blogPost?.title ?? (isCommunityPost ? "Community Blog Post" : labels[normalized] ?? "Training & Nutrition Tools");
-  const title = `${label} | BTB Fitness & Health`;
-  const description = blogPost?.summary ?? (isCommunityPost
-    ? "A community contribution published directly to the BTB Fitness & Health blog."
-    : normalized === "/blog"
-    ? "Read practical BTB stories about weight lifting, health, cardio and gear—and contribute an idea of your own."
-      : normalized === "/blog/contribute"
-        ? "Publish an article, short post, image or idea directly to the BTB blog. No account, email or editorial approval is required."
-      : `Explore ${label.toLowerCase()} from BTB Fitness & Health. Practical education and tools to build a repeatable routine.`);
-  const canonicalUrl = `https://www.btbfitnessandhealth.com${normalized}`;
+  const blogPost =
+    normalized.startsWith("/blog/") && normalized !== "/blog/contribute"
+      ? getBlogPost(normalized.slice("/blog/".length))
+      : undefined;
+  const isCommunityPost =
+    normalized.startsWith("/blog/") &&
+    normalized !== "/blog/contribute" &&
+    !blogPost;
+  const label =
+    cardioMetadata?.title ??
+    blogPost?.title ??
+    (isCommunityPost
+      ? "Community Blog Post"
+      : (labels[normalized] ?? "Training & Nutrition Tools"));
+  const title = cardioMetadata?.title ?? `${label} | BTB Fitness & Health`;
+  const description =
+    cardioMetadata?.description ??
+    blogPost?.summary ??
+    (isCommunityPost
+      ? "A community contribution published directly to the BTB Fitness & Health blog."
+      : normalized === "/blog"
+        ? "Read practical BTB stories about weight lifting, health, cardio and gear—and contribute an idea of your own."
+        : normalized === "/blog/contribute"
+          ? "Publish an article, short post, image or idea directly to the BTB blog. No account, email or editorial approval is required."
+          : `Explore ${label.toLowerCase()} from BTB Fitness & Health. Practical education and tools to build a repeatable routine.`);
+  const canonicalUrl =
+    cardioMetadata?.url ?? `https://www.btbfitnessandhealth.com${normalized}`;
   document.title = title;
   for (const [attribute, name, value] of [
     ["name", "description", description],

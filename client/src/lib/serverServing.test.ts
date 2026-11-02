@@ -23,9 +23,11 @@ async function request(pathname: string) {
 beforeEach(async () => {
   fixtureDirectory = await mkdtemp(path.join(tmpdir(), "btb-serving-"));
   await mkdir(path.join(fixtureDirectory, "guides"));
+  await mkdir(path.join(fixtureDirectory, "cardio-guides"));
   await Promise.all([
     writeFile(path.join(fixtureDirectory, "home.html"), "home snapshot"),
     writeFile(path.join(fixtureDirectory, "start.html"), "start snapshot"),
+    writeFile(path.join(fixtureDirectory, "cardio.html"), "cardio snapshot"),
     writeFile(path.join(fixtureDirectory, "app.html"), "generic client shell"),
     writeFile(path.join(fixtureDirectory, "404.html"), "not found snapshot"),
     writeFile(
@@ -33,11 +35,20 @@ beforeEach(async () => {
       "plank guide"
     ),
     writeFile(
+      path.join(fixtureDirectory, "cardio-guides", "outdoor-running.html"),
+      "cardio guide"
+    ),
+    writeFile(
       path.join(fixtureDirectory, "route-manifest.json"),
       JSON.stringify({
-        snapshotRoutes: { "/": "home.html", "/start": "start.html" },
+        snapshotRoutes: {
+          "/": "home.html",
+          "/start": "start.html",
+          "/cardio": "cardio.html",
+        },
         appRoutes: ["/workouts", "/workouts/push-day", "/reset-password"],
         guideSlugs: ["plank"],
+        cardioSlugs: ["outdoor-running"],
       })
     ),
   ]);
@@ -66,15 +77,25 @@ describe("exact public route serving", () => {
       status: 200,
       body: "start snapshot",
     });
+    await expect(request("/cardio/")).resolves.toMatchObject({
+      status: 200,
+      body: "cardio snapshot",
+    });
     await expect(request("/e/plank")).resolves.toMatchObject({
       status: 200,
       body: "plank guide",
+    });
+    await expect(request("/cardio/outdoor-running")).resolves.toMatchObject({
+      status: 200,
+      body: "cardio guide",
     });
     await expect(request("/workouts/push-day")).resolves.toMatchObject({
       status: 200,
       body: "generic client shell",
     });
-    await expect(request("/reset-password?token=redacted")).resolves.toMatchObject({
+    await expect(
+      request("/reset-password?token=redacted")
+    ).resolves.toMatchObject({
       status: 200,
       body: "generic client shell",
     });
@@ -83,6 +104,7 @@ describe("exact public route serving", () => {
   it("returns a non-indexable 404 for unknown pages, guides, and missing assets", async () => {
     for (const pathname of [
       "/e/not-a-real-guide",
+      "/cardio/not-a-real-method",
       "/not-a-real-route",
       "/images/missing.png",
     ]) {
