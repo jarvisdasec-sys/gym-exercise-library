@@ -8,9 +8,9 @@ export const BTB_CONTACT = "btbfitnessandhealth@yahoo.com";
 export const GROWTH_META = {
   home: {
     path: "/",
-    title: "BTB Fitness & Health — Find the Movement. Own the Form.",
+    title: "Build Your First Consistent Week | BTB Fitness & Health",
     description:
-      "Explore 54 exercise blueprints, today's workout, the free Chapter 1 PDF, nutrition tools and fitness education from BTB Fitness & Health.",
+      "New or returning to exercise? Use BTB's free 7-day starter plan for adults, with simple training, meal prep, recovery and home or gym options. No signup.",
   },
   start: {
     path: "/start",
@@ -34,6 +34,8 @@ export function applyGrowthMetadata(
   const restore: (() => void)[] = [];
   for (const [attribute, name, value] of [
     ["name", "description", meta.description],
+    ["property", "og:type", "website"],
+    ["property", "og:site_name", "Build The Body (BTB)"],
     ["property", "og:title", meta.title],
     ["property", "og:description", meta.description],
     ["property", "og:url", `https://www.btbfitnessandhealth.com${meta.path}`],
@@ -42,6 +44,7 @@ export function applyGrowthMetadata(
       "og:image",
       "https://www.btbfitnessandhealth.com/images/site/btb-movement-index-hero.jpg",
     ],
+    ["name", "twitter:card", "summary_large_image"],
     ["name", "twitter:title", meta.title],
     ["name", "twitter:description", meta.description],
     [

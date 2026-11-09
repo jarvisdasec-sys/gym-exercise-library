@@ -3,7 +3,7 @@ import { APP_STORE_URL, PLANNER_URL } from "../lib/growth";
 import { INSTAGRAM_URL } from "../lib/social";
 import { EXERCISES } from "../lib/exercises";
 import { HomepageWodPreview } from "./HomepageWodPreview";
-import { StarterPlanPromo } from "./StarterPlanPromo";
+import { StarterPlanPromo, STARTER_PLAN_URL } from "./StarterPlanPromo";
 import { GoalBasedStartPathway } from "./GoalBasedStartPathway";
 import { BlogSpotlight } from "./BlogSpotlight";
 
@@ -219,27 +219,28 @@ export function GrowthContent({
         <div className="growth-hero-shade" />
         <div className="growth-wrap growth-hero-content">
           <p className="growth-kicker">
-            BUILD THE BODY / BUILT FOR YOUR REAL LIFE
+            NEW OR RETURNING TO EXERCISE / START SMALL
           </p>
           <h1>
-            Find the movement.
+            Build your first
             <br />
-            <em>Own the form.</em>
+            <em>consistent week.</em>
           </h1>
           <p className="growth-lead">
-            Clear exercise guidance, workouts, nutrition tools, and fitness
-            education to help you build a stronger, more repeatable routine.
+            New to exercise or coming back after a break? Start with a free
+            7-day plan for adults: simple training, meal prep, recovery, and
+            gym or equipment-light home options you can adapt to your life.
           </p>
           <div className="growth-actions">
-            <a href="/exercises" className="growth-action">
-              Explore the Exercise Library <span>→</span>
+            <a href={STARTER_PLAN_URL} className="growth-action">
+              Open the free 7-day plan <span aria-hidden="true">→</span>
             </a>
-            <a href="/start" className="growth-secondary">
-              Start Here <span>→</span>
+            <a href="/exercises" className="growth-secondary">
+              Explore the Exercise Library <span>→</span>
             </a>
           </div>
           <p className="growth-fine">
-            Free browser tools · No card required · Start at your own pace
+            No account or email signup · Free web plan + PDF · Start at your own pace
           </p>
           <div className="growth-hero-label">
             <span className="growth-kicker">THE BTB APPROACH</span>

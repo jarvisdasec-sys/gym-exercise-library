@@ -1,5 +1,6 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { Router } from "wouter";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
@@ -27,6 +28,8 @@ import {
 import { EDU_ARTICLES } from "../client/src/lib/eduIndex";
 import { TRAINING_PROGRAMS } from "../client/src/lib/programs";
 import { BLOG_POSTS } from "../client/src/lib/blog";
+import { getBlogPostMetadata } from "../client/src/lib/blogMetadata";
+import { BlogArticleContent } from "../client/src/components/BlogArticleContent";
 
 const output = path.resolve("dist/public");
 const guidesOutput = path.join(output, "guides");
@@ -579,6 +582,9 @@ function buildManifest(): RouteManifest {
     "/instagram": "instagram.html",
     "/workouts/groups": "group-workouts.html",
   };
+  for (const post of BLOG_POSTS) {
+    snapshotRoutes[`/blog/${post.slug}`] = `blog-articles/${post.slug}.html`;
+  }
   const snapshotPaths = new Set(Object.keys(snapshotRoutes));
   const appRoutes = [
     // This route is intentionally not part of the public navigation registry,
@@ -588,7 +594,6 @@ function buildManifest(): RouteManifest {
     "/blog",
     "/blog/contribute",
     "/blog/:slug",
-    ...BLOG_POSTS.map(post => `/blog/${post.slug}`),
     ...Object.keys(LEGACY_ROUTE_REDIRECTS),
     ...WORKOUTS.map(workout => `/workouts/${workout.slug}`),
     ...EDU_ARTICLES.map(article => `/learn/${article.slug}`),
@@ -649,6 +654,24 @@ const shell = await readFile(path.join(output, "app.html"), "utf8");
 await mkdir(guidesOutput, { recursive: true });
 const cardioOutput = path.join(output, "cardio-guides");
 await mkdir(cardioOutput, { recursive: true });
+
+const blogOutput = path.join(output, "blog-articles");
+await mkdir(blogOutput, { recursive: true });
+for (const post of BLOG_POSTS) {
+  await writeFile(
+    path.join(blogOutput, `${post.slug}.html`),
+    renderPage(
+      shell,
+      getBlogPostMetadata(post),
+      <main className="blog-page min-h-screen">
+        <PublicHeader />
+        <Router ssrPath={`/blog/${post.slug}`}>
+          <BlogArticleContent post={post} />
+        </Router>
+      </main>
+    )
+  );
+}
 
 const cardioHubMeta: PageMeta = { ...CARDIO_HUB_METADATA, type: "website" };
 await writeFile(
@@ -739,5 +762,5 @@ await writeFile(
 );
 
 console.log(
-  `Generated ${INDEXED_EXERCISES.length} public exercise guides, ${CARDIO.length} cardio guides, the full library, robots.txt, sitemap.xml, 404.html, and exact serving routes.`
+  `Generated ${INDEXED_EXERCISES.length} public exercise guides, ${CARDIO.length} cardio guides, ${BLOG_POSTS.length} blog articles, the full library, robots.txt, sitemap.xml, 404.html, and exact serving routes.`
 );

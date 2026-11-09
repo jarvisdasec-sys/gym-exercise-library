@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { BLOG_POSTS } from "./blog";
 
 const root = path.resolve(import.meta.dirname, "../../..");
 
@@ -101,6 +102,26 @@ describe("public snapshots and exact route serving", () => {
     expect(discovery).toContain('path.join(output, "cardio.html")');
     expect(discovery).toContain("`${BTB_SITE_ORIGIN}/cardio/${exercise.slug}`");
     expect(discovery).toContain('"/blog/:slug"');
+  });
+
+  it("serves every checked-in article snapshot before the existing community-post route", () => {
+    const config = JSON.parse(readFileSync(path.join(root, "vercel.json"), "utf8"));
+    const dynamicIndex = config.rewrites.findIndex((item: { source: string }) => item.source === "/blog/:slug");
+    expect(dynamicIndex).toBeGreaterThan(-1);
+    for (const post of BLOG_POSTS) {
+      for (const source of [`/blog/${post.slug}`, `/blog/${post.slug}/`]) {
+        const index = config.rewrites.findIndex((item: { source: string }) => item.source === source);
+        expect(index).toBeGreaterThan(-1);
+        expect(index).toBeLessThan(dynamicIndex);
+        expect(config.rewrites[index].destination).toBe(`/blog-articles/${post.slug}.html`);
+      }
+    }
+    const discovery = readFileSync(path.join(root, "scripts/build-discovery.tsx"), "utf8");
+    const sitemapSource = discovery.slice(discovery.indexOf("const sitemapUrls = ["), discovery.indexOf("const sitemap = "));
+    for (const privatePath of ["/account", "/saved", "/reset-password"]) {
+      expect(sitemapSource).not.toContain(privatePath);
+      expect(config.rewrites).toContainEqual({ source: privatePath, destination: "/app.html" });
+    }
   });
 
   it("keeps a generic client shell only for known app routes and sends all others to a non-indexable 404", () => {

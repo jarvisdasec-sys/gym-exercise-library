@@ -1,4 +1,5 @@
 import { getBlogPost } from "@/lib/blog";
+import { getBlogPostMetadata } from "@/lib/blogMetadata";
 import { CARDIO } from "@/lib/cardio";
 import {
   CARDIO_HUB_METADATA,
@@ -53,6 +54,7 @@ export function applyFallbackRouteMetadata(path: string) {
     normalized.startsWith("/blog/") && normalized !== "/blog/contribute"
       ? getBlogPost(normalized.slice("/blog/".length))
       : undefined;
+  const blogMetadata = blogPost ? getBlogPostMetadata(blogPost) : undefined;
   const isCommunityPost =
     normalized.startsWith("/blog/") &&
     normalized !== "/blog/contribute" &&
@@ -63,10 +65,10 @@ export function applyFallbackRouteMetadata(path: string) {
     (isCommunityPost
       ? "Community Blog Post"
       : (labels[normalized] ?? "Training & Nutrition Tools"));
-  const title = cardioMetadata?.title ?? `${label} | BTB Fitness & Health`;
+  const title = cardioMetadata?.title ?? blogMetadata?.title ?? `${label} | BTB Fitness & Health`;
   const description =
     cardioMetadata?.description ??
-    blogPost?.summary ??
+    blogMetadata?.description ??
     (isCommunityPost
       ? "A community contribution published directly to the BTB Fitness & Health blog."
       : normalized === "/blog"
@@ -75,21 +77,26 @@ export function applyFallbackRouteMetadata(path: string) {
           ? "Publish an article, short post, image or idea directly to the BTB blog. No account, email or editorial approval is required."
           : `Explore ${label.toLowerCase()} from BTB Fitness & Health. Practical education and tools to build a repeatable routine.`);
   const canonicalUrl =
-    cardioMetadata?.url ?? `https://www.btbfitnessandhealth.com${normalized}`;
+    cardioMetadata?.url ?? blogMetadata?.url ?? `https://www.btbfitnessandhealth.com${normalized}`;
   const socialImage =
     cardioMetadata?.image ??
+    blogMetadata?.image ??
     "https://www.btbfitnessandhealth.com/images/site/btb-movement-index-hero.jpg";
   const socialImageAlt =
     cardioMetadata?.imageAlt ??
+    blogMetadata?.imageAlt ??
     "BTB training illustration in a black and neon-green gym";
   document.title = title;
   for (const [attribute, name, value] of [
     ["name", "description", description],
+    ["property", "og:type", cardioGuide || blogPost ? "article" : "website"],
+    ["property", "og:site_name", "Build The Body (BTB)"],
     ["property", "og:title", title],
     ["property", "og:description", description],
     ["property", "og:url", canonicalUrl],
     ["property", "og:image", socialImage],
     ["property", "og:image:alt", socialImageAlt],
+    ["name", "twitter:card", "summary_large_image"],
     ["name", "twitter:title", title],
     ["name", "twitter:description", description],
     ["name", "twitter:image", socialImage],

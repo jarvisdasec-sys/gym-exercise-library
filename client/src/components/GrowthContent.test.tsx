@@ -20,7 +20,16 @@ afterEach(() => {
 describe("BTB growth release", () => {
   it("offers real product destinations without invented testimonials or active subscriptions", () => {
     const html = renderToStaticMarkup(createElement(GrowthContent));
-    expect(html).toContain("Find the movement.");
+    document.body.innerHTML = html;
+    const hero = document.querySelector(".growth-hero")!;
+    expect(hero.querySelector("h1")?.textContent).toBe("Build your firstconsistent week.");
+    expect(hero.textContent).toContain("7-day plan for adults");
+    const actions = hero.querySelectorAll(".growth-actions a");
+    expect(actions[0].getAttribute("href")).toBe("/7-day-starter");
+    expect(actions[0].className).toBe("growth-action");
+    expect(actions[1].getAttribute("href")).toBe("/exercises");
+    expect(actions[1].className).toBe("growth-secondary");
+    expect(hero.textContent).toContain("No account or email signup");
     expect(html).toContain("Own the form.");
     expect(html).toContain("Download Free Chapter 1 (PDF)");
     expect(html).toContain("View all 54 plates");

@@ -63,6 +63,38 @@
       "destination": "/group-workouts.html"
     },
     {
+      "source": "/blog/a-simple-first-strength-week",
+      "destination": "/blog-articles/a-simple-first-strength-week.html"
+    },
+    {
+      "source": "/blog/a-simple-first-strength-week/",
+      "destination": "/blog-articles/a-simple-first-strength-week.html"
+    },
+    {
+      "source": "/blog/everyday-health-small-habits",
+      "destination": "/blog-articles/everyday-health-small-habits.html"
+    },
+    {
+      "source": "/blog/everyday-health-small-habits/",
+      "destination": "/blog-articles/everyday-health-small-habits.html"
+    },
+    {
+      "source": "/blog/cardio-at-your-own-pace",
+      "destination": "/blog-articles/cardio-at-your-own-pace.html"
+    },
+    {
+      "source": "/blog/cardio-at-your-own-pace/",
+      "destination": "/blog-articles/cardio-at-your-own-pace.html"
+    },
+    {
+      "source": "/blog/gear-that-earns-its-place",
+      "destination": "/blog-articles/gear-that-earns-its-place.html"
+    },
+    {
+      "source": "/blog/gear-that-earns-its-place/",
+      "destination": "/blog-articles/gear-that-earns-its-place.html"
+    },
+    {
       "source": "/e/barbell-bench-press",
       "destination": "/guides/barbell-bench-press.html"
     },
@@ -671,43 +703,11 @@
       "destination": "/app.html"
     },
     {
-      "source": "/blog/a-simple-first-strength-week",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/a-simple-first-strength-week/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/cardio-at-your-own-pace",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/cardio-at-your-own-pace/",
-      "destination": "/app.html"
-    },
-    {
       "source": "/blog/contribute",
       "destination": "/app.html"
     },
     {
       "source": "/blog/contribute/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/everyday-health-small-habits",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/everyday-health-small-habits/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/gear-that-earns-its-place",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/gear-that-earns-its-place/",
       "destination": "/app.html"
     },
     {
