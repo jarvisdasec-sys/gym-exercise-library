@@ -218,6 +218,13 @@ export function GrowthContent({
         />
         <div className="growth-hero-shade" />
         <div className="growth-wrap growth-hero-content">
+          <img
+            src="/images/site/btb-logo-300.png"
+            width={300}
+            height={300}
+            alt="BTB Fitness & Health logo"
+            className="mb-6 h-36 w-36 md:h-44 md:w-44"
+          />
           <p className="growth-kicker">
             NEW OR RETURNING TO EXERCISE / START SMALL
           </p>
