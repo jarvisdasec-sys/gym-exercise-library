@@ -3,7 +3,7 @@ import { FEATURED_REELS, instagramReelUrl } from "./featuredReels";
 
 // Public, write-only project ingestion token. This is not a personal API key.
 export const TRAFFIC_PROJECT_TOKEN =
-  "phc_tgdFd3FiwGr9wCPdgJhUMtHnUbbRnf5RKzjm3r9GXwc2";
+  "phc_pENU4P53hdZp3p5e6sRoWdPB3kuBR9vpYwKkxCVTvZ9v";
 export const TRAFFIC_API_HOST = "https://us.i.posthog.com";
 export const TRAFFIC_HOSTS = new Set([
   "www.btbfitnessandhealth.com",
@@ -316,6 +316,9 @@ export async function captureGrowthClick(
     | "start_here"
     | "plus_interest"
     | "starter_worksheet"
+    | "starter_plan"
+    | "starter_pdf"
+    | "exercise_guide"
     | "app_store"
 ): Promise<void> {
   if (typeof window === "undefined") return;
@@ -328,6 +331,9 @@ export async function captureGrowthClick(
       "start_here",
       "plus_interest",
       "starter_worksheet",
+      "starter_plan",
+      "starter_pdf",
+      "exercise_guide",
       "app_store",
     ].includes(target)
   )

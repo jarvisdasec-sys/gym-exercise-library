@@ -212,7 +212,7 @@ export function GrowthContent({
       <section className="growth-hero">
         <img
           className="growth-hero-photo"
-          src="/images/site/btb-movement-index-hero.webp"
+          src="/images/site/btb-movement-index-hero-optimized.webp"
           alt="BTB training illustration in a black and neon-green gym"
           fetchPriority="high"
         />

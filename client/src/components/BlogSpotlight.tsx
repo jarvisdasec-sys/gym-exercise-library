@@ -16,7 +16,7 @@ export function BlogSpotlight() {
           <a href="/blog" className="blog-spotlight-link" aria-label="Read the blog"><span>READ THE</span><ArrowRight aria-hidden="true" /><strong>BLOG</strong><ArrowLeft aria-hidden="true" /></a>
         </div>
         <a href={`/blog/${featured.slug}`} className="blog-spotlight-story">
-          <div className="blog-spotlight-image"><img src={featured.image} alt={featured.imageAlt} loading="lazy" /><span className="meta">START HERE / {featured.category.toUpperCase()}</span></div>
+          <div className="blog-spotlight-image"><img src={featured.image === "/images/site/btb-workouts-hero.jpg" ? "/images/site/btb-workouts-hero-optimized.webp" : featured.image} alt={featured.imageAlt} loading="lazy" decoding="async" /><span className="meta">START HERE / {featured.category.toUpperCase()}</span></div>
           <div className="blog-spotlight-story-copy"><Newspaper aria-hidden="true" /><div><p className="meta">BTB READING ROOM / 01</p><h3 className="display">{featured.title}</h3><span className="blog-spotlight-read">Read the story <ArrowRight aria-hidden="true" /></span></div></div>
         </a>
       </div>

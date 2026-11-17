@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
 import { captureTrafficPage, captureGrowthClick } from "@/lib/trafficAnalytics";
-import { APP_STORE_URL, PLANNER_URL } from "@/lib/growth";
+import { growthLinkTarget } from "@/lib/trafficLink";
 
 export function TrafficAnalytics() {
   const [location] = useLocation();
@@ -17,18 +17,7 @@ export function TrafficAnalytics() {
           : null;
       if (!link) return;
       const href = link.getAttribute("href") || "";
-      const target =
-        href === PLANNER_URL
-          ? "recipe_planner"
-          : href === "/start" || href === "/start#btb-inquiry"
-            ? "start_here"
-            : href === "/plus"
-              ? "plus_interest"
-              : href === "/downloads/btb-weekly-starter.html"
-                ? "starter_worksheet"
-                : href === APP_STORE_URL
-                  ? "app_store"
-                  : null;
+      const target = growthLinkTarget(href);
       if (target) void captureGrowthClick(target);
     };
     document.addEventListener("click", onClick, true);

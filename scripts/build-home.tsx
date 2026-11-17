@@ -2,6 +2,7 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { build } from "esbuild";
 import { GrowthContent } from "../client/src/components/GrowthContent";
 import {
   BTB_CONTACT,
@@ -90,7 +91,7 @@ function withMetadata(shell: string, page: GrowthPage) {
       inLanguage: "en",
       publisher: { "@type": "Organization", name: "BTB Fitness & Health", url: PUBLIC_ORIGIN, logo: `${PUBLIC_ORIGIN}/images/site/btb-logo-300.png` },
     };
-    html = html.replace("</head>", `<link rel="preload" as="image" href="/images/site/btb-movement-index-hero.webp" fetchpriority="high" />\n<script type="application/ld+json">${JSON.stringify(structuredData).replaceAll("<", "\\u003c")}</script>\n</head>`);
+    html = html.replace("</head>", `<link rel="preload" as="image" href="/images/site/btb-movement-index-hero-optimized.webp" fetchpriority="high" />\n<script type="application/ld+json">${JSON.stringify(structuredData).replaceAll("<", "\\u003c")}</script>\n</head>`);
   }
   return html.replace(
     "</head>",
@@ -177,6 +178,18 @@ function StaticPage({ page }: { page: GrowthPage }) {
 }
 
 const shell = await readFile(path.join(output, "index.html"), "utf8");
+await build({
+  entryPoints: ["client/src/starterTraffic.ts"],
+  outdir: path.join(output, "assets/starter-traffic"),
+  bundle: true,
+  splitting: true,
+  format: "esm",
+  minify: true,
+  define: { "import.meta.env.PROD": "true" },
+});
+const starterPath = path.join(output, "7-day-starter.html");
+const starterHtml = await readFile(starterPath, "utf8");
+await writeFile(starterPath, starterHtml.replace("</body>", '<script type="module" src="/assets/starter-traffic/starterTraffic.js"></script></body>'));
 if (!shell.includes('<div id="root"></div>')) {
   throw new Error(
     "The app HTML root changed; cannot safely render public pages."
