@@ -334,7 +334,7 @@ export function GrowthContent({
             <p className="growth-kicker">BTB FITNESS &amp; HEALTH / COMPANION APP</p>
             <h2>Bring your training<br /><em>and health tools together.</em></h2>
             <p className="growth-lead">Explore the BTB Fitness &amp; Health app for workout tracking, personalized training plans, nutrition logging, health measurements, and a fitness education library.</p>
-            <a className="growth-action" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" aria-label="Open the BTB Fitness & Health App Store listing (opens in a new tab)">View BTB on the App Store ↗</a>
+            <a className="growth-action" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" aria-label="View BTB on the App Store ↗ (opens in a new tab)">View BTB on the App Store ↗</a>
             <p className="growth-fine">The app is a separate product; website planner data is not currently synced with app records.</p>
           </div>
           <div className="border border-lime/40 p-5">

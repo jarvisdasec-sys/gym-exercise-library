@@ -49,7 +49,9 @@ describe("public snapshots and exact route serving", () => {
       path.join(root, "client/src/components/BlogSpotlight.tsx"),
       "utf8"
     );
-    expect(spotlight).toContain('aria-label="Read the blog"');
+    // Use visible text as the accessible name; icons stay decorative.
+    expect(spotlight).toContain('className="blog-spotlight-link"><span>READ THE</span>');
+    expect(spotlight).not.toContain('aria-label="Read the blog"');
     expect(spotlight).toContain('<ArrowRight aria-hidden="true" />');
     expect(spotlight).toContain("<strong>BLOG</strong>");
     expect(spotlight).toContain('<ArrowLeft aria-hidden="true" />');

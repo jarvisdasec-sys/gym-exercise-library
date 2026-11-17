@@ -58,7 +58,7 @@ export function BtbMotion() {
         </div>
         <p
           id="motion-privacy-note"
-          className="mt-4 text-xs leading-relaxed text-white/45"
+          className="mt-4 text-xs leading-relaxed text-white/60"
         >
           Covers load from BTB. Instagram's player loads only when you choose it
           and may use cookies. Prefer no embed? Open the original Reel instead.
@@ -90,7 +90,7 @@ export function BtbMotion() {
                   <p className="mt-3 text-xs leading-relaxed text-white/60">
                     {reel.description}
                   </p>
-                  <p className="meta mt-3 text-[0.4rem] text-white/40">
+                  <p className="meta mt-3 text-[0.4rem] text-white/60">
                     Published{" "}
                     <time dateTime={reel.publishedAt}>{reel.publishedAt}</time>
                   </p>

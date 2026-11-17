@@ -131,7 +131,7 @@
 .blog-spotlight-image > span { position: absolute; z-index: 1; bottom: .8rem; left: 1rem; color: white; font-size: .45rem; letter-spacing: .12em; }
 .blog-spotlight-story-copy { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.2rem 1.3rem; }
 .blog-spotlight-story-copy > svg { width: 1.2rem; height: 1.2rem; flex: 0 0 auto; color: #a6ff00; }
-.blog-spotlight-story-copy .meta { color: rgb(255 255 255 / 38%); font-size: .43rem; letter-spacing: .12em; }
+.blog-spotlight-story-copy .meta { color: rgb(255 255 255 / 60%); font-size: .43rem; letter-spacing: .12em; }
 .blog-spotlight-story-copy h3 { margin-top: .3rem; font-size: clamp(1.35rem, 2.7vw, 2rem); line-height: 1; }
 .blog-spotlight-read { display: inline-flex; align-items: center; gap: .35rem; margin-top: .55rem; color: #a6ff00; font: 600 .53rem "JetBrains Mono", monospace; text-transform: uppercase; }
 .blog-spotlight-read svg { width: .8rem; height: .8rem; }

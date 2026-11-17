@@ -10,13 +10,14 @@ import { SavedProvider } from "@/contexts/SavedContext";
 import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import BrandHome from "./pages/BrandHome";
 import "./components/group-workouts.css";
 import "./components/growth.css";
 import "./components/blog.css";
 
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const Home = lazy(() => import("./pages/Home"));
-const BrandHome = lazy(() => import("./pages/BrandHome"));
+// The entry route must not replace the static homepage with a loading screen.
 const StartHere = lazy(() => import("./pages/StartHere"));
 const PlusInterest = lazy(() => import("./pages/PlusInterest"));
 const ExercisePlate = lazy(() => import("./pages/ExercisePlate"));

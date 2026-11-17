@@ -13,7 +13,7 @@ export function BlogSpotlight() {
           <div className="blog-spotlight-topics" aria-label="Blog topics">
             {BLOG_CATEGORIES.map(category => <a key={category} href={`/blog?topic=${encodeURIComponent(category)}`}>{category}</a>)}
           </div>
-          <a href="/blog" className="blog-spotlight-link" aria-label="Read the blog"><span>READ THE</span><ArrowRight aria-hidden="true" /><strong>BLOG</strong><ArrowLeft aria-hidden="true" /></a>
+          <a href="/blog" className="blog-spotlight-link"><span>READ THE</span><ArrowRight aria-hidden="true" /><strong>BLOG</strong><ArrowLeft aria-hidden="true" /></a>
         </div>
         <a href={`/blog/${featured.slug}`} className="blog-spotlight-story">
           <div className="blog-spotlight-image"><img src={featured.image === "/images/site/btb-workouts-hero.jpg" ? "/images/site/btb-workouts-hero-optimized.webp" : featured.image} alt={featured.imageAlt} loading="lazy" decoding="async" /><span className="meta">START HERE / {featured.category.toUpperCase()}</span></div>

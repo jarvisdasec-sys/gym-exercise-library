@@ -92,7 +92,7 @@ export function SiteNav({
   return (
     <header className="no-print sticky z-40 border-b border-white/10 bg-background/94 backdrop-blur-xl" style={{ top: "var(--book-banner-height, 0px)" }}>
       <div className="container flex h-16 items-center gap-3 sm:h-[4.5rem]">
-        <Link href="/" className="shrink-0" aria-label="BTB home"><BtbLogo compact /></Link>
+        <Link href="/" className="shrink-0" aria-label="BTB Build the Body home"><BtbLogo compact /></Link>
         <nav className="ml-1 hidden items-stretch self-stretch xl:flex" aria-label="Primary navigation">
           {primary.map((item) => {
             const Icon = item.icon;
