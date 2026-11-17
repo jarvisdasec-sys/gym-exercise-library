@@ -80,6 +80,18 @@ function withMetadata(shell: string, page: GrowthPage) {
     html = setMeta(html, attribute, name, value);
   }
 
+  if (page === "home") {
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "BTB Fitness & Health",
+      url: PUBLIC_ORIGIN,
+      description: metadata.description,
+      inLanguage: "en",
+      publisher: { "@type": "Organization", name: "BTB Fitness & Health", url: PUBLIC_ORIGIN, logo: `${PUBLIC_ORIGIN}/images/site/btb-logo-300.png` },
+    };
+    html = html.replace("</head>", `<link rel="preload" as="image" href="/images/site/btb-movement-index-hero.webp" fetchpriority="high" />\n<script type="application/ld+json">${JSON.stringify(structuredData).replaceAll("<", "\\u003c")}</script>\n</head>`);
+  }
   return html.replace(
     "</head>",
     `<link rel="canonical" href="${canonical}" />\n</head>`
@@ -127,6 +139,7 @@ function StaticPage({ page }: { page: GrowthPage }) {
             BTB <span className="sr-only">Fitness &amp; Health</span>
           </a>
           <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
+            <a href="/7-day-starter" className="inline-flex min-h-11 items-center font-semibold text-lime">Free 7-day plan</a>
             <a href="/exercises">Exercises</a>
             <a href="/workouts">Workouts</a>
             <a href="/nutrition">Nutrition</a>

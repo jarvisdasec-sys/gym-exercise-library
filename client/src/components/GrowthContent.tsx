@@ -271,6 +271,24 @@ export function GrowthContent({
         </div>
       </div>
       {page === "home" && <BlogSpotlight />}
+      <section aria-labelledby="beginner-path-heading" className="growth-section border-b border-white/10">
+        <div className="growth-wrap">
+          <p className="growth-kicker">YOUR FIRST WEEK / THREE PRACTICAL STEPS</p>
+          <h2 id="beginner-path-heading">Less guessing.<br /><em>A clear place to begin.</em></h2>
+          <ol className="mt-8 grid gap-6 md:grid-cols-3">
+            {[
+              { title: "01 / Start with a plan", description: "Choose home or gym options in the free 7-day starter. Adapt the week to your current ability.", href: STARTER_PLAN_URL, label: "Open your first-week plan" },
+              { title: "02 / Learn your movements", description: "Use the exercise guides to review setup and form before your session. Start with manageable resistance.", href: "/exercises", label: "Browse exercise guides" },
+              { title: "03 / Make meals simpler", description: "Explore meal-prep and shopping tools to make your week easier. Build habits you can repeat.", href: "/nutrition/meal-prep", label: "Explore meal prep" },
+            ].map(step => <li key={step.href} className="border-l-2 border-lime pl-5">
+              <h3 className="display text-xl font-semibold text-white">{step.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/75">{step.description}</p>
+              <a href={step.href} className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-lime underline underline-offset-4">{step.label} <span aria-hidden="true" className="ml-2">→</span></a>
+            </li>)}
+          </ol>
+          <p className="growth-fine mt-5">General education for adults, not individualized medical advice. Choose a comfortable pace and seek qualified guidance when needed.</p>
+        </div>
+      </section>
       <HomepageWodPreview />
       <section id="btb-reading-room" className="growth-section bg-[#0b0b0b]">
         <div className="growth-wrap grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_220px]">

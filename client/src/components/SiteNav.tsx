@@ -14,7 +14,7 @@ import {
   Smartphone,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BtbLogo } from "@/components/BtbLogo";
 import { AuthControl } from "@/components/AuthControl";
 import { useAuth } from "@/contexts/AuthContext";
@@ -70,6 +70,18 @@ export function SiteNav({
   children?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", dismiss);
+    return () => document.removeEventListener("keydown", dismiss);
+  }, [open]);
   const { user } = useAuth();
   const saved: NavItem = { key: "saved", label: "Saved", href: ROUTES.saved, icon: Bookmark, hint: "Your exercises and routines", group: "BTB" };
   const primary = PRIMARY;
@@ -125,13 +137,14 @@ export function SiteNav({
         <div className="ml-auto flex min-w-0 items-center gap-2.5">
           {children}
           <AuthControl />
-          <button onClick={() => setOpen((value) => !value)} aria-label={open ? "Close sections" : "Open sections"} aria-expanded={open} className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 transition-colors hover:border-lime hover:text-lime xl:hidden">
+          <button ref={menuButton} aria-controls="btb-mobile-sections" onClick={() => setOpen((value) => !value)} aria-label={open ? "Close sections" : "Open sections"} aria-expanded={open} className="flex h-11 w-11 shrink-0 items-center justify-center border border-white/15 transition-colors hover:border-lime hover:text-lime xl:hidden">
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
       {open && (
-        <nav className="max-h-[75vh] overflow-y-auto border-t border-white/10 xl:hidden" aria-label="Site sections">
+        <nav id="btb-mobile-sections" className="max-h-[75vh] overflow-y-auto border-t border-white/10 xl:hidden" aria-label="Site sections">
+          <a href="/7-day-starter" onClick={() => setOpen(false)} className="flex min-h-12 items-center justify-between bg-lime px-5 py-4 font-bold text-black">Free 7-day starter plan <span aria-hidden="true">→</span></a>
           {[...primary, ...more.filter((item) => !primary.some((primaryItem) => primaryItem.key === item.key))].map((item) => {
             const Icon = item.icon;
             const current = isCurrent(item.key);
