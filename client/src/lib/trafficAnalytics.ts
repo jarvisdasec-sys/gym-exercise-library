@@ -23,6 +23,7 @@ const publicPages = new Set([
   "/plus",
   "/exercises",
   "/instagram",
+  "/7-day-starter",
   "/workouts",
   "/wod",
   "/workouts/tools",
@@ -200,6 +201,9 @@ export function hasTrafficPrivacyOptOut(): boolean {
 
 export function sanitizeTrafficDestination(destination: string): string | null {
   if (destination === "https://www.instagram.com/btbfitnessandhealth/")
+    return destination;
+  // Owner-approved editorial carousel only; never allow arbitrary external URLs.
+  if (destination === "https://www.instagram.com/p/Df253vmilqP/")
     return destination;
   if (
     FEATURED_REELS.some(

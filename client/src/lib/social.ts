@@ -16,6 +16,23 @@ export const INSTAGRAM_DESCRIPTION =
   "Go beyond the Reel with BTB exercise form guides, workouts, nutrition tools, mobility routines and practical training education. Pick your next step.";
 export const INSTAGRAM_PREVIEW_IMAGE = `${BTB_PUBLIC_ORIGIN}/images/social/btb-instagram-preview.jpg`;
 
+/** Editorial selection, not an automatically synchronized Instagram feed. */
+export const LATEST_INSTAGRAM_POST = {
+  title: "Nutrition doesn’t need a Monday restart.",
+  href: "https://www.instagram.com/p/Df253vmilqP/",
+  image: "/images/social/btb-nutrition-restart.webp",
+  publishedDate: "2026-11-17",
+  description:
+    "Six practical reminders for building nutrition habits without all-or-nothing food rules. Save the carousel for your next fresh start.",
+} as const;
+
+export const INSTAGRAM_STARTER_PLAN = {
+  href: "/7-day-starter",
+  title: "Build your first consistent week.",
+  description:
+    "A free 7-day plan for adults starting or returning to exercise: simple training, meal prep, recovery, and home or gym options you can adapt.",
+} as const;
+
 export const FEATURED_INSTAGRAM_EXERCISE = {
   title: "Barbell Bent-Over Row",
   href: "/e/barbell-bent-over-row",

@@ -5,6 +5,8 @@ import {
   INSTAGRAM_DESTINATIONS,
   INSTAGRAM_URL,
   INSTAGRAM_WORKOUTS,
+  INSTAGRAM_STARTER_PLAN,
+  LATEST_INSTAGRAM_POST,
   trackSocialClick,
 } from "../lib/social";
 
@@ -50,6 +52,94 @@ export function InstagramLanding() {
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="instagram-starter-heading"
+        className="mt-8 border-l-4 border-lime bg-plate p-6 sm:p-8"
+      >
+        <p className="meta text-[0.6rem] text-lime">
+          New here? Start small / Free 7-day plan
+        </p>
+        <h2
+          id="instagram-starter-heading"
+          className="display mt-3 text-3xl font-bold text-white sm:text-4xl"
+        >
+          {INSTAGRAM_STARTER_PLAN.title}
+        </h2>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65">
+          {INSTAGRAM_STARTER_PLAN.description}
+        </p>
+        <a
+          href={INSTAGRAM_STARTER_PLAN.href}
+          onClick={() =>
+            trackSocialClick(
+              INSTAGRAM_STARTER_PLAN.href,
+              "instagram-starter-plan"
+            )
+          }
+          className={`mt-5 inline-flex min-h-12 items-center gap-3 bg-lime px-5 py-3 text-sm font-bold text-black transition-colors hover:bg-lime/85 ${focus}`}
+        >
+          Open the free 7-day plan{" "}
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </a>
+        <p className="mt-3 text-xs leading-relaxed text-white/55">
+          No account or email signup. Free web plan + PDF. General education,
+          not a personalized prescription.
+        </p>
+      </section>
+
+      <section
+        aria-labelledby="latest-instagram-heading"
+        className="mt-8 overflow-hidden border border-white/15 bg-plate"
+      >
+        <div className="flex flex-col md:flex-row">
+          <img
+            src={LATEST_INSTAGRAM_POST.image}
+            alt="BTB nutrition carousel cover: Nutrition doesn’t need a Monday restart"
+            width="768"
+            height="1024"
+            loading="lazy"
+            className="mx-auto h-auto w-full max-w-sm object-contain md:mx-0 md:w-64 md:shrink-0"
+          />
+          <div className="flex min-w-0 flex-1 flex-col justify-center p-6 sm:p-8">
+            <p className="meta text-[0.6rem] text-lime">
+              Latest from Instagram / Nutrition
+            </p>
+            <h2
+              id="latest-instagram-heading"
+              className="display mt-3 text-3xl font-bold text-white sm:text-4xl"
+            >
+              {LATEST_INSTAGRAM_POST.title}
+            </h2>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/65">
+              {LATEST_INSTAGRAM_POST.description}
+            </p>
+            <p className="mt-3 text-xs text-white/45">
+              Published{" "}
+              <time dateTime={LATEST_INSTAGRAM_POST.publishedDate}>
+                November 17, 2026
+              </time>{" "}
+              · Selected by BTB
+            </p>
+            <a
+              href={LATEST_INSTAGRAM_POST.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                trackSocialClick(
+                  LATEST_INSTAGRAM_POST.href,
+                  "instagram-latest-nutrition"
+                )
+              }
+              className={`mt-6 inline-flex min-h-12 w-fit items-center gap-3 border border-lime px-5 py-3 text-sm font-semibold text-lime transition-colors hover:bg-lime hover:text-black ${focus}`}
+            >
+              Read the nutrition carousel{" "}
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
         </div>
       </section>
 
