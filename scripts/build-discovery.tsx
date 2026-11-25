@@ -561,6 +561,53 @@ function StaticNotFound() {
   );
 }
 
+function StaticSimplePage({
+  eyebrow,
+  title,
+  intro,
+  links,
+}: {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  links: Array<{ href: string; label: string; detail?: string }>;
+}) {
+  return (
+    <>
+      <PublicHeader />
+      <main className="container py-8 sm:py-12">
+        <p className="meta text-[0.5rem] font-bold text-lime">{eyebrow}</p>
+        <h1 className="display mt-3 text-4xl font-bold text-white sm:text-5xl">
+          {title}
+        </h1>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/70">
+          {intro}
+        </p>
+        <ul className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {links.map(link => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                className="block h-full border border-white/12 p-4 text-white hover:border-lime"
+              >
+                <span className="display block text-lg font-bold text-lime">
+                  {link.label}
+                </span>
+                {link.detail ? (
+                  <span className="mt-2 block text-sm leading-relaxed text-white/65">
+                    {link.detail}
+                  </span>
+                ) : null}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </main>
+      <PublicFooter />
+    </>
+  );
+}
+
 function uniqueRoutes(routes: string[]) {
   return [...new Set(routes)].sort();
 }
@@ -581,6 +628,10 @@ function buildManifest(): RouteManifest {
     "/cardio": "cardio.html",
     "/instagram": "instagram.html",
     "/workouts/groups": "group-workouts.html",
+    "/blog": "blog.html",
+    "/learn": "learn.html",
+    "/workouts/tools": "workout-tools.html",
+    "/nutrition/tracker": "nutrition-tracker.html",
   };
   for (const post of BLOG_POSTS) {
     snapshotRoutes[`/blog/${post.slug}`] = `blog-articles/${post.slug}.html`;
@@ -591,7 +642,6 @@ function buildManifest(): RouteManifest {
     // but it is a real App route used by password-recovery links.
     "/reset-password",
     ...Object.values(ROUTES).filter(route => !snapshotPaths.has(route)),
-    "/blog",
     "/blog/contribute",
     "/blog/:slug",
     ...Object.keys(LEGACY_ROUTE_REDIRECTS),
@@ -638,9 +688,18 @@ function vercelConfig(manifest: RouteManifest) {
     source,
     destination: "/app.html",
   }));
+  const redirects = [
+    // /app-features was linked from search results but never existed.
+    ...withTrailingSlash(["/app-features"]).map(source => ({
+      source,
+      destination: "/",
+      permanent: true,
+    })),
+  ];
   return {
     buildCommand: "pnpm build",
     outputDirectory: "dist/public",
+    redirects,
     rewrites: [
       ...snapshotRewrites,
       ...guideRewrites,
@@ -672,6 +731,134 @@ for (const post of BLOG_POSTS) {
     )
   );
 }
+
+const blogIndexMeta: PageMeta = {
+  title: "BTB Fitness & Health Blog: Lifting, Health & Cardio",
+  description:
+    "Read practical BTB articles on weight lifting, health, cardio and gear. Short, usable ideas you can apply to your training this week.",
+  url: `${BTB_SITE_ORIGIN}/blog`,
+  image: PUBLIC_IMAGE,
+  imageAlt: "BTB Fitness & Health blog",
+};
+await writeFile(
+  path.join(output, "blog.html"),
+  renderPage(
+    shell,
+    blogIndexMeta,
+    <StaticSimplePage
+      eyebrow="BTB blog"
+      title="Lifting, health & cardio articles"
+      intro="Practical BTB articles on weight lifting, health, cardio and gear."
+      links={BLOG_POSTS.map(post => ({
+        href: `/blog/${post.slug}`,
+        label: post.title,
+        detail: post.summary,
+      }))}
+    />
+  )
+);
+
+const learnMeta: PageMeta = {
+  title: "Training & Nutrition Education | BTB Fitness & Health",
+  description:
+    "Free training, nutrition, recovery and myth-busting articles from BTB Fitness & Health. Practical education to help you build a routine you can repeat.",
+  url: `${BTB_SITE_ORIGIN}/learn`,
+  image: PUBLIC_IMAGE,
+  imageAlt: "BTB training and nutrition education",
+};
+await writeFile(
+  path.join(output, "learn.html"),
+  renderPage(
+    shell,
+    learnMeta,
+    <StaticSimplePage
+      eyebrow="BTB education"
+      title="Training & nutrition education"
+      intro="Free articles on training, nutrition, recovery and common myths, written to help you build a routine you can repeat."
+      links={EDU_ARTICLES.map(article => ({
+        href: `/learn/${article.slug}`,
+        label: article.title,
+        detail: article.summary,
+      }))}
+    />
+  )
+);
+
+const workoutToolsMeta: PageMeta = {
+  title: "Workout Generator & Builder Tools | BTB Fitness",
+  description:
+    "Generate a session from your goal, level, time and equipment, then swap exercises or build your own workout. Free BTB workout tools, no signup.",
+  url: `${BTB_SITE_ORIGIN}/workouts/tools`,
+  image: PUBLIC_IMAGE,
+  imageAlt: "BTB workout tools",
+};
+await writeFile(
+  path.join(output, "workout-tools.html"),
+  renderPage(
+    shell,
+    workoutToolsMeta,
+    <StaticSimplePage
+      eyebrow="BTB workout tools"
+      title="Build today's session"
+      intro="Generate a workout from your goal, level, time and equipment. Swap exercises you can't do, or build a session by hand."
+      links={[
+        {
+          href: "/workouts",
+          label: "Workout sessions",
+          detail: "Browse ready-made BTB sessions.",
+        },
+        {
+          href: "/workouts/groups",
+          label: "Group workouts",
+          detail: "Community sessions you can run with others.",
+        },
+        {
+          href: "/exercises",
+          label: "Exercise library",
+          detail: "Form guides for every movement in the sessions.",
+        },
+      ]}
+    />
+  )
+);
+
+const trackerMeta: PageMeta = {
+  title: "Free Nutrition & Calorie Tracker | BTB Fitness",
+  description:
+    "Log meals, packaged foods and cardio on this device with BTB's free tracker. Set your own targets. No account or sign-in needed.",
+  url: `${BTB_SITE_ORIGIN}/nutrition/tracker`,
+  image: PUBLIC_IMAGE,
+  imageAlt: "BTB nutrition tracker",
+};
+await writeFile(
+  path.join(output, "nutrition-tracker.html"),
+  renderPage(
+    shell,
+    trackerMeta,
+    <StaticSimplePage
+      eyebrow="BTB nutrition tools"
+      title="Nutrition tracker"
+      intro="Log meals, packaged foods and cardio on this device. You set the targets; nothing is saved to an account."
+      links={[
+        {
+          href: "/nutrition",
+          label: "Nutrition tools",
+          detail: "The full set of BTB nutrition tools.",
+        },
+        {
+          href: "/nutrition/meal-prep",
+          label: "Meal preparation",
+          detail: "Plan and prep your week of meals.",
+        },
+        {
+          href: "/nutrition/builder",
+          label: "Meal builder",
+          detail: "Build meals from simple components.",
+        },
+      ]}
+    />
+  )
+);
 
 const cardioHubMeta: PageMeta = { ...CARDIO_HUB_METADATA, type: "website" };
 await writeFile(
@@ -739,7 +926,10 @@ const sitemapUrls = [
   `${BTB_SITE_ORIGIN}/instagram`,
   `${BTB_SITE_ORIGIN}/blog`,
   ...BLOG_POSTS.map(post => `${BTB_SITE_ORIGIN}/blog/${post.slug}`),
+  `${BTB_SITE_ORIGIN}/learn`,
   `${BTB_SITE_ORIGIN}/workouts/groups`,
+  `${BTB_SITE_ORIGIN}/workouts/tools`,
+  `${BTB_SITE_ORIGIN}/nutrition/tracker`,
   ...INDEXED_EXERCISES.map(exercise => `${BTB_SITE_ORIGIN}/e/${exercise.slug}`),
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls

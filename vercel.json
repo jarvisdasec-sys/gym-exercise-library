@@ -1,6 +1,18 @@
 {
   "buildCommand": "pnpm build",
   "outputDirectory": "dist/public",
+  "redirects": [
+    {
+      "source": "/app-features",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/app-features/",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/",
@@ -61,6 +73,38 @@
     {
       "source": "/workouts/groups/",
       "destination": "/group-workouts.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog/",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/learn",
+      "destination": "/learn.html"
+    },
+    {
+      "source": "/learn/",
+      "destination": "/learn.html"
+    },
+    {
+      "source": "/workouts/tools",
+      "destination": "/workout-tools.html"
+    },
+    {
+      "source": "/workouts/tools/",
+      "destination": "/workout-tools.html"
+    },
+    {
+      "source": "/nutrition/tracker",
+      "destination": "/nutrition-tracker.html"
+    },
+    {
+      "source": "/nutrition/tracker/",
+      "destination": "/nutrition-tracker.html"
     },
     {
       "source": "/blog/a-simple-first-strength-week",
@@ -687,14 +731,6 @@
       "destination": "/app.html"
     },
     {
-      "source": "/blog",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/blog/",
-      "destination": "/app.html"
-    },
-    {
       "source": "/blog/:slug",
       "destination": "/app.html"
     },
@@ -756,14 +792,6 @@
     },
     {
       "source": "/fitness/warm-up-and-cooldown/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/learn",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/learn/",
       "destination": "/app.html"
     },
     {
@@ -1052,14 +1080,6 @@
     },
     {
       "source": "/nutrition/search/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/nutrition/tracker",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/nutrition/tracker/",
       "destination": "/app.html"
     },
     {
@@ -2260,14 +2280,6 @@
     },
     {
       "source": "/workouts/today/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/workouts/tools",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/workouts/tools/",
       "destination": "/app.html"
     },
     {

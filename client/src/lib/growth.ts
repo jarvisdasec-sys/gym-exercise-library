@@ -8,7 +8,7 @@ export const BTB_CONTACT = "btbfitnessandhealth@yahoo.com";
 export const GROWTH_META = {
   home: {
     path: "/",
-    title: "Build Your First Consistent Week | BTB Fitness & Health",
+    title: "BTB Fitness & Health: Build Your First Consistent Week",
     description:
       "New or returning to exercise? Use BTB's free 7-day starter plan for adults, with simple training, meal prep, recovery and home or gym options. No signup.",
   },
