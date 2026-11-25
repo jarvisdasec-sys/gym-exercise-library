@@ -5,6 +5,7 @@ import path from "node:path";
 import { build } from "esbuild";
 import { GrowthContent } from "../client/src/components/GrowthContent";
 import {
+  APP_STORE_URL,
   BTB_CONTACT,
   GROWTH_META,
   PLANNER_URL,
@@ -92,6 +93,20 @@ function withMetadata(shell: string, page: GrowthPage) {
       publisher: { "@type": "Organization", name: "BTB Fitness & Health", url: PUBLIC_ORIGIN, logo: `${PUBLIC_ORIGIN}/images/site/btb-logo-300.png` },
     };
     html = html.replace("</head>", `<link rel="preload" as="image" href="/images/site/btb-movement-index-hero-optimized.webp" fetchpriority="high" />\n<script type="application/ld+json">${JSON.stringify(structuredData).replaceAll("<", "\\u003c")}</script>\n</head>`);
+  }
+  if (page === "home" || page === "start") {
+    const appData = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "BTB Fitness & Health",
+      applicationCategory: "HealthApplication",
+      operatingSystem: "iOS",
+      url: `${PUBLIC_ORIGIN}${metadata.path}`,
+      downloadUrl: APP_STORE_URL,
+      description: "BTB Fitness & Health app for training, nutrition and recovery plans, with exercise form guides and a free 7-day starter plan.",
+      publisher: { "@type": "Organization", name: "BTB Fitness & Health", url: PUBLIC_ORIGIN },
+    };
+    html = html.replace("</head>", `<script type="application/ld+json">${JSON.stringify(appData).replaceAll("<", "\\u003c")}</script>\n</head>`);
   }
   return html.replace(
     "</head>",

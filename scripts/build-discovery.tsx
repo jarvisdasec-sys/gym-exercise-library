@@ -35,6 +35,56 @@ const output = path.resolve("dist/public");
 const guidesOutput = path.join(output, "guides");
 const PUBLIC_IMAGE = `${BTB_SITE_ORIGIN}/images/site/btb-movement-index-hero.jpg`;
 
+// Search-intent titles for guides whose generic template title does not match
+// the queries people actually use. Keep each title under 60 characters.
+const EXERCISE_SEO_OVERRIDES: Record<
+  string,
+  { title: string; description: string }
+> = {
+  "barbell-bent-over-row": {
+    title: "Barbell Bent-Over Row Form: Setup & Mistakes | BTB Fitness",
+    description:
+      "Barbell bent-over row form: hip-hinge setup, rowing path, common mistakes, and easier and harder versions. A free guide from BTB Fitness & Health.",
+  },
+  "t-bar-row": {
+    title: "T-Bar Row Form: Setup, Cues & Mistakes | BTB Fitness",
+    description:
+      "T-bar row form: setup, execution, coaching cues, common mistakes, and easier and harder versions. A free guide from BTB Fitness & Health.",
+  },
+  "preacher-curl": {
+    title: "Preacher Curl Form: Setup, Cues & Mistakes | BTB Fitness",
+    description:
+      "Preacher curl form: bench setup, controlled curl, coaching cues, common mistakes, and easier and harder versions. A free guide from BTB Fitness & Health.",
+  },
+};
+
+// Visible FAQs for cardio guides. The same questions and answers are emitted
+// as FAQPage structured data, so every answer must appear on the page.
+const CARDIO_FAQS: Record<string, { question: string; answer: string }[]> = {
+  "ski-erg": [
+    {
+      question: "What are the benefits of the ski erg?",
+      answer:
+        "The ski erg trains the whole upper body, trunk and hips in one movement. It is low impact on the knees and ankles, and you control effort by changing stroke speed and resistance, so the same machine works for steady conditioning and hard intervals.",
+    },
+    {
+      question: "Ski erg vs step aerobics: which is better?",
+      answer:
+        "They train different things. Step aerobics is lower-body and rhythmic, with repeated impact through the knees and ankles. The ski erg is upper-body and trunk led with minimal impact. Choose the ski erg for low joint stress or upper-body work, and step aerobics for lower-body endurance and coordination. At the same effort, calorie burn depends more on intensity and body size than on the machine.",
+    },
+    {
+      question: "Ski erg vs box jumps: which should I do?",
+      answer:
+        "Box jumps are explosive plyometrics with a hard landing each rep, so they build power but load the knees and ankles heavily. The ski erg is steady, low-impact conditioning. Use box jumps for power when your landing mechanics are solid, and the ski erg for conditioning on days when you want less joint stress.",
+    },
+    {
+      question: "Can I do ski erg training at home?",
+      answer:
+        "Yes, if you have a ski erg machine. Without one, double-pole drills with resistance bands copy the arm and hip pattern for form practice, but they do not match the flywheel resistance or the full-body load of the machine.",
+    },
+  ],
+};
+
 type PageMeta = {
   title: string;
   description: string;
@@ -112,7 +162,8 @@ function withMetadata(shell: string, metadata: PageMeta) {
 function renderPage(
   shell: string,
   metadata: PageMeta,
-  content: React.ReactNode
+  content: React.ReactNode,
+  structuredData?: object
 ) {
   if (!shell.includes('<div id="root"></div>')) {
     throw new Error(
@@ -125,10 +176,15 @@ function renderPage(
       "Public discovery pages must not load third-party players."
     );
   }
-  return withMetadata(shell, metadata).replace(
-    '<div id="root"></div>',
-    `<div id="root">${markup}</div>`
-  );
+  const jsonLd = structuredData
+    ? `<script type="application/ld+json">${JSON.stringify(structuredData).replaceAll("<", "\\u003c")}</script>\n`
+    : "";
+  return withMetadata(shell, metadata)
+    .replace("</head>", `${jsonLd}</head>`)
+    .replace(
+      '<div id="root"></div>',
+      `<div id="root">${markup}</div>`
+    );
 }
 
 function PublicHeader() {
@@ -264,6 +320,15 @@ function StaticGuide({ exercise }: { exercise: IndexedExercise }) {
           Stop if pain—not normal effort—changes the movement, and seek
           qualified help for individual health or injury concerns.
         </aside>
+
+        <div className="mt-8 flex flex-wrap gap-4 text-sm">
+          <a href="/7-day-starter" className="font-semibold text-lime">
+            Try the free 7-day plan →
+          </a>
+          <a href="/start" className="text-white/65">
+            Start here →
+          </a>
+        </div>
 
         {related.length > 0 && (
           <section className="mt-10 border-t border-white/10 pt-6">
@@ -429,6 +494,7 @@ function StaticCardioIndex() {
 
 function StaticCardioGuide({ exercise }: { exercise: CardioExercise }) {
   const category = CARDIO_CATEGORY_META[exercise.category];
+  const faqs = CARDIO_FAQS[exercise.slug];
   return (
     <>
       <PublicHeader />
@@ -514,6 +580,26 @@ function StaticCardioGuide({ exercise }: { exercise: CardioExercise }) {
           </section>
         </div>
 
+        {faqs && (
+          <section className="mt-7 border-t border-white/10 pt-6">
+            <h2 className="display text-2xl font-bold text-lime">
+              {exercise.name} questions
+            </h2>
+            <dl className="mt-4 grid gap-4">
+              {faqs.map(item => (
+                <div key={item.question} className="border border-white/12 p-4">
+                  <dt className="display text-lg font-semibold text-white">
+                    {item.question}
+                  </dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-white/70">
+                    {item.answer}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
         <aside className="mt-6 border border-lime/35 p-4 text-sm leading-relaxed text-white/65">
           General education only—not a personalized medical or exercise
           prescription. Adapt activity to your ability; stop for concerning
@@ -525,6 +611,12 @@ function StaticCardioGuide({ exercise }: { exercise: CardioExercise }) {
           </a>
           <a href="/workouts" className="text-white/65">
             Explore BTB workouts →
+          </a>
+          <a href="/7-day-starter" className="font-semibold text-lime">
+            Try the free 7-day plan →
+          </a>
+          <a href="/start" className="text-white/65">
+            Start here →
           </a>
         </div>
       </main>
@@ -871,9 +963,26 @@ for (const exercise of CARDIO) {
     ...getCardioGuideMetadata(exercise),
     type: "article",
   };
+  const faqs = CARDIO_FAQS[exercise.slug];
+  const faqData = faqs
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map(item => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      }
+    : undefined;
   await writeFile(
     path.join(cardioOutput, `${exercise.slug}.html`),
-    renderPage(shell, metadata, <StaticCardioGuide exercise={exercise} />)
+    renderPage(
+      shell,
+      metadata,
+      <StaticCardioGuide exercise={exercise} />,
+      faqData
+    )
   );
 }
 
@@ -891,7 +1000,10 @@ await writeFile(
 );
 
 for (const exercise of INDEXED_EXERCISES) {
-  const metadata = getExerciseGuideMetadata(exercise);
+  const metadata = {
+    ...getExerciseGuideMetadata(exercise),
+    ...EXERCISE_SEO_OVERRIDES[exercise.slug],
+  };
   await writeFile(
     path.join(guidesOutput, `${exercise.slug}.html`),
     renderPage(
