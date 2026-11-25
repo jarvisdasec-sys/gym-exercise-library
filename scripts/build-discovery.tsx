@@ -85,6 +85,218 @@ const CARDIO_FAQS: Record<string, { question: string; answer: string }[]> = {
   ],
 };
 
+// Comparison pages built from real "X vs ski erg" searches in Search Console.
+// Each answer and table row must be visible on the page, because the FAQ
+// answers are also emitted as FAQPage structured data.
+type ComparisonPage = {
+  slug: string;
+  title: string;
+  description: string;
+  h1: string;
+  summary: string;
+  otherName: string;
+  rows: { label: string; skiErg: string; other: string }[];
+  pickSkiErg: string;
+  pickOther: string;
+  faqs: { question: string; answer: string }[];
+};
+
+const SKI_ERG_COMPARISONS: ComparisonPage[] = [
+  {
+    slug: "ski-erg-vs-step-aerobics",
+    title: "Ski Erg vs Step Aerobics: Impact & Benefits | BTB Fitness",
+    description:
+      "Ski erg vs step aerobics compared: joint impact, muscles trained, effort control and who each suits. A free guide from BTB Fitness & Health.",
+    h1: "Ski erg vs step aerobics",
+    summary:
+      "Both are cardio you can scale. The difference is impact and focus: the ski erg is upper-body led with minimal joint impact, while step aerobics works the legs with repeated impact through the knees and ankles.",
+    otherName: "Step aerobics",
+    rows: [
+      {
+        label: "Joint impact",
+        skiErg: "Minimal lower-body impact.",
+        other: "Repeated impact through the knees and ankles on every step.",
+      },
+      {
+        label: "What it trains",
+        skiErg: "Upper body, trunk and hips in one pattern.",
+        other: "Legs, hips and glutes, with rhythm and coordination.",
+      },
+      {
+        label: "How you control effort",
+        skiErg: "Stroke speed and resistance.",
+        other: "Step height, tempo and the choreography.",
+      },
+      {
+        label: "Where you do it",
+        skiErg: "On a ski ergometer, usually in a gym.",
+        other: "On a step platform, in a class or with a video.",
+      },
+    ],
+    pickSkiErg:
+      "Choose the ski erg for low joint stress, upper-body work, or days when your legs are sore.",
+    pickOther:
+      "Choose step aerobics for lower-body endurance and coordination, if your knees and ankles handle impact well.",
+    faqs: [
+      {
+        question: "Is the ski erg easier on the knees than step aerobics?",
+        answer:
+          "Generally yes. The ski erg has minimal lower-body impact, while step aerobics repeats impact through the knees and ankles. If joint pain is a concern, get advice from a qualified professional before choosing a method.",
+      },
+      {
+        question: "Can I do both in the same week?",
+        answer:
+          "Yes. Many people alternate them: step work for lower-body conditioning and coordination, and ski erg sessions for upper-body work and lower-impact days.",
+      },
+    ],
+  },
+  {
+    slug: "ski-erg-vs-box-jumps",
+    title: "Ski Erg vs Box Jumps: Power, Impact & Use | BTB Fitness",
+    description:
+      "Ski erg vs box jumps: joint load, what each trains and how to choose. Learn when to use steady ski erg conditioning or explosive box jumps.",
+    h1: "Ski erg vs box jumps",
+    summary:
+      "Box jumps build explosive power but land hard on every rep. The ski erg is steady, low-impact conditioning. Pick based on your goal and how your knees and ankles feel that day.",
+    otherName: "Box jumps",
+    rows: [
+      {
+        label: "Joint impact",
+        skiErg: "Minimal impact.",
+        other: "High impact. Each landing loads the knees and ankles.",
+      },
+      {
+        label: "What it trains",
+        skiErg: "Steady conditioning across the upper body and trunk.",
+        other: "Explosive leg power and jumping coordination.",
+      },
+      {
+        label: "How you control effort",
+        skiErg: "Stroke speed and resistance.",
+        other: "Box height, number of reps and rest between jumps.",
+      },
+      {
+        label: "What you need",
+        skiErg: "A ski ergometer.",
+        other: "A sturdy box or platform and clear space around it.",
+      },
+    ],
+    pickSkiErg:
+      "Choose the ski erg for steady conditioning and lower joint stress.",
+    pickOther:
+      "Choose box jumps for power, once your landing mechanics are solid.",
+    faqs: [
+      {
+        question: "Are box jumps safe for beginners?",
+        answer:
+          "Start with a low box and focus on soft, quiet landings at a height you can land on with control. If you have knee, ankle or hip problems, get advice from a qualified professional first.",
+      },
+      {
+        question: "Can the ski erg replace box jumps?",
+        answer:
+          "Not for power. The ski erg builds conditioning, but it does not train explosive jumping the way box jumps do.",
+      },
+    ],
+  },
+  {
+    slug: "ski-erg-vs-zumba",
+    title: "Ski Erg vs Zumba: Which Cardio Fits You? | BTB Fitness",
+    description:
+      "Ski erg vs zumba compared: structure, impact, what each trains and where to do it. Find the cardio you will keep doing.",
+    h1: "Ski erg vs zumba",
+    summary:
+      "The ski erg is one repeated movement you can measure and scale. Zumba is choreographed dance to music, with more movement and direction changes. Pick the one you will keep doing.",
+    otherName: "Zumba",
+    rows: [
+      {
+        label: "Format",
+        skiErg: "One repeated movement you can measure.",
+        other: "Choreographed dance routines to music.",
+      },
+      {
+        label: "Joint impact",
+        skiErg: "Minimal impact.",
+        other:
+          "Varies. Many moves are low impact, and jumps add impact. Scale moves as needed.",
+      },
+      {
+        label: "What it trains",
+        skiErg: "Upper body, trunk and hips.",
+        other: "Full-body movement, footwork and coordination.",
+      },
+      {
+        label: "What you need",
+        skiErg: "A ski ergometer, usually in a gym.",
+        other: "Little or no equipment, with a class or online video.",
+      },
+    ],
+    pickSkiErg:
+      "Choose the ski erg for focused, repeatable conditioning that is easy to track.",
+    pickOther:
+      "Choose zumba if you want music, variety and a class atmosphere.",
+    faqs: [
+      {
+        question: "Is zumba or ski erg better for weight loss?",
+        answer:
+          "Neither is better on its own. Changes in body weight depend on total activity, intensity and diet. Choose the one you will keep doing consistently.",
+      },
+      {
+        question: "Can beginners do zumba?",
+        answer:
+          "Yes. Pick a beginner or low-impact class and keep the steps smaller until the routine feels natural.",
+      },
+    ],
+  },
+  {
+    slug: "ski-erg-vs-resistance-bands",
+    title: "Ski Erg vs Resistance Bands: Which to Use | BTB Fitness",
+    description:
+      "Ski erg vs resistance band exercises: equipment, cost, home use and what each trains. Learn which fits your goal and setting.",
+    h1: "Ski erg vs resistance band exercises",
+    summary:
+      "Use the ski erg for whole-body conditioning and bands for strength work you can do anywhere. The ski erg needs a machine, while bands are cheap and portable.",
+    otherName: "Resistance bands",
+    rows: [
+      {
+        label: "Equipment and setting",
+        skiErg: "A ski ergometer, usually in a gym.",
+        other: "Inexpensive bands you can use at home or while travelling.",
+      },
+      {
+        label: "What it trains",
+        skiErg: "Whole-body cardio endurance.",
+        other: "Strength in specific muscles, through several angles.",
+      },
+      {
+        label: "How you control effort",
+        skiErg: "Stroke speed and resistance.",
+        other: "Band tension, number of reps and tempo.",
+      },
+      {
+        label: "Cardio load",
+        skiErg: "High, with a full-body pattern.",
+        other: "Lower, unless you use circuits or fast reps.",
+      },
+    ],
+    pickSkiErg:
+      "Choose the ski erg for conditioning and a full-body cardio session.",
+    pickOther:
+      "Choose bands for strength work at home, while travelling, or when you have no gym access.",
+    faqs: [
+      {
+        question: "Can resistance bands copy the ski erg?",
+        answer:
+          "Partly. Double-pole drills with bands copy the arm and hip pattern for form practice, but they do not match the flywheel resistance or the full-body cardio load of the machine.",
+      },
+      {
+        question: "Do resistance bands build strength?",
+        answer:
+          "They can, when you use enough tension and progress over time. Choose a band that makes your last reps hard but still controlled.",
+      },
+    ],
+  },
+];
+
 type PageMeta = {
   title: string;
   description: string;
@@ -100,6 +312,7 @@ type RouteManifest = {
   appRoutes: string[];
   guideSlugs: string[];
   cardioSlugs: string[];
+  compareSlugs: string[];
 };
 
 const escapeAttribute = (value: string) =>
@@ -580,6 +793,26 @@ function StaticCardioGuide({ exercise }: { exercise: CardioExercise }) {
           </section>
         </div>
 
+        {exercise.slug === "ski-erg" && (
+          <section className="mt-7 border-t border-white/10 pt-6">
+            <h2 className="display text-2xl font-bold text-lime">
+              Ski erg vs other cardio
+            </h2>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+              {SKI_ERG_COMPARISONS.map(page => (
+                <li key={page.slug}>
+                  <a
+                    href={`/compare/${page.slug}`}
+                    className="block border border-white/12 p-4 text-sm font-semibold text-lime hover:border-lime"
+                  >
+                    {page.h1} →
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {faqs && (
           <section className="mt-7 border-t border-white/10 pt-6">
             <h2 className="display text-2xl font-bold text-lime">
@@ -617,6 +850,119 @@ function StaticCardioGuide({ exercise }: { exercise: CardioExercise }) {
           </a>
           <a href="/start" className="text-white/65">
             Start here →
+          </a>
+        </div>
+      </main>
+      <PublicFooter />
+    </>
+  );
+}
+
+function StaticComparison({ page }: { page: ComparisonPage }) {
+  return (
+    <>
+      <PublicHeader />
+      <main className="container py-8 sm:py-12">
+        <nav aria-label="Breadcrumb" className="text-sm text-white/50">
+          <a href="/cardio/ski-erg" className="text-lime">
+            Ski erg guide
+          </a>
+          <span aria-hidden="true"> / </span>
+          <span>{page.h1}</span>
+        </nav>
+        <p className="meta mt-5 text-[0.5rem] font-bold text-lime">
+          Cardio comparison
+        </p>
+        <h1 className="display mt-3 text-4xl font-bold text-white sm:text-5xl">
+          {page.h1}
+        </h1>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/70">
+          {page.summary}
+        </p>
+
+        <section className="mt-8 overflow-x-auto border-y border-white/10 py-6">
+          <h2 className="display text-2xl font-bold text-lime">
+            Side by side
+          </h2>
+          <table className="mt-4 w-full min-w-[32rem] border-collapse text-left text-sm leading-relaxed text-white/70">
+            <thead>
+              <tr className="border-b border-white/15">
+                <th scope="col" className="p-3 font-semibold text-white">
+                  Factor
+                </th>
+                <th scope="col" className="p-3 font-semibold text-white">
+                  Ski erg
+                </th>
+                <th scope="col" className="p-3 font-semibold text-white">
+                  {page.otherName}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {page.rows.map(row => (
+                <tr key={row.label} className="border-b border-white/10">
+                  <th scope="row" className="p-3 align-top font-semibold text-white">
+                    {row.label}
+                  </th>
+                  <td className="p-3 align-top">{row.skiErg}</td>
+                  <td className="p-3 align-top">{row.other}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+
+        <div className="mt-7 grid gap-4 lg:grid-cols-2">
+          <section className="border border-white/12 p-5">
+            <h2 className="display text-xl font-bold text-lime">
+              Choose the ski erg if
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              {page.pickSkiErg}
+            </p>
+          </section>
+          <section className="border border-white/12 p-5">
+            <h2 className="display text-xl font-bold text-lime">
+              Choose {page.otherName.toLowerCase()} if
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              {page.pickOther}
+            </p>
+          </section>
+        </div>
+
+        <section className="mt-7 border-t border-white/10 pt-6">
+          <h2 className="display text-2xl font-bold text-lime">
+            {page.h1} questions
+          </h2>
+          <dl className="mt-4 grid gap-4">
+            {page.faqs.map(item => (
+              <div key={item.question} className="border border-white/12 p-4">
+                <dt className="display text-lg font-semibold text-white">
+                  {item.question}
+                </dt>
+                <dd className="mt-2 text-sm leading-relaxed text-white/70">
+                  {item.answer}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <aside className="mt-6 border border-lime/35 p-4 text-sm leading-relaxed text-white/65">
+          General education only—not a personalized medical or exercise
+          prescription. Adapt activity to your ability; stop for concerning
+          symptoms and seek qualified guidance when needed.
+        </aside>
+        <div className="mt-7 flex flex-wrap gap-4 text-sm">
+          <a href="/cardio/ski-erg" className="text-lime">
+            Read the full ski erg guide →
+          </a>
+          <a href="/cardio" className="text-white/65">
+            Browse all cardio methods →
+          </a>
+          <a href="/7-day-starter" className="font-semibold text-lime">
+            Try the free 7-day plan →
           </a>
         </div>
       </main>
@@ -753,6 +1099,7 @@ function buildManifest(): RouteManifest {
     appRoutes: uniqueRoutes(appRoutes),
     guideSlugs: INDEXED_EXERCISES.map(exercise => exercise.slug),
     cardioSlugs: CARDIO.map(exercise => exercise.slug),
+    compareSlugs: SKI_ERG_COMPARISONS.map(page => page.slug),
   };
 }
 
@@ -776,6 +1123,12 @@ function vercelConfig(manifest: RouteManifest) {
       destination: `/cardio-guides/${slug}.html`,
     }))
   );
+  const compareRewrites = manifest.compareSlugs.flatMap(slug =>
+    withTrailingSlash([`/compare/${slug}`]).map(source => ({
+      source,
+      destination: `/compare/${slug}.html`,
+    }))
+  );
   const appRewrites = withTrailingSlash(manifest.appRoutes).map(source => ({
     source,
     destination: "/app.html",
@@ -796,6 +1149,7 @@ function vercelConfig(manifest: RouteManifest) {
       ...snapshotRewrites,
       ...guideRewrites,
       ...cardioRewrites,
+      ...compareRewrites,
       ...appRewrites,
     ],
   };
@@ -986,6 +1340,32 @@ for (const exercise of CARDIO) {
   );
 }
 
+const compareOutput = path.join(output, "compare");
+await mkdir(compareOutput, { recursive: true });
+for (const page of SKI_ERG_COMPARISONS) {
+  const metadata: PageMeta = {
+    title: page.title,
+    description: page.description,
+    url: `${BTB_SITE_ORIGIN}/compare/${page.slug}`,
+    image: PUBLIC_IMAGE,
+    imageAlt: `${page.h1} comparison from BTB Fitness & Health`,
+    type: "article",
+  };
+  const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: page.faqs.map(item => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+  await writeFile(
+    path.join(compareOutput, `${page.slug}.html`),
+    renderPage(shell, metadata, <StaticComparison page={page} />, faqData)
+  );
+}
+
 const libraryMeta: PageMeta = {
   title: "BTB Exercise Library — 54 Form Guides",
   description:
@@ -1035,6 +1415,7 @@ const sitemapUrls = [
   `${BTB_SITE_ORIGIN}/exercises`,
   `${BTB_SITE_ORIGIN}/cardio`,
   ...CARDIO.map(exercise => `${BTB_SITE_ORIGIN}/cardio/${exercise.slug}`),
+  ...SKI_ERG_COMPARISONS.map(page => `${BTB_SITE_ORIGIN}/compare/${page.slug}`),
   `${BTB_SITE_ORIGIN}/instagram`,
   `${BTB_SITE_ORIGIN}/blog`,
   ...BLOG_POSTS.map(post => `${BTB_SITE_ORIGIN}/blog/${post.slug}`),
