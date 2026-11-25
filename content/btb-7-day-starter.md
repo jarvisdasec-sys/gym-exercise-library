@@ -164,7 +164,7 @@ For Day 3, prepare only what you expect to eat within a few days. For Day 6, mak
 
 ### Store it safely
 
-USDA advises refrigerating perishable leftovers within **two hours**, or **one hour if the temperature is above 90°F**. Divide food into shallow containers so it cools promptly and keep your refrigerator at **40°F or below**. Refrigerated leftovers generally keep for **3–4 days**; freeze portions you will need later instead of refrigerating a full seven-day batch. Reheat leftovers to **165°F**, checked with a food thermometer. Follow safe cooking temperatures for the original ingredients too. [4]
+FDA advises refrigerating perishable leftovers within **two hours**, or **one hour if the temperature is above 90°F**. Divide food into shallow containers so it cools promptly and keep your refrigerator at **40°F or below**. Refrigerated leftovers generally keep for **3–4 days**; freeze portions you will need later instead of refrigerating a full seven-day batch. Reheat leftovers to **165°F**, checked with a food thermometer. Follow safe cooking temperatures for the original ingredients too. [4]
 
 **My meal:** ________________________________________
 
@@ -213,4 +213,4 @@ If you want, share the habit you practised with [@btbfitnessandhealth on Instagr
 [1]: https://www.cdc.gov/physical-activity-basics/adding-adults/index.html "CDC: Adding Physical Activity as an Adult"
 [2]: https://www.cdc.gov/healthy-weight-growth/physical-activity/getting-started.html "CDC: Steps for Getting Started With Physical Activity"
 [3]: https://www.niddk.nih.gov/health-information/weight-management/tips-get-active/tips-starting-physical-activity "NIDDK: Tips for Starting Physical Activity"
-[4]: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/leftovers-and-food-safety "USDA FSIS: Leftovers and Food Safety"
+[4]: https://www.fda.gov/food/buy-store-serve-safe-food/safe-food-handling "FDA: Safe Food Handling"

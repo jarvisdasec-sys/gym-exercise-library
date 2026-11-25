@@ -715,6 +715,38 @@
       "destination": "/cardio-guides/rucking.html"
     },
     {
+      "source": "/compare/ski-erg-vs-step-aerobics",
+      "destination": "/compare/ski-erg-vs-step-aerobics.html"
+    },
+    {
+      "source": "/compare/ski-erg-vs-step-aerobics/",
+      "destination": "/compare/ski-erg-vs-step-aerobics.html"
+    },
+    {
+      "source": "/compare/ski-erg-vs-box-jumps",
+      "destination": "/compare/ski-erg-vs-box-jumps.html"
+    },
+    {
+      "source": "/compare/ski-erg-vs-box-jumps/",
+      "destination": "/compare/ski-erg-vs-box-jumps.html"
+    },
+    {
+      "source": "/compare/ski-erg-vs-zumba",
+      "destination": "/compare/ski-erg-vs-zumba.html"
+    },
+    {
+      "source": "/compare/ski-erg-vs-zumba/",
+      "destination": "/compare/ski-erg-vs-zumba.html"
+    },
+    {
+      "source": "/compare/ski-erg-vs-resistance-bands",
+      "destination": "/compare/ski-erg-vs-resistance-bands.html"
+    },
+    {
+      "source": "/compare/ski-erg-vs-resistance-bands/",
+      "destination": "/compare/ski-erg-vs-resistance-bands.html"
+    },
+    {
       "source": "/account",
       "destination": "/app.html"
     },
